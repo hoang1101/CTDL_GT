@@ -2,6 +2,7 @@
 #include "define.h"	
 #define file_may_bay "datamaybay"					
 using namespace std;
+
 struct maybay {
 	char sohieumaybay[15];
 	char loaimaybay[50];
@@ -25,12 +26,41 @@ void add_may_bay(danhsachmaybay &dsmb, maybay &mb) {
 	dsmb.soluong++;
 }
 
+bool Empty(danhsachmaybay &dsmb){
+	return (dsmb.soluong == 0 ? true : false);
+}
+
+bool FullDS(danhsachmaybay &dsmb) {
+	return (dsmb.soluong > MAXMB ? true : false);
+}
+
+void delete_mb(danhsachmaybay &dsmb, int vitri){
+	delete dsmb.data[vitri];
+	for (int i= vitri; i<dsmb.soluong-1;i++)
+		dsmb.data[i] = dsmb.data[i+1];
+	dsmb.soluong--;
+	
+}
+int timkiem(danhsachmaybay &dsmb,char *sohieumb) {
+	for(int i =0; i<dsmb.soluong;i++){
+		if (strcmp(dsmb.data[i]->sohieumaybay,sohieumb) == 0)
+		return i;
+	}
+	return -1;
+}
+
+void edit_mb(danhsachmaybay &dsmb, int vitri , maybay &mb){
+	*dsmb.data[vitri] = mb;
+}
+
+///// FILE
+
 void Open_file_MB (danhsachmaybay &dsmb) {
 	       FILE * PTR;
 	       maybay temp;
 		 if ((PTR=fopen(file_may_bay,"rb"))==NULL)
 		 {  
-		 	cout<<"ERROR! Khong The Mo File May Bay"<<endl;
+		 	cout<<"Khong The Mo File May Bay"<<endl;
 		 	return;
 		 }
 		  dsmb.soluong=0;
@@ -40,3 +70,17 @@ void Open_file_MB (danhsachmaybay &dsmb) {
 	 }
 	 	fclose(PTR);
 	}
+	
+	
+void Save_file_MB (danhsachmaybay &dsmb) {
+	FILE *PTR;
+	if ((PTR=fopen(file_may_bay,"wb"))==NULL) {
+		cout<<"Khong The Mo File May Bay"<<endl;
+		return;
+	}
+	for (int i=0;i<dsmb.soluong;i++){
+		fwrite(dsmb.data[i],sizeof(maybay),1,PTR);
+		
+	}
+	fclose(PTR);
+}

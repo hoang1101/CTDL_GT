@@ -14,14 +14,16 @@
 
 // MAY BAY //
 #define MB_THEM 11
-#define MB_SUA 12
-#define MB_XOA 13
+#define MB_SUA 13
+#define MB_XOA 12
 #define ED_SHMB 111
 #define ED_LOAIMB 112
 #define ED_SODAY 113
 #define ED_SODONG 114
 #define LUU_MB 115
 #define HUY_MB 116
+#define LUU_MBEDIT 117
+#define HUY_MBEDIT 118
 //#define
 
 //#define
