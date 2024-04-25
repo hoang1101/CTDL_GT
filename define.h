@@ -1,9 +1,23 @@
 #pragma once
 #define CUASO_NGANG 1400
 #define CUASO_DOC 770
-///
+/// MAY BAY
 #define MAXMB 300
+#define MAXSHMB 15
+#define MAXLOAIMB 40
 
+/// CHUYEN BAY
+#define MAX_MACB 15
+#define MAX_SBDEN 30
+
+//#define
+//#define
+//#define
+//#define
+//#define
+//#define
+//#define
+//#define
 
 // MENU
 #define ID_MAYBAY 1
@@ -14,8 +28,8 @@
 
 // MAY BAY //
 #define MB_THEM 11
-#define MB_SUA 13
 #define MB_XOA 12
+#define MB_SUA 13
 #define ED_SHMB 111
 #define ED_LOAIMB 112
 #define ED_SODAY 113
@@ -24,7 +38,26 @@
 #define HUY_MB 116
 #define LUU_MBEDIT 117
 #define HUY_MBEDIT 118
-//#define
+
+
+// CHUYEN BAY //
+#define CB_THEM 21
+#define CB_HUYCB 22
+#define CB_SUA 23
+#define ED_MACB 211
+#define ED_SHMBCB 212
+#define ED_DIEMDEN 213
+#define ED_TT 214
+#define ED_NGAY 215
+#define ED_THANG 216
+#define ED_NAM 217
+#define ED_GIO 218
+#define ED_PHUT 219
+#define CB_LUU 210
+#define CB_HUYLUU 220
+#define ED_LUUCB 231
+#define ED_HUYLUU 232
+
 
 //#define
 //#define
@@ -36,8 +69,7 @@
 //#define
 //#define
 //#define
-
-
+//#define
 // MAU
 #define BLACK 0
 #define RED 1

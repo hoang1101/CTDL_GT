@@ -5,6 +5,7 @@
 #include "define.h"
 #include "xuly.h"
 #include "maybay.h"
+#include "chuyenbay.h"
 using namespace std;
 main(int argc, char *argv[])
 {
@@ -15,9 +16,10 @@ main(int argc, char *argv[])
 	 	mapID[i]= new unsigned short int[CUASO_NGANG];
 	 	
 	danhsachmaybay dsmb;
-
+	nodeCB *first = NULL;
     
 	Open_file_MB(dsmb);
+	Open_file_chuyen_bay(first);
 
 	
 	
@@ -55,7 +57,7 @@ main(int argc, char *argv[])
 				resetMH(mapID);
 				vemenu(mapID);
 				taoButton(ID_CHUYENBAY,0,275,249,350,BLACK,BLACK,WHITE,"CHUYEN BAY",mapID);
-				xulychuyenbay(mapID,id);
+				xulychuyenbay(mapID,id,first);
 				settextstyle(8,0,2);
 			break;
 			case ID_VE: 
