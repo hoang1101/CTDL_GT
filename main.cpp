@@ -21,7 +21,7 @@ main(int argc, char *argv[])
 	Open_file_MB(dsmb);
 	Open_file_chuyen_bay(first);
 
-	
+	Save_file_chuyen_bay(first);
 	
 	initwindow(CUASO_NGANG,CUASO_DOC);					// init window graphics
 	setwindowtitle("Quan Li May Bay");	

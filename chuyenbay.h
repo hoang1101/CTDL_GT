@@ -31,8 +31,6 @@ struct nodeCB {
 	
 };
 
-typedef struct nodeCB *PTR;
-
 nodeCB *taonodemoi(chuyenbay &cb){
 	nodeCB *temp = new nodeCB;
 	temp->data = cb;
@@ -40,25 +38,41 @@ nodeCB *taonodemoi(chuyenbay &cb){
 	return temp;
 }
 
-void InsertLast(PTR &First, chuyenbay cb) {
-    PTR p = taonodemoi(cb);
-    if (First == NULL) {
-        First = p;
+void InsertLast(nodeCB *&first, chuyenbay cb) {
+	nodeCB *p = taonodemoi(cb);
+
+    if (first == NULL) {
+        first = p;
     } else {
-        PTR Last = First;
-        while (Last->next != NULL) {
-            Last = Last->next;
-        }
-        Last->next = p;
+       nodeCB *nodechay = first ;
+		for(nodechay = first; nodechay->next != NULL; nodechay = nodechay-> next );
+			nodechay-> next = p;
     }
+
+	
+//    nodeCB p = taonodemoi(cb);
+//    if (first == NULL) {
+//        first = p;
+//        first->next=NULL;
+//    } else {
+//        for(nodeCB nodechay = first; nodechay -> nodeCB != NULL; nodechay = nodechay -> nodeCB );
+//			nodechay -> nodeCB = p ;
+//    }
 }
 
-bool dsCBEmpty(PTR first) {
+bool dsCBEmpty(nodeCB *first) {
 	return (first == NULL);
 }
 
+int huychuyen(nodeCB *First) {
+	if (First->data.trangthai== CON_VE || First->data.trangthai== HET_VE){
+		First->data.trangthai = HUY_CHUYEN;
+		return 1;
+	}
+	 return 0;
+}
 ////-----------------------FILE CHUYEN BAY--------------------------------------
-void Save_file_chuyen_bay(PTR &first){
+void Save_file_chuyen_bay(nodeCB *first){
 
 	FILE *f = fopen (file_chuyen_bay, "wb");
 	if (f==NULL) 
@@ -66,7 +80,7 @@ void Save_file_chuyen_bay(PTR &first){
 		 		 return ;
 	}
 
-	for (PTR p=first ; p!=NULL ; p=p->next)
+	for (nodeCB *p=first ; p!=NULL ; p=p->next)
 	 {
 	 	 chuyenbay &data = p->data; // Khai b o bi?n sv trong v ng l?p
         fwrite(&data, sizeof(chuyenbay), 1, f);
@@ -78,9 +92,9 @@ void Save_file_chuyen_bay(PTR &first){
 
 
 
-void Open_file_chuyen_bay(PTR &first ){
-	FILE * f;
-	PTR p;
+void Open_file_chuyen_bay(nodeCB *&first ){
+	FILE *f;
+	nodeCB *p;
 	chuyenbay cb;
 	if ((f=fopen(file_chuyen_bay,"rb"))==NULL)
 	{  cout<<"ERROR! Khong The Mo File Chuyen Bay"<<endl;

@@ -215,7 +215,7 @@ void NhapLieu(int x, int y, int &id,unsigned short int ** mapID ,char s[]){
 					{
 							outtextxy(x+textwidth(s),y," ");
 							s[strlen(s)-1] = '\0';
-					} else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z' ) || (c == ' ')) {
+					} else if( ('0'<=c&&c<='9')||(c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z' ) || (c == ' ')) {
 					Nhap(x,y,c,s);		
 					}
 				}
@@ -836,23 +836,56 @@ void taodongcb(int stt, int x, int y, int x1, int y1, chuyenbay &cb, unsigned sh
 
 }
 
+void clickcb(int vitri, chuyenbay &cb,unsigned short int **mapID) {
+	setfillstyle(1,RED);
+    bar(300,140+(vitri-1)%10*30,1350,170+(vitri-1)%10*30);
+    rectangle(300,140+(vitri-1)%10*30,1350,170+(vitri-1)%10*30);
+    setbkcolor(RED);
+//    taodongcb(slcb,300,110+slcb*30,1350,140+slcb*30,nodechay->data,mapID);
+	taodongcb(vitri,300,140+(vitri-1)%10*30,1350,170+(vitri-1)%10*30,cb,mapID);
+    setfillstyle(1,GRAY);
+    bar(511,566,800,615);
+	bar(511,626,900,675);
+	bar(961,566,1340,615);
+	bar(1161,626,1240,675);
+	bar(421,686,480,735);       // NGAY
+	bar(611,686,670,735);		//THANG
+	bar(801,686,900,735);
+	bar(1081,691,995,735);
+	bar(1161,686,1220,735);
+	setbkcolor(GRAY);
+	settextstyle(0,0,2);
+    outtextxy(515,580,cb.MaCB);
+    outtextxy(965,580,cb.SHMB);
+    outtextxy(515,640,cb.SanBayDen);
+}
 
-
-void xulychuyenbay(unsigned short int ** mapID, int &luu_id, PTR &first) {
+void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first) {
 	
-	PTR nodechay;
+	
 	chuyenbay cb;
+	resetcb(cb);
 	vekhungchuyenbay(mapID);
 	nhaplieuchuyenbay(mapID);
-	nhaplieuchuyenbay(mapID);
-	char s[50];
 	
+	
+	
+	nodeCB *nodechay;
+	char s[50];
+
 	int slcb =0;
-	for(nodechay = first; nodechay != NULL; nodechay = nodechay -> next ){
+	
+	if (dsCBEmpty(first)) {
+		outtextxy(800-strlen("! DANH SACH TRONG !")*4,145,"! DANH SACH TRONG !");
+	} else {
+			for(nodechay = first; nodechay != NULL; nodechay = nodechay->next ){
 				slcb++;
 				if(slcb <=10){
 					taodongcb(slcb,300,110+slcb*30,1350,140+slcb*30,nodechay->data,mapID);
 		     		setID(1000+slcb,300,110+slcb*30,1350,140+slcb*30,mapID);
+		     		
+//		     		cb=first->data;
+//			clickcb(1,first->data,mapID);
 				}
 //				if (slcb % 10 ==1){	
 //					trangcuoi++;
@@ -860,10 +893,16 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, PTR &first) {
 //				   dautrang[trangcuoi]= nodechay;
 //					}
 			}
+			cout<<slcb;
+		
+	}
+	
+
 
 	
 	int idcb = 0;
 	int x,y;
+	int vitri = 1;
 
 	while(true)
 	{
@@ -902,7 +941,21 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, PTR &first) {
 			break;
 			
 			case CB_HUYCB:
-				cout<<"xoa";
+				cout<<vitri;
+				cout<<nodechay;
+					cout<<"davao";
+//				if (nodechay->data.trangthai ==CON_VE || nodechay->data.trangthai == HET_VE) {
+					if(MessageBox(NULL,"\n           [XAC NHAN HUY CHUYEN] !           \n ","THONG BAO",MB_ICONWARNING|MB_OKCANCEL) == IDOK ){	
+//					  	if( huychuyen(nodechay)){
+//							  		Save_file_chuyen_bay(nodechay);
+//							  		cb.trangthai=HUY_CHUYEN;
+////							  		setbkcolor(RED);
+////									taodongcb(slcb,300,110+slcb*30,1350,140+slcb*30,nodechay->data,mapID);
+//				                    taodongcb(vitri+(0-1)*10,300,100+vitri*30,1350,130+vitri*30,cb,mapID);
+//							 }
+			  			}
+//				}
+			
 			break;
 			
 			case CB_SUA:
@@ -910,6 +963,26 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, PTR &first) {
 			break;
 			
 			case CB_LUU:
+				cout<<"davao";
+				InsertLast(first,cb);
+				Save_file_chuyen_bay(first);
+				
+				MessageBox(NULL,"Chuyen Bay Da Duoc Them Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION|MB_OK);
+				slcb++;
+				for(nodechay = first; nodechay != NULL; nodechay = nodechay -> next ){
+				
+				vitri = slcb%10;
+					taodongcb(vitri,300,110+vitri*30,1350,140+vitri*30,cb,mapID);
+		     		setID(1000+vitri,300,110+vitri*30,1350,140+vitri*30,mapID);
+//				if (slcb % 10 ==1){	
+//					trangcuoi++;
+//					dautrang[trangcuoi] = new nodeCB;
+//				   dautrang[trangcuoi]= nodechay;
+//					}
+			}
+				
+				
+				resetcb(cb);
 				resetthanhchucnangcb(mapID);
 				settextstyle(10, 0, 2);	
 				taoButton(CB_THEM,670,510,740,540,BLACK,BLACK,GRAY,"THEM",mapID);
@@ -952,12 +1025,7 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, PTR &first) {
 				Nhapso(430,700,idcb,mapID,s,2);
 				 s[0]='\0';
 			break;
-//			 taoEditText(ED_NGAY,420,685,480,735,BLACK,BLACK,WHITE,mapID);
-//			    taoEditText(ED_THANG,610,685,670,735,BLACK,BLACK,WHITE,mapID);
-//			    taoEditText(ED_NAM,800,685,890,735,BLACK,BLACK,WHITE,mapID);
-//			    
-//			    taoEditText(ED_GIO,1080,685,1140,735,BLACK,BLACK,WHITE,mapID);
-//			    taoEditText(ED_PHUT,1160,685,1220,735,BLACK,BLACK,WHITE,mapID);
+			
 			case ED_THANG:
 				idcb= ED_THANG;
 				Nhapso(620,700,idcb,mapID,s,2);
@@ -971,11 +1039,15 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, PTR &first) {
 			break;
 
 			case ED_GIO:
-				cout<<"huy luu";
+				idcb= ED_GIO;
+				Nhapso(1090,700,idcb,mapID,s,2);
+				 s[0]='\0';
 			break;
 			
 			case ED_PHUT:
-				cout<<"huy luu";
+				idcb= ED_PHUT;
+				Nhapso(1170,700,idcb,mapID,s,2);
+				 s[0]='\0';
 			break;
 			
 			
