@@ -35,7 +35,7 @@ main(int argc, char *argv[])
 	int id=0;
 	int x,y;
 	while(true) {
-		cout<<"chay";
+//		cout<<"chay";
 	if(ismouseclick(WM_LBUTTONDOWN)){
 			getmouseclick(WM_LBUTTONDOWN, x, y);
 			id = mapID[y][x];
@@ -43,7 +43,7 @@ main(int argc, char *argv[])
 			}
 		switch(id){
 			case ID_MAYBAY: 
-				cout<<1;
+//				cout<<1;
 				resetMapID(mapID);
 				resetMH(mapID);
 				vemenu(mapID);
@@ -52,16 +52,16 @@ main(int argc, char *argv[])
 				settextstyle(8,0,2);
 			break;
 			case ID_CHUYENBAY: 
-				cout<<2;
+//				cout<<2;
 				resetMapID(mapID);
 				resetMH(mapID);
 				vemenu(mapID);
 				taoButton(ID_CHUYENBAY,0,275,249,350,BLACK,BLACK,WHITE,"CHUYEN BAY",mapID);
-				xulychuyenbay(mapID,id,first);
+				xulychuyenbay(mapID,id,first,dsmb);
 				settextstyle(8,0,2);
 			break;
 			case ID_VE: 
-				cout<<3;
+//				cout<<3;
 				resetMapID(mapID);
 				resetMH(mapID);
 				vemenu(mapID);
@@ -70,7 +70,7 @@ main(int argc, char *argv[])
 				settextstyle(8,0,2);
 			break;
 			case ID_THONGKE: 
-				cout<<4;
+//				cout<<4;
 				resetMapID(mapID);
 				resetMH(mapID);
 				vemenu(mapID);

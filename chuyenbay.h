@@ -1,5 +1,6 @@
 #pragma once
 #include "define.h"
+#include "time.h"
 #define file_chuyen_bay "datachuyenbay"
 
 // trang thai
@@ -20,6 +21,7 @@ struct chuyenbay {
 	char SanBayDen[MAX_SBDEN+1];
 	char SHMB[MAXSHMB];
 	TrangThai trangthai;
+	Time time;
 	ve *dsve = NULL;
 	int sove;
 	

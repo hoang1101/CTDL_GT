@@ -38,6 +38,8 @@
 #define HUY_MB 116
 #define LUU_MBEDIT 117
 #define HUY_MBEDIT 118
+#define NEXT_PAGE 120
+#define BACK_PAGE 121
 
 
 // CHUYEN BAY //
@@ -57,6 +59,7 @@
 #define CB_HUYLUU 220
 #define ED_LUUCB 231
 #define ED_HUYLUU 232
+#define FIND 2121
 
 
 //#define
@@ -72,7 +75,7 @@
 //#define
 // MAU
 #define BLACK 0
-#define RED 1
+#define BLUE 1
 #define GREEN 2
 #define BLUE 3
 #define RED 4
