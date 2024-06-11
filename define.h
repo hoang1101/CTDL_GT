@@ -1,6 +1,6 @@
 #pragma once
-#define CUASO_NGANG 1400
-#define CUASO_DOC 770
+#define CUASO_NGANG 1600
+#define CUASO_DOC 900
 /// MAY BAY
 #define MAXMB 300
 #define MAXSHMB 15
@@ -23,8 +23,9 @@
 #define ID_MAYBAY 1
 #define ID_CHUYENBAY 2
 #define ID_VE 3
-#define ID_THONGKE 4
-#define ID_THOAT 5
+#define ID_KHACHHANG 4
+#define ID_THONGKE 5
+#define ID_THOAT 6
 
 // MAY BAY //
 #define MB_THEM 11
@@ -60,7 +61,11 @@
 
 
 //#define
+
+#define MAX_CUSTOMERS 1000 // Gi? s? t?i da 1000 khách hàng
 //#define
+#define MAX_CUSTOMERS 1000 // Gi? s? t?i da 1000 khách hàng
+#define CUSTOMERS_PER_PAGE 10 // S? khách hàng trên m?i trang
 //#define
 //#define
 //#define
@@ -85,3 +90,4 @@
 #define BLUE2 11
 #define RED1 12
 #define WHITE 15
+#define LIGHTGRAY 16

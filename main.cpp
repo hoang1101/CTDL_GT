@@ -34,71 +34,72 @@ main(int argc, char *argv[])
 	
 	int id=0;
 	int x,y;
-	while(true) {
-		cout<<"chay";
-	if(ismouseclick(WM_LBUTTONDOWN)){
-			getmouseclick(WM_LBUTTONDOWN, x, y);
-			id = mapID[y][x];
-			clearmouseclick(WM_LBUTTONDOWN);
-			}
-		switch(id){
-			case ID_MAYBAY: 
-				cout<<1;
-				resetMapID(mapID);
-				resetMH(mapID);
-				vemenu(mapID);
-				taoButton(ID_MAYBAY,0,150,249,225,BLACK,BLACK,WHITE,"MAY BAY",mapID);
-				xulymaybay(mapID,id,dsmb);
-				settextstyle(8,0,2);
-			break;
-			case ID_CHUYENBAY: 
-				cout<<2;
-				resetMapID(mapID);
-				resetMH(mapID);
-				vemenu(mapID);
-				taoButton(ID_CHUYENBAY,0,275,249,350,BLACK,BLACK,WHITE,"CHUYEN BAY",mapID);
-				xulychuyenbay(mapID,id,first);
-				settextstyle(8,0,2);
-			break;
-			case ID_VE: 
-				cout<<3;
-				resetMapID(mapID);
-				resetMH(mapID);
-				vemenu(mapID);
-				taoButton(ID_VE,0,400,249,475,BLACK,BLACK,WHITE,"DAT VE",mapID);
-				xulyve(mapID,id);
-				settextstyle(8,0,2);
-			break;
-			case ID_THONGKE: 
-				cout<<4;
-				resetMapID(mapID);
-				resetMH(mapID);
-				vemenu(mapID);
-				taoButton(ID_THONGKE,0,525,249,600,BLACK,BLACK,WHITE,"THONG KE",mapID);
-				xulythongke(mapID,id);
-				settextstyle(8,0,2);
-			break;
-			case ID_THOAT:
-				cout<<5;
-				resetMapID(mapID);
+	while (true) {
+	    if (ismouseclick(WM_LBUTTONDOWN)) {
+	        getmouseclick(WM_LBUTTONDOWN, x, y);
+	        id = mapID[y][x];
+	        clearmouseclick(WM_LBUTTONDOWN);
+	    }
+	    switch (id) {
+	        case ID_MAYBAY:
+	            resetMapID(mapID);
 	            resetMH(mapID);
 	            vemenu(mapID);
-	            taoButton(ID_THOAT,0,650,249,725, BLACK,BLACK,RED,"THOAT",mapID);
-            if (MessageBox(NULL, "\n   [ Xac Nhan Thoat Chuong Trinh]   \n", "THONG BAO", MB_ICONWARNING | MB_OKCANCEL) == IDCANCEL) {
-                resetMapID(mapID);
-                resetMH(mapID);
-                vemenu(mapID);
-                id = 0; // dat id = 0 de tiep tuc vong lap
-            } else {
-            	// deleteMemory();
-                exit(0);
-                return 0;
-            }
-            break;
-		}	
-		delay(0.001);
-
+	            taoButton(ID_MAYBAY, 0, 150, 249, 225, BLACK, BLACK, WHITE, "MAY BAY", mapID);
+	            xulymaybay(mapID, id, dsmb);
+	            settextstyle(8, 0, 2);
+	            break;
+	        case ID_CHUYENBAY:
+	            resetMapID(mapID);
+	            resetMH(mapID);
+	            vemenu(mapID);
+	            taoButton(ID_CHUYENBAY, 0, 275, 249, 350, BLACK, BLACK, WHITE, "CHUYEN BAY", mapID);
+	            xulychuyenbay(mapID, id, first);
+	            settextstyle(8, 0, 2);
+	            break;
+	        case ID_VE:
+	            resetMapID(mapID);
+	            resetMH(mapID);
+	            vemenu(mapID);
+	            taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
+	            xulyve(mapID, id);
+	            settextstyle(8, 0, 2);
+	            break;
+	        case ID_KHACHHANG:
+	            resetMapID(mapID);
+	            resetMH(mapID);
+	            vemenu(mapID);
+	            taoButton(ID_KHACHHANG, 0, 525, 249, 600, BLACK, BLACK, WHITE, "KHACH HANG", mapID);
+	            xulykhachhang(mapID, id);
+	            settextstyle(8, 0, 2);
+	            break;
+	        case ID_THONGKE:
+	            resetMapID(mapID);
+	            resetMH(mapID);
+	            vemenu(mapID);
+	            taoButton(ID_THONGKE, 0, 650, 249, 725, BLACK, BLACK, WHITE, "THONG KE", mapID);
+	            xulythongke(mapID, id);
+	            settextstyle(8, 0, 2);
+	            break;
+	        case ID_THOAT:
+	            resetMapID(mapID);
+	            resetMH(mapID);
+	            vemenu(mapID);
+	            taoButton(ID_THOAT, 0, 775, 249, 850, BLACK, BLACK, RED, "THOAT", mapID);
+	            if (MessageBox(NULL, "\n   [ Xac Nhan Thoat Chuong Trinh]   \n", "THONG BAO", MB_ICONWARNING | MB_OKCANCEL) == IDCANCEL) {
+	                resetMapID(mapID);
+	                resetMH(mapID);
+	                vemenu(mapID);
+	                id = 0;
+	            } else {
+	                exit(0);
+	                return 0;
+	            }
+	            break;
+	    }
+	    delay(0.001);
 	}
+
 	while(!kbhit()) delay(1);	
 	return 0;			// pause screen	
 }
