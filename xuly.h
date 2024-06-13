@@ -321,7 +321,12 @@ void NhapLieuInHoa(int x, int y, int &id,unsigned short int ** mapID ,char s[]){
 					l++;
 					s[l+1]='\0';
 					outtextxy(x,y,s);
-				} 
+				}  else if ('0'<=c&&c<='9') {
+					s[l]=c;
+					l++;
+					s[l+1]='\0';
+					outtextxy(x,y,s);
+				}
 				else {
 					s[l]='\0';// xoa dau cach o cuoi chuoi  
 					return; 
@@ -514,7 +519,7 @@ void movembfindmb(maybay &mb,int vitri,unsigned short int **mapID){
 		setfillstyle(1,YELLOW);
         bar(300,130+(vitri-1)%10*30,1350,160+(vitri-1)%10*30);
         rectangle(300,130+(vitri-1)%10*30,1350,160+(vitri-1)%10*30);
-        taodongmb(vitri,300,130+(vitri-1)%10*30,1350,160+(vitri-1)%10*30,mb,mapID,15);
+        taodongmb(vitri,300,130+(vitri-1)%10*30,1350,160+(vitri-1)%10*30,mb,mapID,YELLOW);
         setfillstyle(1,GRAY);        
 }
 
@@ -540,7 +545,7 @@ void unclickmb(maybay &mb,int vitri,unsigned short int **mapID){
 }
 
 
-void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
+void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb, nodeCB *first){
 	
 	maybay mb;
 	resetmb(mb);
@@ -557,7 +562,6 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
 	vekhungnhaplieu(mapID);
 	
 	if (Empty(dsmb)) {
-//		settextstyle(8,0,2);u
 		outtextxy(825-strlen("! DANH SACH TRONG !")*4,135,"! DANH SACH TRONG !");
 		
 	   	taoButton(0,790,510,860,540,BLACK,BLACK,GRAY,"XOA",mapID);
@@ -577,7 +581,6 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
 	} else
 	taoLabel(1175,450,1350,480,BLACK,BLACK,WHITE,"NEXT PAGE");
 	taoLabel(300,450,475,480,BLACK,BLACK,WHITE,"BACK PAGE");
-//	taoButton(BACK_PAGE,300,450,475,480,BLACK,BLACK,GRAY,"BACK PAGE",mapID);
 	while(true)
 	{
 		if(ismouseclick(WM_LBUTTONDOWN)){
@@ -633,20 +636,13 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
 						mb = *dsmb.data[(tranghientai-1)*10];
 						vitri=(tranghientai-1)*10+1;
 						clickmb(mb,vitri,mapID);	
-					  }
-
-		     		
+					}
 				resetmb(mb);
 				resetthanhchucnangmb(mapID);
 				taoButton(11,670,510,740,540,BLACK,BLACK,GRAY,"THEM",mapID);
 				taoButton(12,790,510,860,540,BLACK,BLACK,GRAY,"XOA",mapID);
 			    taoButton(13,910,510,980,540,BLACK,BLACK,GRAY,"SUA",mapID);
 			    
-//				taoEditText(ED_SHMB,500,580,900,630,BLACK,BLACK,GRAY,mapID);
-//			    taoEditText(ED_LOAIMB,570,665,900,715,BLACK,BLACK,GRAY,mapID);
-//			    
-//			    taoEditText(ED_SODAY,1150,580,1340,630,BLACK,BLACK,GRAY,mapID);
-//			    taoEditText(ED_SODONG,1150,665,1340,715,BLACK,BLACK,GRAY,mapID);
 			    idmb=0;
 			break;		
 			
@@ -674,7 +670,6 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
 				setbkcolor(WHITE);
 	        	outtextxy(1155,680,toChars(mb.sodong));
 				idmb=0;
-//				kt=0;
 				break;
 			
 			case HUY_MB:
@@ -722,7 +717,11 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
 			    idmb=0;
 			break;
 			case MB_XOA:
-				if (MessageBox(NULL,"Xac Nhan Xoa ","THONG BAO",MB_ICONWARNING|MB_OKCANCEL) == IDOK){
+				if (timkiemmaybay(first,mb.sohieumaybay) == 1) {
+					MessageBox(NULL,"May Bay Da Thuc Hien Bay Khong The Xoa !","THONG BAO",MB_ICONWARNING|MB_OK);
+				}
+				
+				else if (MessageBox(NULL,"Xac Nhan Xoa ","THONG BAO",MB_ICONWARNING|MB_OKCANCEL) == IDOK){
 					delete_mb(dsmb,vitri-1);
 					Save_file_MB(dsmb);
 					setfillstyle(1,WHITE);
@@ -784,22 +783,54 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
 				idmb=0;
 				break;
 			case ED_SHMB:
-				idmb = ED_SHMB;
-				NhapLieu(505,595,idmb,mapID,mb.sohieumaybay);
-				break;
+				do  {
+					idmb = ED_SHMB;
+					NhapLieuInHoa(505,595,idmb,mapID,mb.sohieumaybay);
+					if (timkiem(dsmb,mb.sohieumaybay ) != -1){
+						MessageBox(NULL,"So Hieu May Bay Da Ton Tai \n   Vui Long Nhap Lai! !","THONG BAO",MB_ICONWARNING|MB_OK);
+					} 
+					if (idmb == HUY_MB  || idmb == HUY_MBEDIT) {
+						break;
+					}
+				} while (timkiem(dsmb,mb.sohieumaybay ) != -1);
+			
 			case ED_LOAIMB:
 				idmb = ED_LOAIMB;
 				NhapLieu(575,680,idmb,mapID,mb.loaimaybay);
 				break;
 			case ED_SODAY:
-				idmb = ED_SODAY;
-				Nhapso(1155,595,idmb,mapID,day,3);
-				mb.soday=ChangeCharToNum(day);
+				do  {
+					idmb = ED_SODAY;
+					Nhapso(1155,595,idmb,mapID,day,3);
+					mb.soday=ChangeCharToNum(day);
+					if (mb.sodong ==0 ) {
+						break;
+					}
+					if (mb.sodong*mb.soday < 20){
+						MessageBox(NULL,"So cho cua may bay phai lon hon 20. Vui long nhap lai !","THONG BAO",MB_ICONWARNING|MB_OK);
+					} 
+					if (idmb == HUY_MB  || idmb == HUY_MBEDIT) {
+						break;
+					}
+				} while ( mb.sodong*mb.soday < 20);
+				
 				break;
 			case ED_SODONG:
-				idmb = ED_SODONG;
-				Nhapso(1155,680,idmb,mapID,dong,3);
-				mb.sodong=ChangeCharToNum(dong);		
+				do  {
+					idmb = ED_SODONG;
+					Nhapso(1155,680,idmb,mapID,dong,3);
+					mb.sodong=ChangeCharToNum(dong);	
+					if (mb.soday ==0 ) {
+						break;
+					}
+					if (mb.sodong*mb.soday < 20){
+						MessageBox(NULL,"So cho cua may bay phai lon hon 20. Vui long nhap lai !","THONG BAO",MB_ICONWARNING|MB_OK);
+					} 
+					if (idmb == HUY_MB  || idmb == HUY_MBEDIT) {
+						break;
+					}
+				} while (mb.sodong*mb.soday < 20);
+					
 				break;
 			case NEXT_PAGE:
 				tranghientai++;
@@ -1151,8 +1182,8 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 	
 	if (dsCBEmpty(first)) {
 		outtextxy(800-strlen("! DANH SACH TRONG !")*4,145,"! DANH SACH TRONG !");
-		taoButton(0,720,510,790,540,BLACK,BLACK,GRAY,"LUU",mapID);
-		taoButton(0,840,510,910,540,BLACK,BLACK,GRAY,"HUY",mapID);
+	taoButton(0,790,510,880,540,BLACK,BLACK,WHITE,"HUY CB",mapID);
+    taoButton(0,930,510,1000,540,BLACK,BLACK,WHITE,"SUA",mapID);
 	} else {
 			tranghientai=1;
 			slcb =0;

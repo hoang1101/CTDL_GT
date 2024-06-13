@@ -48,7 +48,7 @@ main(int argc, char *argv[])
 				resetMH(mapID);
 				vemenu(mapID);
 				taoButton(ID_MAYBAY,0,150,249,225,BLACK,BLACK,WHITE,"MAY BAY",mapID);
-				xulymaybay(mapID,id,dsmb);
+				xulymaybay(mapID,id,dsmb,first);
 				settextstyle(8,0,2);
 			break;
 			case ID_CHUYENBAY: 

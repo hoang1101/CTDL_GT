@@ -15,6 +15,7 @@ struct danhsachmaybay{
 	int soluong = 0;
 };
 
+// cap phat vung nho va sao chep ddud lieu tu mot doi tuong may bay vao vung nho do
 maybay *newmb(maybay mb) {
 	maybay *temp = new maybay;
 	*temp = mb;

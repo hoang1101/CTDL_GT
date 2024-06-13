@@ -73,6 +73,16 @@ int huychuyen(nodeCB *First) {
 	}
 	 return 0;
 }
+
+int timkiemmaybay(nodeCB *first, char *x) {
+	
+	for (nodeCB *p = first; p!=NULL;p=p->next){
+		if (strcmp(p->data.SHMB,x) == 0)
+		return 1;
+	}
+	
+	return 0;
+}
 ////-----------------------FILE CHUYEN BAY--------------------------------------
 void Save_file_chuyen_bay(nodeCB *first){
 
