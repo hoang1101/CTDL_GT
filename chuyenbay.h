@@ -42,7 +42,13 @@ nodeCB *taonodemoi(chuyenbay &cb){
 
 void InsertLast(nodeCB *&first, chuyenbay cb) {
 	nodeCB *p = taonodemoi(cb);
-
+	cout<<p->data.sove;
+	for (int i = 0; i < p->data.sove; i++) {
+			    // In thông tin c?a t?ng ph?n t? ve
+			    std::cout << "V? trí: " << p->data.dsve[i].vitri << std::endl;
+//			    std::cout << "CCCD: " << cb.dsve[i].cccd << std::endl;
+}
+	
     if (first == NULL) {
         first = p;
     } else {
@@ -75,7 +81,6 @@ void EditChuyenBay(nodeCB *&first,int vitri ,chuyenbay cb){
 		nodechay= nodechay-> next;
 	}
 	nodechay->data = cb;
-	cout<<"hihi";
 //	} catch (const std::runtime_error& e) {
 //        std::cerr << "L?i runtime: " << e.what() << std::endl;
 //}
@@ -102,6 +107,38 @@ int timkiemmaybay(nodeCB *first, char *x) {
 	
 	return 0;
 }
+
+void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
+	
+	
+	cb.trangthai = CON_VE;
+	int soday,sodong;
+	soday = dsmb.data[timkiem(dsmb,cb.SHMB)]->soday;
+	sodong = dsmb.data[timkiem(dsmb,cb.SHMB)]->sodong;
+		
+    cb.sove = soday * sodong;
+    
+    cout<<cb.sove;
+    cb.dsve = new ve[cb.sove+1];
+
+    int index = 0;
+    for (char day = 'A'; day < 'A' + soday; day++) {
+        for (int dong = 1; dong <= sodong; dong++) {
+            sprintf(cb.dsve[index].vitri, "%c%02d", day, dong);
+            strcpy(cb.dsve[index].cccd, ""); // Kh?i t?o CCCD r?ng
+            index++;
+//            cout<<cb.dsve[index].vitri;
+        }
+    }
+    
+//    for (int i = 0; i < cb.sove; i++) {
+//    // In thông tin c?a t?ng ph?n t? ve
+//    std::cout << "V? trí: " << cb.dsve[i].vitri << std::endl;
+//    std::cout << "CCCD: " << cb.dsve[i].cccd << std::endl;
+//}
+}
+
+
 ////-----------------------FILE CHUYEN BAY--------------------------------------
 void Save_file_chuyen_bay(nodeCB *first){
 

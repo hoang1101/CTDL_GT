@@ -1203,6 +1203,14 @@ void clickcb(int vitri, chuyenbay &cb,unsigned short int **mapID) {
 	outtextxy(815,700,toChars(cb.time.nam));
 	outtextxy(1090,700,toChars(cb.time.gio));
 	outtextxy(1170,700,toChars(cb.time.phut));
+	
+//	cout<<cb.sove<<"next +++++ "<<cb.MaCB;
+	
+//	for (int i = 0; i < cb.sove; i++) {
+//			    // In thông tin c?a t?ng ph?n t? ve
+//			    std::cout << "Vi tri: " << cb.dsve[i].vitri << std::endl;
+//			    std::cout << "CCCD: " << cb.dsve[i].cccd << std::endl;
+//	}
 }
 void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
 	
