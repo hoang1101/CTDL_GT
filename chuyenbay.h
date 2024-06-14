@@ -127,51 +127,97 @@ void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
 
 }
 
-
-////-----------------------FILE CHUYEN BAY--------------------------------------
 void Save_file_chuyen_bay(nodeCB *first){
 
-	FILE *f = fopen (file_chuyen_bay, "wb");
-	if (f==NULL) 
-	{  	cout<<"ERROR! Khong The Mo File Chuyen Bay"<<endl;
+		 FILE * PTR1;
+		 if ((PTR1=fopen(file_chuyen_bay,"wb"))==NULL)
+		 {  	cout<<"ERROR! Khong The Mo File Chuyen Bay"<<endl;
 		 		 return ;
-	}
-
-	for (nodeCB *p=first ; p!=NULL ; p=p->next)
-	 {
-	 	 chuyenbay &data = p->data; // Khai b o bi?n sv trong v ng l?p
-        fwrite(&data, sizeof(chuyenbay), 1, f);
-        fwrite(data.dsve, sizeof(ve), p->data.sove, f);
-	 }
-	  
-	fclose (f);
-}
-
-
+		 }
+		 
+		 nodeCB *temp= first;
+		 while(temp != NULL){
+		 	fwrite(&(temp->data), sizeof(chuyenbay), 1, PTR1);
+		 	
+		 	for(int i=1 ;i <= temp->data.sove; i++){
+		 		fwrite(&temp->data.dsve[i], sizeof(ve), 1, PTR1);
+			 }
+		 	temp= temp->next;
+		 }
+		 fclose(PTR1);
+		}
 
 void Open_file_chuyen_bay(nodeCB *&first ){
-	FILE *f;
-	nodeCB *p;
-	chuyenbay cb;
-	if ((f=fopen(file_chuyen_bay,"rb"))==NULL)
-	{  cout<<"ERROR! Khong The Mo File Chuyen Bay"<<endl;
+	 FILE * PTR1;
+	 chuyenbay cb;
+	 if ((PTR1=fopen(file_chuyen_bay,"rb"))==NULL)
+	 {  cout<<"ERROR! Khong The Mo File Chuyen Bay"<<endl;
 	 	return ;
-	}	 
+	 }	 
  
-	while (first != NULL) {
-        p = first;
-        first = p->next;
-        delete p;
-    }
+	 while(fread (&cb, sizeof (chuyenbay), 1, PTR1) != 0) {
 
-	while (fread(&cb, sizeof(chuyenbay), 1, f) == 1) {
-        cb.dsve = new ve;
-        fread(cb.dsve, sizeof(ve), cb.sove, f);
-        InsertLast(first, cb);
-    }
+			cb.dsve= new ve [cb.sove+1];
+			for(int i=1 ; i<= cb.sove ; i++){
+		  	 strcpy(cb.dsve[i].vitri, "");
+            strcpy(cb.dsve[i].cccd, ""); // Kh?i t?o CCCD r?ng
+		  
+	       }
 
-    fclose(f);
+		 	for(int i=1 ;i <= cb.sove ; i++){
+		 		fread(&cb.dsve[i], sizeof(ve), 1, PTR1);
+//		 		fread(&(*cb.dsve[i]), sizeof(char[MAXLENGHT_CMND+1]), 1, PTR1);
+			 }
+ 	   
+ 	   
+			InsertLast(first,cb);
+	}	
+ fclose(PTR1);
 }
+////-----------------------FILE CHUYEN BAY--------------------------------------
+//void Save_file_chuyen_bay(nodeCB *first){
+//
+//	FILE *f = fopen (file_chuyen_bay, "wb");
+//	if (f==NULL) 
+//	{  	cout<<"ERROR! Khong The Mo File Chuyen Bay"<<endl;
+//		 		 return ;
+//	}
+//
+//	for (nodeCB *p=first ; p!=NULL ; p=p->next)
+//	 {
+//	 	 chuyenbay &data = p->data; // Khai b o bi?n sv trong v ng l?p
+//        fwrite(&data, sizeof(chuyenbay), 1, f);
+//        fwrite(data.dsve, sizeof(ve), p->data.sove, f);
+//	 }
+//	  
+//	fclose (f);
+//}
+//
+//
+//
+//void Open_file_chuyen_bay(nodeCB *&first ){
+//	FILE *f;
+//	nodeCB *p;
+//	chuyenbay cb;
+//	if ((f=fopen(file_chuyen_bay,"rb"))==NULL)
+//	{  cout<<"ERROR! Khong The Mo File Chuyen Bay"<<endl;
+//	 	return ;
+//	}	 
+// 
+//	while (first != NULL) {
+//        p = first;
+//        first = p->next;
+//        delete p;
+//    }
+//
+//	while (fread(&cb, sizeof(chuyenbay), 1, f) == 1) {
+//        cb.dsve = new ve;
+//        fread(cb.dsve, sizeof(ve), 1, f);
+//        InsertLast(first, cb);
+//    }
+//
+//    fclose(f);
+//}
 
 
 

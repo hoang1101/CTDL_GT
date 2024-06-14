@@ -76,6 +76,7 @@
 //#define
 //#define
 //#define
+#define  MAXLENGHT_CMND 15
 //#define
 #define NEXTPAGECB 2000
 #define BACKPAGECB 2001
