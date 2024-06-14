@@ -42,8 +42,8 @@ nodeCB *taonodemoi(chuyenbay &cb){
 
 void InsertLast(nodeCB *&first, chuyenbay &cb) {
 	nodeCB *p = taonodemoi(cb);
+//	cout<<p->data.sove;
 
-	
     if (first == NULL) {
         first = p;
     } else {
@@ -141,7 +141,7 @@ void Save_file_chuyen_bay(nodeCB *first){
 	 {
 	 	 chuyenbay &data = p->data; // Khai b o bi?n sv trong v ng l?p
         fwrite(&data, sizeof(chuyenbay), 1, f);
-        fwrite(&data.dsve, sizeof(ve), 1, f);
+        fwrite(data.dsve, sizeof(ve), p->data.sove, f);
 	 }
 	  
 	fclose (f);
@@ -166,7 +166,7 @@ void Open_file_chuyen_bay(nodeCB *&first ){
 
 	while (fread(&cb, sizeof(chuyenbay), 1, f) == 1) {
         cb.dsve = new ve;
-        fread(cb.dsve, sizeof(ve), 1, f);
+        fread(cb.dsve, sizeof(ve), cb.sove, f);
         InsertLast(first, cb);
     }
 
