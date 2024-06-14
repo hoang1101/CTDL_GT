@@ -888,7 +888,7 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb, n
 				}
 
  				mb = *dsmb.data[(tranghientai-1)*10];
- 				cout<<mb.soday;
+ 				
 				vitri=(tranghientai-1)*10+1;
 				clickmb(mb,vitri,mapID);
 				idmb=0;
@@ -1199,44 +1199,17 @@ void clickcb(int vitri, chuyenbay &cb,unsigned short int **mapID) {
 		
 	outtextxy(430,700,toChars(cb.time.ngay));
 	outtextxy(620,700,toChars(cb.time.thang));
-			
+	for (int i = 0; i < cb.sove; i++) {
+		cout<<cb.sove << std::endl;
+		cout << "Vitri: " << cb.MaCB << endl;
+		cout << "Vitri: " << cb.dsve[i].vitri <<endl;
+		cout << "CCCD: " << cb.dsve[i].cccd <<endl;
+	}
 	outtextxy(815,700,toChars(cb.time.nam));
 	outtextxy(1090,700,toChars(cb.time.gio));
 	outtextxy(1170,700,toChars(cb.time.phut));
-	
-//	cout<<cb.sove<<"next +++++ "<<cb.MaCB;
-	
-//	for (int i = 0; i < cb.sove; i++) {
-//			    // In thông tin c?a t?ng ph?n t? ve
-//			    std::cout << "Vi tri: " << cb.dsve[i].vitri << std::endl;
-//			    std::cout << "CCCD: " << cb.dsve[i].cccd << std::endl;
-//	}
 }
-void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
-	
-	
-	cb.trangthai = CON_VE;
-	int soday,sodong;
-	soday = dsmb.data[timkiem(dsmb,cb.SHMB)]->soday;
-	sodong = dsmb.data[timkiem(dsmb,cb.SHMB)]->sodong;
-		
-    cb.sove = soday * sodong;
-    
-    cout<<cb.sove;
-    cb.dsve = new ve[cb.sove+1];
 
-    int index = 0;
-    for (char day = 'A'; day < 'A' + soday; day++) {
-        for (int dong = 1; dong <= sodong; dong++) {
-            sprintf(cb.dsve[index].vitri, "%c%02d", day, dong);
-            strcpy(cb.dsve[index].cccd, ""); // Kh?i t?o CCCD r?ng
-            index++;
-//            cout<<cb.dsve[index].vitri;
-        }
-    }
-    
-    
-}
 void unclickcb(int vitri,chuyenbay &cb,unsigned short int **mapID){
 	
 		setfillstyle(1,WHITE);
@@ -1298,13 +1271,7 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 		     		cb=first->data;
 		     		vitri=1;
 					clickcb(vitri,cb,mapID);
-					
-					
-//					 for (int i = 0; i < cb.sove; i++) {
-//				    // In thông tin c?a t?ng ph?n t? ve
-//				    std::cout << "V? trí: " << cb.dsve[i].vitri << std::endl;
-//				    std::cout << "CCCD: " << cb.dsve[i].cccd << std::endl;
-//				}
+				
 				}
 				if (slcb%10 ==1) {
 					trangcuoi++;
@@ -1642,13 +1609,16 @@ void vekhungve(unsigned short int ** mapID) {
 
 
 
-void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int soDay, int soDong, int &veDangChon, ve &veMoi) {
-    int marginX = 300; // L? trái
-    int marginY = 100; // L? trên
-    int boxWidth = 50; // Chi?u r?ng c?a m?i ô
-    int boxHeight = 30; // Chi?u cao c?a m?i ô
-    int gap = 5; // Kho?ng cách gi?a các ô
+void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb,  int &veDangChon, ve &veMoi, danhsachmaybay &dsmb) {
+	int soDay,soDong;
+    int marginX = 300; // L? trï¿½i
+    int marginY = 100; // L? trï¿½n
+    int boxWidth = 50; // Chi?u r?ng c?a m?i ï¿½
+    int boxHeight = 30; // Chi?u cao c?a m?i ï¿½
+    int gap = 5; // Kho?ng cï¿½ch gi?a cï¿½c ï¿½
 
+	soDay = dsmb.data[timkiem(dsmb,cb.SHMB)]->soday;
+	soDong = dsmb.data[timkiem(dsmb,cb.SHMB)]->sodong;
     int index = 0;
     for (char day = 'A'; day < 'A' + soDay; day++) {
         for (int dong = 1; dong <= soDong; dong++) {
@@ -1661,13 +1631,13 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int soDay, int
             sprintf(soVe, "%c%02d", day, dong);
 
             if (index == veDangChon) {
-                // Vé dang ch?n
+                // Vï¿½ dang ch?n
                 setfillstyle(SOLID_FILL, YELLOW);
-            } else if (cb.dsve[index].cccd[0] != '\0') {
-                // Vé dã d?t
+            } else if (strcmp(cb.dsve[index].cccd, "")>0) {
+                // Vï¿½ dï¿½ d?t
                 setfillstyle(SOLID_FILL, RED);
             } else {
-                // Vé chua d?t
+                // Vï¿½ chua d?t
                 setfillstyle(SOLID_FILL, WHITE);
             }
 			settextstyle(8, 0, 2);
@@ -1678,12 +1648,12 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int soDay, int
             setcolor(BLACK);
             outtextxy(x + (boxWidth - textwidth(soVe)) / 2, y + (boxHeight - textheight(soVe)) / 2, soVe);
 
-            setID(index, x, y, x + boxWidth, y + boxHeight, mapID); // Gán id c?a vé vào mapID d? x? lý s? ki?n click
+            setID(index, x, y, x + boxWidth, y + boxHeight, mapID); // Gï¿½n id c?a vï¿½ vï¿½o mapID d? x? lï¿½ s? ki?n click
             index++;
         }
     }
 
-    // V? chú thích
+    // V? chï¿½ thï¿½ch
     setbkcolor(WHITE);
     outtextxy(CUASO_NGANG - 200, CUASO_DOC - 100, "Chua Dat");
     setfillstyle(SOLID_FILL, WHITE);
@@ -1702,7 +1672,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int soDay, int
     bar(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
     rectangle(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
 
-    // V? thông tin vé dang ch?n và nút "Ð?t Vé" và "H?y"
+    // V? thï¿½ng tin vï¿½ dang ch?n vï¿½ nï¿½t "ï¿½?t Vï¿½" vï¿½ "H?y"
     if (veDangChon != -1 && cb.dsve[veDangChon].cccd[0] == '\0') {
         int infoX = marginX;
         int infoY = marginY + soDay * (boxHeight + gap) + 50;
@@ -1737,19 +1707,21 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int soDay, int
 
 
 
-void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, int soDay, int soDong) {
+void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmaybay &dsmb) {
     setfillstyle(1, WHITE);
     bar(250, 0, CUASO_NGANG, CUASO_DOC);
 
     settextstyle(10, 0, 4);
     taoLabel(575, 0, 975, 55, BLACK, BLACK, GRAY, "DANH SACH VE");
 
-    int veDangChon = -1; // Kh?i t?o giá tr? c?a vé dang ch?n là -1 (chua ch?n vé nào)
-    ve veMoi; // Kh?i t?o vé m?i tr?ng
+    int veDangChon = -1; // Kh?i t?o giï¿½ tr? c?a vï¿½ dang ch?n lï¿½ -1 (chua ch?n vï¿½ nï¿½o)
+    ve veMoi; // Kh?i t?o vï¿½ m?i tr?ng
     strcpy(veMoi.cccd, "");
     strcpy(veMoi.vitri, "");
-
-    hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+	int soDay,soDong;
+	soDay = dsmb.data[timkiem(dsmb,cb.SHMB)]->soday;
+	soDong = dsmb.data[timkiem(dsmb,cb.SHMB)]->sodong;
+     hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, dsmb);
 
     int idve = 0;
     int x, y;
@@ -1762,34 +1734,34 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, int soDay, i
 
             // Ki?m tra n?u idve h?p l?
             if (idve >= 0 && idve < cb.sove) {
-                if (cb.dsve[idve].cccd[0] == '\0') { // Vé chua du?c d?t
+                if (cb.dsve[idve].cccd[0] == '\0') { // Vï¿½ chua du?c d?t
                     veDangChon = idve;
                     sprintf(veMoi.vitri, "%c%02d", 'A' + veDangChon / soDong, veDangChon % soDong + 1);
-                    hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+                     hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, dsmb);
                 }
-            } else if (x >= 300 && x <= 500 && y >= 650 && y <= 700) { // V? trí c?a nút "Ð?t Vé"
-                // X? lý s? ki?n click vào nút "Ð?t Vé"
+            } else if (x >= 300 && x <= 500 && y >= 650 && y <= 700) { // V? trï¿½ c?a nï¿½t "ï¿½?t Vï¿½"
+                // X? lï¿½ s? ki?n click vï¿½o nï¿½t "ï¿½?t Vï¿½"
                 if (veMoi.cccd[0] != '\0' && veMoi.vitri[0] != '\0') {
                     strcpy(cb.dsve[veDangChon].cccd, veMoi.cccd);
                     strcpy(cb.dsve[veDangChon].vitri, veMoi.vitri);
-                    veDangChon = -1; // Reset vé dang ch?n
-                    strcpy(veMoi.cccd, ""); // Reset vé m?i
+                    veDangChon = -1; // Reset vï¿½ dang ch?n
+                    strcpy(veMoi.cccd, ""); // Reset vï¿½ m?i
                     strcpy(veMoi.vitri, "");
-                    hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+                    hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, dsmb);
                 } else {
-                    // Hi?n th? thông báo yêu c?u nh?p d?y d? thông tin
+                    // Hi?n th? thï¿½ng bï¿½o yï¿½u c?u nh?p d?y d? thï¿½ng tin
                     setbkcolor(WHITE);
                     outtextxy(300, 720, "Vui long nhap day du thong tin!");
                 }
-            } else if (x >= 520 && x <= 720 && y >= 650 && y <= 700) { // V? trí c?a nút "H?y"
-                // X? lý s? ki?n click vào nút "H?y"
-                veDangChon = -1; // Reset vé dang ch?n
-                strcpy(veMoi.cccd, ""); // Reset vé m?i
+            } else if (x >= 520 && x <= 720 && y >= 650 && y <= 700) { // V? trï¿½ c?a nï¿½t "H?y"
+                // X? lï¿½ s? ki?n click vï¿½o nï¿½t "H?y"
+                veDangChon = -1; // Reset vï¿½ dang ch?n
+                strcpy(veMoi.cccd, ""); // Reset vï¿½ m?i
                 strcpy(veMoi.vitri, "");
-                hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+                hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, dsmb);
             }
         }
-        if (idve <= 6 && idve >= 1) { // Thoát ra vào ch?c nang khác
+        if (idve <= 6 && idve >= 1) { // Thoï¿½t ra vï¿½o ch?c nang khï¿½c
             luu_id = idve;
             break;
         }
@@ -1867,11 +1839,11 @@ void vekhungkhachhang(unsigned short int ** mapID) {
     line(300 + 65 * 16, 100, 300 + 65 * 16, 140);
 }
 
-// Hàm highlight dòng khách hàng du?c ch?n
+// Hï¿½m highlight dï¿½ng khï¿½ch hï¿½ng du?c ch?n
 void highlightKhachHang(int vitri, khachhang &kh, unsigned short int **mapID) {
-    setfillstyle(SOLID_FILL, BLACK); // Bôi den hoàn toàn dòng
+    setfillstyle(SOLID_FILL, BLACK); // Bï¿½i den hoï¿½n toï¿½n dï¿½ng
     bar(300, 150 + vitri * 30, 1350, 180 + vitri * 30);
-    setcolor(WHITE); // Ch? màu tr?ng
+    setcolor(WHITE); // Ch? mï¿½u tr?ng
     setbkcolor(BLACK);
     settextstyle(8, 0, 2);
     
@@ -1935,7 +1907,7 @@ void displayCustomers(Node* nodeArray[], int customerCount, int page, unsigned s
 void xulykhachhang(unsigned short int **mapID, int &luu_id) {
     Node* root = NULL;
 
-    // Chèn d? li?u m?u vào cây AVL
+    // Chï¿½n d? li?u m?u vï¿½o cï¿½y AVL
     khachhang kh1 = {"123456789", "Nguyen", "Van A", "Nam"};
     khachhang kh2 = {"987654321", "Tran", "Thi B", "Nu"};
     khachhang kh3 = {"654321987", "Le", "Van C", "Nam"};
@@ -1966,21 +1938,21 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id) {
     root = insert(root, kh13);
     root = insert(root, kh14);
 
-    // Kh?i t?o m?ng nodeArray và customerCount
+    // Kh?i t?o m?ng nodeArray vï¿½ customerCount
     Node* nodeArray[MAX_CUSTOMERS];
     int customerCount = 0;
 
-    // Duy?t cây AVL và luu khách hàng vào m?ng t?m
+    // Duy?t cï¿½y AVL vï¿½ luu khï¿½ch hï¿½ng vï¿½o m?ng t?m
     inorderStore(root, nodeArray, customerCount);
 
-    // V? khung và hi?n th? danh sách khách hàng
+    // V? khung vï¿½ hi?n th? danh sï¿½ch khï¿½ch hï¿½ng
     int currentPage = 0;
     int totalPages = (customerCount + CUSTOMERS_PER_PAGE - 1) / CUSTOMERS_PER_PAGE;
     
     vekhungkhachhang(mapID);
     displayCustomers(nodeArray, customerCount, currentPage, mapID);
     
-    // V? nút "Next" và "Previous"
+    // V? nï¿½t "Next" vï¿½ "Previous"
     taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
     taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
     
@@ -1999,13 +1971,13 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id) {
             idkh = mapID[y][x];
             clearmouseclick(WM_LBUTTONDOWN);
         }
-        if (idkh <= 6 && idkh >= 1) { // thoát ra vào ch?c nang khác
+        if (idkh <= 6 && idkh >= 1) { // thoï¿½t ra vï¿½o ch?c nang khï¿½c
             luu_id = idkh;
             break;
         }
         if (idkh >= 1000 && idkh < 1000 + CUSTOMERS_PER_PAGE) {
             int newVitri = idkh - 1000;
-            if (vitri != -1) { // N?u dã có dòng du?c ch?n tru?c dó, khôi ph?c l?i n?n tr?ng
+            if (vitri != -1) { // N?u dï¿½ cï¿½ dï¿½ng du?c ch?n tru?c dï¿½, khï¿½i ph?c l?i n?n tr?ng
                 setfillstyle(SOLID_FILL, WHITE);
                 bar(300, 150 + vitri * 30, 1350, 180 + vitri * 30);
                 khachhang kh = nodeArray[currentPage * CUSTOMERS_PER_PAGE + vitri]->data;
@@ -2025,39 +1997,39 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id) {
             idkh=0;
         } else if (idkh == 7 && currentPage < totalPages - 1) { // Next button
             currentPage++;
-            // V? l?i khung và hi?n th? danh sách khách hàng cho trang ti?p theo
+            // V? l?i khung vï¿½ hi?n th? danh sï¿½ch khï¿½ch hï¿½ng cho trang ti?p theo
             vekhungkhachhang(mapID);
             displayCustomers(nodeArray, customerCount, currentPage, mapID);
-            // V? l?i nút "Next" và "Previous"
+            // V? l?i nï¿½t "Next" vï¿½ "Previous"
 		    taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
 		    taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
             // V? l?i s? trang
             sprintf(pageNumber, "%d / %d", currentPage + 1, totalPages);
             outtextxy(1300, 760, pageNumber);
-            vitri = -1; // Reset dòng du?c ch?n
+            vitri = -1; // Reset dï¿½ng du?c ch?n
         } else if (idkh == 8 && currentPage > 0) { // Previous button
             currentPage--;
-            // V? l?i khung và hi?n th? danh sách khách hàng cho trang tru?c dó
+            // V? l?i khung vï¿½ hi?n th? danh sï¿½ch khï¿½ch hï¿½ng cho trang tru?c dï¿½
             vekhungkhachhang(mapID);
             displayCustomers(nodeArray, customerCount, currentPage, mapID);
-            // V? l?i nút "Next" và "Previous"
+            // V? l?i nï¿½t "Next" vï¿½ "Previous"
 		    taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
 		    taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
             // V? l?i s? trang
             sprintf(pageNumber, "%d / %d", currentPage + 1, totalPages);
             outtextxy(1300, 760, pageNumber);
-            vitri = -1; // Reset dòng du?c ch?n
+            vitri = -1; // Reset dï¿½ng du?c ch?n
         }
         delay(0.001);
     }
 
-    // Gi?i phóng b? nh? khi không còn s? d?ng n?a
+    // Gi?i phï¿½ng b? nh? khi khï¿½ng cï¿½n s? d?ng n?a
     deleteTree(root);
 }
 
 
-// Hàm hi?n th? danh sách vé c?a m?t chuy?n bay
+// Hï¿½m hi?n th? danh sï¿½ch vï¿½ c?a m?t chuy?n bay
 
 
-// Hàm x? lý hi?n th? danh sách vé c?a chuy?n bay
+// Hï¿½m x? lï¿½ hi?n th? danh sï¿½ch vï¿½ c?a chuy?n bay
 
