@@ -75,6 +75,8 @@
 //#define
 //#define
 //#define
+#define NEXTPAGECB 2000
+#define BACKPAGECB 2001
 //#define
 //#define
 //#define

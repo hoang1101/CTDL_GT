@@ -41,22 +41,24 @@ main(int argc, char *argv[])
 	        clearmouseclick(WM_LBUTTONDOWN);
 	    }
 	    switch (id) {
-	        case ID_MAYBAY:
-	            resetMapID(mapID);
-	            resetMH(mapID);
-	            vemenu(mapID);
-	            taoButton(ID_MAYBAY, 0, 150, 249, 225, BLACK, BLACK, WHITE, "MAY BAY", mapID);
-	            xulymaybay(mapID, id, dsmb);
-	            settextstyle(8, 0, 2);
-	            break;
-	        case ID_CHUYENBAY:
-	            resetMapID(mapID);
-	            resetMH(mapID);
-	            vemenu(mapID);
-	            taoButton(ID_CHUYENBAY, 0, 275, 249, 350, BLACK, BLACK, WHITE, "CHUYEN BAY", mapID);
-	            xulychuyenbay(mapID, id, first);
-	            settextstyle(8, 0, 2);
-	            break;
+	       case ID_MAYBAY: 
+//				cout<<1;
+				resetMapID(mapID);
+				resetMH(mapID);
+				vemenu(mapID);
+				taoButton(ID_MAYBAY,0,150,249,225,BLACK,BLACK,WHITE,"MAY BAY",mapID);
+				xulymaybay(mapID,id,dsmb,first);
+				settextstyle(8,0,2);
+			break;
+			case ID_CHUYENBAY: 
+//				cout<<2;
+				resetMapID(mapID);
+				resetMH(mapID);
+				vemenu(mapID);
+				taoButton(ID_CHUYENBAY,0,275,249,350,BLACK,BLACK,WHITE,"CHUYEN BAY",mapID);
+				xulychuyenbay(mapID,id,first,dsmb);
+				settextstyle(8,0,2);
+			break;
 	        case ID_VE:
 	            resetMapID(mapID);
                 resetMH(mapID);
