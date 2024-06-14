@@ -687,11 +687,13 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb, n
 			case HUY_MBEDIT:
 				kt=0;
 				resetthanhchucnangmb(mapID);
+				
 				taoButton(11,670,510,740,540,BLACK,BLACK,GRAY,"THEM",mapID);
 				taoButton(12,790,510,860,540,BLACK,BLACK,GRAY,"XOA",mapID);
 			    taoButton(13,910,510,980,540,BLACK,BLACK,GRAY,"SUA",mapID);
 			 		
 			 	vekhungnhaplieu(mapID);
+			 	mb = *dsmb.data[(vitri-1)];
 			 	clickmb(mb,vitri,mapID);
 			    idmb=0;
 			break;
@@ -785,17 +787,21 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb, n
 				do  {
 					idmb = ED_SHMB;
 					NhapLieuInHoa(505,595,idmb,mapID,mb.sohieumaybay);
-					if (timkiem(dsmb,mb.sohieumaybay ) != -1){
-						MessageBox(NULL,"So Hieu May Bay Da Ton Tai \n   Vui Long Nhap Lai! !","THONG BAO",MB_ICONWARNING|MB_OK);
-					} 
 					if (idmb == HUY_MB  || idmb == HUY_MBEDIT) {
 						break;
 					}
+					if (timkiem(dsmb,mb.sohieumaybay ) != -1){
+						MessageBox(NULL,"So Hieu May Bay Da Ton Tai \n   Vui Long Nhap Lai! !","THONG BAO",MB_ICONWARNING|MB_OK);
+					} 
+					
 				} while (timkiem(dsmb,mb.sohieumaybay ) != -1);
-			
+			break;
 			case ED_LOAIMB:
 				idmb = ED_LOAIMB;
 				NhapLieu(575,680,idmb,mapID,mb.loaimaybay);
+				if (idmb == HUY_MB  || idmb == HUY_MBEDIT) {
+						break;
+					}
 				break;
 			case ED_SODAY:
 				do  {
@@ -1190,6 +1196,14 @@ void clickcb(int vitri, chuyenbay &cb,unsigned short int **mapID) {
 	outtextxy(815,700,toChars(cb.time.nam));
 	outtextxy(1090,700,toChars(cb.time.gio));
 	outtextxy(1170,700,toChars(cb.time.phut));
+	
+//	cout<<cb.sove<<"next +++++ "<<cb.MaCB;
+	
+//	for (int i = 0; i < cb.sove; i++) {
+//			    // In thông tin c?a t?ng ph?n t? ve
+//			    std::cout << "Vi tri: " << cb.dsve[i].vitri << std::endl;
+//			    std::cout << "CCCD: " << cb.dsve[i].cccd << std::endl;
+//	}
 }
 
 void unclickcb(int vitri,chuyenbay &cb,unsigned short int **mapID){
@@ -1228,6 +1242,7 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 	char s[50];
 
 	
+	
 	int idcb = 0;
 	int x,y;
 	int vitri = 0;
@@ -1252,6 +1267,13 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 		     		cb=first->data;
 		     		vitri=1;
 					clickcb(vitri,cb,mapID);
+					
+					
+//					 for (int i = 0; i < cb.sove; i++) {
+//				    // In thông tin c?a t?ng ph?n t? ve
+//				    std::cout << "V? trí: " << cb.dsve[i].vitri << std::endl;
+//				    std::cout << "CCCD: " << cb.dsve[i].cccd << std::endl;
+//				}
 				}
 				if (slcb%10 ==1) {
 					trangcuoi++;
@@ -1264,8 +1286,13 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 
 		
 	}
+	if (slcb>10) {
+		taoButton(NEXTPAGECB,1175,460,1350,490,BLACK,BLACK,GRAY,"NEXT PAGE",mapID);
+	} else{
 	
-
+		taoLabel(1175,460,1350,490,BLACK,BLACK,WHITE,"NEXT PAGE");
+		taoLabel(300,460,475,490,BLACK,BLACK,WHITE,"BACK PAGE");
+	}
 
 	while(true)
 	{
@@ -1280,6 +1307,16 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 			break;
 		}
 		switch(idcb){
+			
+			
+			case NEXTPAGECB:
+				
+				break;
+			
+			case BACKPAGECB:
+				
+				break;
+			
 			case CB_THEM: 
 				unclickcb(vitri,cb,mapID);
 				taoButton(FIND,1200,565,1340,615,BLACK,BLACK,WHITE,"FIND",mapID);
@@ -1406,7 +1443,7 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 				break;
 			
 			case CB_LUU:
-				
+				khoiTaoDanhSachVe(cb,dsmb);			
 				InsertLast(first,cb);
 				Save_file_chuyen_bay(first);
 				
@@ -1417,11 +1454,6 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 				vitri = slcb%10;
 					taodongcb(vitri,300,110+vitri*30,1350,140+vitri*30,cb,mapID,15);
 		     		setID(1000+vitri,300,110+vitri*30,1350,140+vitri*30,mapID);
-//				if (slcb % 10 ==1){	
-//					trangcuoi++;
-//					dautrang[trangcuoi] = new nodeCB;
-//				   dautrang[trangcuoi]= nodechay;
-//					}
 				}
 				cb=dautrang[tranghientai]->data;
 			    vitri=(tranghientai-1)*10+1;
@@ -1541,12 +1573,16 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 			unclickcb(vitri,cb,mapID);	
 			vitri = idcb-1000;
 			nodechay = dautrang[tranghientai];
+			
 			for(int i=1;  i < vitri ; ){	
 				nodechay=nodechay->next;
 				i++;
 			}
 				cb=nodechay->data;
 				clickcb(vitri+(tranghientai-1)*10,cb,mapID);
+				
+				
+				
 			idcb=0;
 			break;
 			

@@ -60,6 +60,8 @@
 #define ED_LUUCB 231
 #define ED_HUYLUU 232
 #define FIND 2121
+#define NEXTPAGECB 2000
+#define BACKPAGECB 2001
 
 
 //#define
