@@ -1,4 +1,4 @@
-/*	Test thu vien winbgim.h	*/
+
 
 #include <winbgim.h> 
 #include <iostream>
@@ -63,8 +63,8 @@ main(int argc, char *argv[])
                 vemenu(mapID);
                 taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
                 if (first != NULL) {
-                    // Ví d? l?y chuy?n bay d?u tiên d? demo
-                    xulyve(mapID, id, first->data, 5, 20); // S? d?ng s? dãy và s? dòng mong mu?n
+                    // Vï¿½ d? l?y chuy?n bay d?u tiï¿½n d? demo
+                    xulyve(mapID, id, first->data, 5, 20); // S? d?ng s? dï¿½y vï¿½ s? dï¿½ng mong mu?n
                 }
                 settextstyle(8, 0, 2);
                 break;

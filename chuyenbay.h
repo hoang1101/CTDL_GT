@@ -1,7 +1,8 @@
 #pragma once
 #include "define.h"
+#include "time.h"
 #define file_chuyen_bay "datachuyenbay"
-
+#include <stdexcept>
 // trang thai
 enum TrangThai{
 	HUY_CHUYEN,
@@ -20,6 +21,7 @@ struct chuyenbay {
 	char SanBayDen[MAX_SBDEN+1];
 	char SHMB[MAXSHMB];
 	TrangThai trangthai;
+	Time time;
 	ve *dsve = NULL;
 	int sove;
 	
@@ -60,6 +62,25 @@ void InsertLast(nodeCB *&first, chuyenbay cb) {
 //    }
 }
 
+void EditChuyenBay(nodeCB *&first,int vitri ,chuyenbay cb){
+
+//	try {
+		if (first == NULL )
+	{
+		cout<<"hihi";
+		return;
+	}
+	nodeCB *nodechay = first;
+	for(int i=0; i < vitri - 1 && nodechay->next != NULL; i++ ){
+		nodechay= nodechay-> next;
+	}
+	nodechay->data = cb;
+	cout<<"hihi";
+//	} catch (const std::runtime_error& e) {
+//        std::cerr << "L?i runtime: " << e.what() << std::endl;
+//}
+}
+ 
 bool dsCBEmpty(nodeCB *first) {
 	return (first == NULL);
 }
@@ -70,6 +91,16 @@ int huychuyen(nodeCB *First) {
 		return 1;
 	}
 	 return 0;
+}
+
+int timkiemmaybay(nodeCB *first, char *x) {
+	
+	for (nodeCB *p = first; p!=NULL;p=p->next){
+		if (strcmp(p->data.SHMB,x) == 0)
+		return 1;
+	}
+	
+	return 0;
 }
 ////-----------------------FILE CHUYEN BAY--------------------------------------
 void Save_file_chuyen_bay(nodeCB *first){
