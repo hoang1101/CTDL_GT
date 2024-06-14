@@ -59,12 +59,16 @@ main(int argc, char *argv[])
 	            break;
 	        case ID_VE:
 	            resetMapID(mapID);
-	            resetMH(mapID);
-	            vemenu(mapID);
-	            taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
-	            xulyve(mapID, id);
-	            settextstyle(8, 0, 2);
-	            break;
+                resetMH(mapID);
+                vemenu(mapID);
+                taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
+                if (first != NULL) {
+                    // Ví d? l?y chuy?n bay d?u tiên d? demo
+                    xulyve(mapID, id, first->data, 5, 20); // S? d?ng s? dãy và s? dòng mong mu?n
+                }
+                settextstyle(8, 0, 2);
+                break;
+                break;
 	        case ID_KHACHHANG:
 	            resetMapID(mapID);
 	            resetMH(mapID);

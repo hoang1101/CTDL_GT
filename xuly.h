@@ -1078,33 +1078,166 @@ void vekhungve(unsigned short int ** mapID) {
 	
 
 }
-void xulyve(unsigned short int ** mapID, int &luu_id) {
-	
-	vekhungve(mapID);
-	
-	int idv = 0;
-	int x,y;
-	
-	
-	
-	while(true)
-	{
-		if(ismouseclick(WM_LBUTTONDOWN)){
-			getmouseclick(WM_LBUTTONDOWN, x, y);
-			idv = mapID[y][x];
-			clearmouseclick(WM_LBUTTONDOWN);
-		}
-		if (idv<=6 && idv>=1)//thoat ra v?o chuc nang khac
-		{
-			luu_id=idv;
-			break;
-		}
-		switch(idv){
+
+
+
+
+void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int soDay, int soDong, int &veDangChon, ve &veMoi) {
+    int marginX = 300; // L? trái
+    int marginY = 100; // L? trên
+    int boxWidth = 50; // Chi?u r?ng c?a m?i ô
+    int boxHeight = 30; // Chi?u cao c?a m?i ô
+    int gap = 5; // Kho?ng cách gi?a các ô
+
+    int index = 0;
+    for (char day = 'A'; day < 'A' + soDay; day++) {
+        for (int dong = 1; dong <= soDong; dong++) {
+            if (index >= cb.sove) break;
+
+            int x = marginX + (dong - 1) * (boxWidth + gap);
+            int y = marginY + (day - 'A') * (boxHeight + gap);
 			
-		}
-		delay(0.001);
-	}
+            char soVe[5];
+            sprintf(soVe, "%c%02d", day, dong);
+
+            if (index == veDangChon) {
+                // Vé dang ch?n
+                setfillstyle(SOLID_FILL, YELLOW);
+            } else if (cb.dsve[index].cccd[0] != '\0') {
+                // Vé dã d?t
+                setfillstyle(SOLID_FILL, RED);
+            } else {
+                // Vé chua d?t
+                setfillstyle(SOLID_FILL, WHITE);
+            }
+			settextstyle(8, 0, 2);
+            bar(x, y, x + boxWidth, y + boxHeight);
+            rectangle(x, y, x + boxWidth, y + boxHeight);
+
+            setbkcolor(index == veDangChon ? YELLOW : (cb.dsve[index].cccd[0] != '\0' ? RED : WHITE));
+            setcolor(BLACK);
+            outtextxy(x + (boxWidth - textwidth(soVe)) / 2, y + (boxHeight - textheight(soVe)) / 2, soVe);
+
+            setID(index, x, y, x + boxWidth, y + boxHeight, mapID); // Gán id c?a vé vào mapID d? x? lý s? ki?n click
+            index++;
+        }
+    }
+
+    // V? chú thích
+    setbkcolor(WHITE);
+    outtextxy(CUASO_NGANG - 200, CUASO_DOC - 100, "Chua Dat");
+    setfillstyle(SOLID_FILL, WHITE);
+    bar(CUASO_NGANG - 250, CUASO_DOC - 100, CUASO_NGANG - 220, CUASO_DOC - 80);
+    rectangle(CUASO_NGANG - 250, CUASO_DOC - 100, CUASO_NGANG - 220, CUASO_DOC - 80);
+
+    setbkcolor(RED);
+    outtextxy(CUASO_NGANG - 200, CUASO_DOC - 70, "Da Dat");
+    setfillstyle(SOLID_FILL, RED);
+    bar(CUASO_NGANG - 250, CUASO_DOC - 70, CUASO_NGANG - 220, CUASO_DOC - 50);
+    rectangle(CUASO_NGANG - 250, CUASO_DOC - 70, CUASO_NGANG - 220, CUASO_DOC - 50);
+
+    setbkcolor(YELLOW);
+    outtextxy(CUASO_NGANG - 200, CUASO_DOC - 40, "Dang Chon");
+    setfillstyle(SOLID_FILL, YELLOW);
+    bar(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
+    rectangle(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
+
+    // V? thông tin vé dang ch?n và nút "Ð?t Vé" và "H?y"
+    if (veDangChon != -1 && cb.dsve[veDangChon].cccd[0] == '\0') {
+        int infoX = marginX;
+        int infoY = marginY + soDay * (boxHeight + gap) + 50;
+
+        setbkcolor(WHITE);
+        setcolor(BLACK);
+        outtextxy(infoX, infoY, "CMND:");
+        outtextxy(infoX, infoY + 40, "Ho:");
+        outtextxy(infoX, infoY + 80, "Ten:");
+        outtextxy(infoX, infoY + 120, "Phai:");
+        outtextxy(infoX, infoY + 160, "So ghe:");
+
+        rectangle(infoX + 100, infoY, infoX + 300, infoY + 30);
+        rectangle(infoX + 100, infoY + 40, infoX + 300, infoY + 70);
+        rectangle(infoX + 100, infoY + 80, infoX + 300, infoY + 110);
+        rectangle(infoX + 100, infoY + 120, infoX + 300, infoY + 150);
+        rectangle(infoX + 100, infoY + 160, infoX + 300, infoY + 190);
+
+        setfillstyle(SOLID_FILL, veMoi.cccd[0] != '\0' && veMoi.vitri[0] != '\0' ? WHITE : LIGHTGRAY);
+        bar(infoX, infoY + 200, infoX + 200, infoY + 250);
+        rectangle(infoX, infoY + 200, infoX + 200, infoY + 250);
+        setbkcolor(veMoi.cccd[0] != '\0' && veMoi.vitri[0] != '\0' ? WHITE : LIGHTGRAY);
+        outtextxy(infoX + 50, infoY + 215, "Dat Ve");
+
+        setfillstyle(SOLID_FILL, WHITE);
+        bar(infoX + 220, infoY + 200, infoX + 420, infoY + 250);
+        rectangle(infoX + 220, infoY + 200, infoX + 420, infoY + 250);
+        setbkcolor(WHITE);
+        outtextxy(infoX + 270, infoY + 215, "Huy");
+    }
 }
+
+
+
+void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, int soDay, int soDong) {
+    setfillstyle(1, WHITE);
+    bar(250, 0, CUASO_NGANG, CUASO_DOC);
+
+    settextstyle(10, 0, 4);
+    taoLabel(575, 0, 975, 55, BLACK, BLACK, GRAY, "DANH SACH VE");
+
+    int veDangChon = -1; // Kh?i t?o giá tr? c?a vé dang ch?n là -1 (chua ch?n vé nào)
+    ve veMoi; // Kh?i t?o vé m?i tr?ng
+    strcpy(veMoi.cccd, "");
+    strcpy(veMoi.vitri, "");
+
+    hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+
+    int idve = 0;
+    int x, y;
+
+    while (true) {
+        if (ismouseclick(WM_LBUTTONDOWN)) {
+            getmouseclick(WM_LBUTTONDOWN, x, y);
+            idve = mapID[y][x];
+            clearmouseclick(WM_LBUTTONDOWN);
+
+            // Ki?m tra n?u idve h?p l?
+            if (idve >= 0 && idve < cb.sove) {
+                if (cb.dsve[idve].cccd[0] == '\0') { // Vé chua du?c d?t
+                    veDangChon = idve;
+                    sprintf(veMoi.vitri, "%c%02d", 'A' + veDangChon / soDong, veDangChon % soDong + 1);
+                    hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+                }
+            } else if (x >= 300 && x <= 500 && y >= 650 && y <= 700) { // V? trí c?a nút "Ð?t Vé"
+                // X? lý s? ki?n click vào nút "Ð?t Vé"
+                if (veMoi.cccd[0] != '\0' && veMoi.vitri[0] != '\0') {
+                    strcpy(cb.dsve[veDangChon].cccd, veMoi.cccd);
+                    strcpy(cb.dsve[veDangChon].vitri, veMoi.vitri);
+                    veDangChon = -1; // Reset vé dang ch?n
+                    strcpy(veMoi.cccd, ""); // Reset vé m?i
+                    strcpy(veMoi.vitri, "");
+                    hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+                } else {
+                    // Hi?n th? thông báo yêu c?u nh?p d?y d? thông tin
+                    setbkcolor(WHITE);
+                    outtextxy(300, 720, "Vui long nhap day du thong tin!");
+                }
+            } else if (x >= 520 && x <= 720 && y >= 650 && y <= 700) { // V? trí c?a nút "H?y"
+                // X? lý s? ki?n click vào nút "H?y"
+                veDangChon = -1; // Reset vé dang ch?n
+                strcpy(veMoi.cccd, ""); // Reset vé m?i
+                strcpy(veMoi.vitri, "");
+                hienThiDanhSachVe(mapID, cb, soDay, soDong, veDangChon, veMoi);
+            }
+        }
+        if (idve <= 6 && idve >= 1) { // Thoát ra vào ch?c nang khác
+            luu_id = idve;
+            break;
+        }
+        delay(0.001);
+    }
+}
+
+
 
 ////////////////////////////////// THONG KE /////////////////////////////////
 void vekhungthongke(unsigned short int ** mapID) {
@@ -1363,70 +1496,8 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id) {
 }
 
 
-//
-//void xulykhachhang(unsigned short int **mapID, int &luu_id) {
-//    Node* root = NULL;
-//
-//    // Chèn d? li?u m?u vào cây AVL
-//    khachhang kh1 = {"123456789", "Nguyen", "Van A", "Nam"};
-//    khachhang kh2 = {"987654321", "Tran", "Thi B", "Nu"};
-//    khachhang kh3 = {"654321987", "Le", "Van C", "Nam"};
-//    
-//    root = insert(root, kh1);
-//    root = insert(root, kh2);
-//    root = insert(root, kh3);
-//
-//    // Kh?i t?o m?ng nodeArray và customerCount
-//    Node* nodeArray[MAX_CUSTOMERS];
-//    int customerCount = 0;
-//
-//    // Duy?t cây AVL và luu khách hàng vào m?ng t?m
-//    inorderStore(root, nodeArray, customerCount);
-//
-//    // V? khung và hi?n th? danh sách khách hàng
-//    vekhungkhachhang(mapID);
-//
-//    displayCustomers(nodeArray, customerCount, mapID);
-//
-//    int idkh = 0;
-//    int x, y;
-//    int vitri = -1;
-//
-//    while (true) {
-//        if (ismouseclick(WM_LBUTTONDOWN)) {
-//            getmouseclick(WM_LBUTTONDOWN, x, y);
-//            idkh = mapID[y][x];
-//            clearmouseclick(WM_LBUTTONDOWN);
-//        }
-//        if (idkh <= 6 && idkh >= 1) { // thoát ra vào ch?c nang khác
-//            luu_id = idkh;
-//            break;
-//        }
-//        if (idkh >= 1000 && idkh < 1000 + customerCount) {
-//            int newVitri = idkh - 1000;
-//            if (vitri != -1) { // N?u dã có dòng du?c ch?n tru?c dó, khôi ph?c l?i n?n tr?ng
-//                setfillstyle(SOLID_FILL, WHITE);
-//                bar(300, 150 + vitri * 30, 1350, 180 + vitri * 30);
-//                khachhang kh = nodeArray[vitri]->data;
-//                setcolor(BLACK);
-//                setbkcolor(WHITE);
-//                char stt[3];
-//                sprintf(stt, "%d", vitri + 1);
-//                outtextxy(300 + 2 * 16 - textwidth(stt) / 2, 150 + vitri * 30, stt);
-//                outtextxy(300 + 9 * 16 - textwidth(kh.cmnd) / 2, 150 + vitri * 30, kh.cmnd);
-//                outtextxy(300 + 25 * 16 - textwidth(kh.ho) / 2, 150 + vitri * 30, kh.ho);
-//                outtextxy(300 + 45 * 16 - textwidth(kh.ten) / 2, 150 + vitri * 30, kh.ten);
-//                outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + vitri * 30, kh.phai);
-//            }
-//            vitri = newVitri;
-//            khachhang kh = nodeArray[vitri]->data;
-//            highlightKhachHang(vitri, kh, mapID);
-//            idkh= 0;
-//        }
-//        delay(0.001);
-//    }
-//
-//    // Gi?i phóng b? nh? khi không còn s? d?ng n?a
-//    deleteTree(root);
-//}
+// Hàm hi?n th? danh sách vé c?a m?t chuy?n bay
+
+
+// Hàm x? lý hi?n th? danh sách vé c?a chuy?n bay
 
