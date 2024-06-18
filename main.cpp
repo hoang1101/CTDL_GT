@@ -66,7 +66,7 @@ main(int argc, char *argv[])
                 taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
                 if (first != NULL) {
                     // V� d? l?y chuy?n bay d?u ti�n d? demo
-                    xulyve(mapID, id, first->next->data ,dsmb); // S? d?ng s? d�y v� s? d�ng mong mu?n
+                    xulyve(mapID, id, first->data ,dsmb); // S? d?ng s? d�y v� s? d�ng mong mu?n
                 }
                 settextstyle(8, 0, 2);
                 break;

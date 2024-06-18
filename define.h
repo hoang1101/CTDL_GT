@@ -63,8 +63,11 @@
 #define FIND 2121
 #define NEXTPAGECB 2000
 #define BACKPAGECB 2001
-
-
+#define CBLOCNGAY 2002	
+#define CBLOCTHANG 2003
+#define CBLOCNAM 2004
+#define CBMACB 2005
+#define CBDIEMDEN 2006
 //#define
 
 #define MAX_CUSTOMERS 1000 // Gi? s? t?i da 1000 khách hàng

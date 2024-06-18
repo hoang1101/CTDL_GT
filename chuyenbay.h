@@ -127,6 +127,9 @@ void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
 
 }
 
+	
+
+
 void Save_file_chuyen_bay(nodeCB *first){
 
 		 FILE * PTR1;
@@ -159,7 +162,7 @@ void Open_file_chuyen_bay(nodeCB *&first ){
 
 			cb.dsve= new ve [cb.sove+1];
 			for(int i=1 ; i<= cb.sove ; i++){
-		  	 strcpy(cb.dsve[i].vitri, "");
+		  	strcpy(cb.dsve[i].vitri, "");
             strcpy(cb.dsve[i].cccd, ""); // Kh?i t?o CCCD r?ng
 		  
 	       }
