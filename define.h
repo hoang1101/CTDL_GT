@@ -68,7 +68,7 @@
 #define CBLOCNAM 2004
 #define CBMACB 2005
 #define CBDIEMDEN 2006
-//#define
+#define CBLOC 2007
 
 #define MAX_CUSTOMERS 1000 // Gi? s? t?i da 1000 khách hàng
 //#define
@@ -93,7 +93,7 @@
 #define BLUE3 3
 #define RED 4
 #define PINK 5
-#define YELLOW 6
+#define YELLOW 14
 #define GRAY 7
 #define GRAY1 8
 #define BLUE1 9
@@ -102,3 +102,6 @@
 #define RED1 12
 #define WHITE 15
 #define LIGHTGRAY 16
+//#define YELLOWLIGHT 14
+//#define
+//#define

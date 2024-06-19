@@ -1135,6 +1135,9 @@ void vekhungchuyenbay(unsigned short int ** mapID) {
 	taoLabel(900,60,1000,90,BLACK,BLACK,WHITE,"Diem den:");
 	taoEditText(CBDIEMDEN,1005,60,1200,90,BLACK,BLACK,WHITE,mapID);
 	
+	settextstyle(10,0,0);
+	taoButton(CBLOC,1250,60,1350,90,BLACK,BLACK,11,"LOC",mapID);
+	
 }
 
 void nhaplieuchuyenbay(unsigned short int ** mapID) {
@@ -1347,8 +1350,20 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 	char year[30]= "";
 	char hour[30]= "";
 	char minute[30] = "";
-		char s[50]="";
+	char s[50]="";
 
+
+	char locngay[30]= "";
+	char locthang[30]= ""; 
+	char locnam[30]= "";
+	char locmacb[30]= "";
+	char locdiemden[30] = "";
+	
+	locngay[0]= '\0';
+	locthang[0]= '\0'; 
+	locnam[0]= '\0';
+	locmacb[0]= '\0';
+	locdiemden[0] = '\0';
 	
 	int idcb = 0;
 	int x,y;
@@ -1764,20 +1779,76 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 				do {
 					settextstyle(10, 0, 1);	
 					idcb=CBLOCNGAY;
-					Nhapso(410,65,idcb,mapID,day,2);
-					cb.time.ngay=ChangeCharToNum(day);
-					if (cb.time.ngay > 31 || cb.time.ngay <=0 || strlen(day)==0){
+					Nhapso(410,65,idcb,mapID,locngay,2);
+					if (ChangeCharToNum(locngay) > 31 || ChangeCharToNum(locngay) <=0 || strlen(locngay)==0){
 						MessageBox(NULL,"Ngay Khong Hop Le \n 1<= Ngay <= 31 !","THONG BAO",MB_ICONWARNING|MB_OK);
 					}
-					if(idcb == CB_HUYLUU || idcb==ED_HUYLUU)
-					break;
-				} while (cb.time.ngay > 31 || cb.time.ngay <=0 || strlen(day)==0);
+				} while (ChangeCharToNum(locngay) > 31 || ChangeCharToNum(locngay) <=0 || strlen(locngay)==0);
 			break;
 			
 			case CBLOCTHANG:
-//				do{
-//				465,70;520,70;740,70;1010,70	
-//				} while
+					do {
+					settextstyle(10, 0, 1);	
+					idcb=CBLOCTHANG;
+					Nhapso(465,65,idcb,mapID,locthang,2);
+					
+					if (ChangeCharToNum(locthang) > 12 || ChangeCharToNum(locthang) <=0 || strlen(locthang)==0){
+						MessageBox(NULL,"Thang Khong Hop Le \n 1<= Thang <= 12 !","THONG BAO",MB_ICONWARNING|MB_OK);
+					}
+				} while (ChangeCharToNum(locthang) > 12 || ChangeCharToNum(locthang) <=0 || strlen(locthang)==0);
+			break;
+			case CBLOCNAM:
+					do {
+					settextstyle(10, 0, 1);	
+					idcb=CBLOCNAM;
+					Nhapso(520,65,idcb,mapID,locnam,4);
+					if (ChangeCharToNum(locnam) > 2026 || ChangeCharToNum(locnam) <2024 || strlen(locnam)==0){
+						MessageBox(NULL,"Nam Khong Hop Le \n 2024<= Nam < 2026 !","THONG BAO",MB_ICONWARNING|MB_OK);
+					}
+				} while (ChangeCharToNum(locnam) > 2026 || ChangeCharToNum(locnam) <2024 || strlen(locnam)==0);
+			break;
+			
+			case CBMACB:
+					settextstyle(10, 0, 1);	
+					idcb=CBMACB;
+					NhapLieu(740,65,idcb,mapID,locmacb);
+			break;
+			
+			case CBDIEMDEN:
+					settextstyle(10, 0, 1);	
+					idcb=CBDIEMDEN;
+					NhapLieuInHoa(1010,65,idcb,mapID,locdiemden);
+			break;
+			
+			case CBLOC:
+				slcb=0;
+				tranghientai=1;
+				trangcuoi=0;
+				setfillstyle(1,WHITE);
+				bar(300,140,1350,440);
+				setcolor(BLACK);
+				rectangle(300,140,1350,440);
+				setID(0,300,140,1350,440,mapID);
+				setbkcolor(WHITE);
+				
+//				nodechay=first;
+				for (nodechay=first ; nodechay != NULL ; nodechay=nodechay->next){
+					if((strlen(locmacb)==0 || strcmp(locmacb,nodechay->data.MaCB)==0))
+//					&&(strlen(locngay)==0 || ChangeCharToNum(locngay)==nodechay->data.mytime.ngay)
+//					  && (strlen(locthang)==0 || ChangeCharToNum(locthang)==nodechay->data.mytime.thang) && (strlen(locnam)==0 || ChangeCharToNum(locnam)==nodechay->data.mytime.nam) 
+//					  && (strlen(locdiemden)==0 || strcmp(locdiemden,nodechay->data.Sanbayden)==0))
+					{
+						slcb++;
+						if (slcb<=10) {
+							taodongcb(slcb,300,110+slcb*30,1350,140+slcb*30,nodechay->data,mapID,15);
+							setID(1000+slcb,300,110+slcb*30,1350,140+slcb*30,mapID);
+						}
+						if (slcb % 10 ==1){
+							trangcuoi++;
+						}
+					}
+				}
+				idcb=0;
 			break;
 			
 			
