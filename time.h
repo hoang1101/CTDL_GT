@@ -50,7 +50,7 @@ bool is_valid_time(Time t) {
         }
     }
 
-    // Ki?m tra gi?
+//     Ki?m tra gi?
     if (t.gio < 0 || t.gio > 23) {
         return false;
     }
@@ -79,7 +79,8 @@ bool TGquakhu(Time past_time) {
         } else if (now.thang == past_time.thang) {
             if (now.ngay > past_time.ngay) {
                 return true;
-            } else if (now.ngay == past_time.ngay) {
+            } 
+			else if (now.ngay == past_time.ngay) {
                 if (now.gio > past_time.gio) {
                     return true;
                 } else if (now.gio == past_time.gio) {

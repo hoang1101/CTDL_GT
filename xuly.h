@@ -1673,6 +1673,7 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 			break;
 			
 			case ED_NAM:
+				Time time;
 				do{
 					idcb= ED_NAM;
 					Nhapso(815,700,idcb,mapID,year,4);
@@ -1682,9 +1683,14 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 					}
 					if(idcb == CB_HUYLUU || idcb==ED_HUYLUU)
 					break;
-				} while (cb.time.nam < 2024  || cb.time.nam > 2025);
-//				year[0]='\0';
-				
+					
+					time.nam = cb.time.nam;
+					time.thang = cb.time.thang;
+					time.ngay = cb.time.ngay;
+					if ( TGquakhu(time) == false){
+							MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu!","THONG BAO",MB_ICONWARNING|MB_OK);
+					}
+				} while (cb.time.nam < 2024  || cb.time.nam > 2025  );
 			break;
 
 			case ED_GIO:
