@@ -1668,8 +1668,8 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
 
     // V? thông tin vé dang ch?n và nút "Ð?t Vé" và "H?y"
     if (veDangChon != -1 && cb.dsve[veDangChon].cccd[0] == '\0') {
-        int infoX = marginX;
-        int infoY = marginY + soDay * (boxHeight + gap) + 50;
+        int infoX = 300;
+        int infoY = 570;
 
         setbkcolor(WHITE);
         setcolor(BLACK);
@@ -1772,12 +1772,13 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                 selectedTextbox = -1;
             }
         }
-
-        if (selectedTextbox != -1 && kbhit()) {
+        if (selectedTextbox != -1 ) {
             char ch = getch();
-            if (ch == 13) {
+            if(kbhit()){
+            	      if (ch == 13) {
                 input[inputIndex] = '\0';
                 inputIndex = 0;
+            
                 if (selectedTextbox == 3601) {
                     strcpy(kh.cmnd, input);
                 } else if (selectedTextbox == 3602) {
@@ -1798,6 +1799,8 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                 input[inputIndex++] = ch;
                 input[inputIndex] = '\0';
             }
+			}
+      
         }
 
         if (idve <= 6 && idve >= 1) {
