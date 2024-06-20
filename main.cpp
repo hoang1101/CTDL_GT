@@ -60,17 +60,33 @@ main(int argc, char *argv[])
 				settextstyle(8,0,2);
 			break;
 	        case ID_VE:
-	            resetMapID(mapID);
-                resetMH(mapID);
-                vemenu(mapID);
-                taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
-                if (first != NULL) {
-                    // V� d? l?y chuy?n bay d?u ti�n d? demo
-                    xulyve(mapID, id, first->next->data ,dsmb); // S? d?ng s? d�y v� s? d�ng mong mu?n
-                }
-                settextstyle(8, 0, 2);
-                break;
-                break;
+	        	if (Empty(dsmb)) {
+						MessageBox(NULL, "\n                     ERROR!	\n  Hien Chua Co may Nao Trong Danh Sach !", "THONG BAO", MB_ICONERROR | MB_OK);
+							id=0;
+							break;
+					
+				}else if (dsCBEmpty(first)) {
+					MessageBox(NULL, "\n                     ERROR!	\n  Hien Chua Co Chuyen bay Nao Trong Danh Sach !", "THONG BAO", MB_ICONERROR | MB_OK);
+					id=0;
+					break;
+				}else{
+					kiemtra_thoigian_khoihanh_all(first, dsmb);
+					Save_file_chuyen_bay(first);
+					Save_file_MB(dsmb);
+					resetMapID(mapID);
+	                resetMH(mapID);
+	                vemenu(mapID);
+	                taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
+	                xulychuyenbayconkhadung(mapID,id,first,dsmb);
+//	                if (first != NULL) {
+//	                    xulyve(mapID, id, first->next->data ,dsmb);
+//	                }
+	                settextstyle(8, 0, 2);
+	                id=0;
+	                break;
+					
+				}
+	           
 	        case ID_KHACHHANG:
 	            resetMapID(mapID);
 	            resetMH(mapID);

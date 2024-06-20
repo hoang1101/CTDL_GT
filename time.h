@@ -22,7 +22,7 @@ Time time_now(){
     // L?y ra ngày, tháng, nam
     now.ngay = localTime->tm_mday;
     now.thang = localTime->tm_mon + 1; // Tháng trong C++ tính t? 0 (0 là tháng 1)
-    now.nam = localTime->tm_year + 1900; // Nam tính t? 1900
+    now.nam = localTime->tm_year + 1900; // NAM tính t? 1900
     now.gio = localTime->tm_hour;
     now.phut = localTime->tm_min;
 

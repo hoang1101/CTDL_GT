@@ -6,6 +6,7 @@
 #include "maybay.h"
 #include "chuyenbay.h"
 #include "khachhang.h"
+#include "checkngaygio.h"
 using namespace std;
 
 #include<math.h>
@@ -1589,6 +1590,102 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 	}
 }
 
+//////////////////////////////////
+
+void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&first, danhsachmaybay &dsmb) {
+    maybay mb;
+    chuyenbay cb;
+    resetcb(cb);
+    resetthanhchucnangcb(mapID);
+    vekhungchuyenbay(mapID);
+
+
+    int namhientai = cb.time.nam;
+    nodeCB *nodechay;
+    nodeCB **dautrang = new nodeCB*[0];
+    char s[50];
+
+    int idcb = 0;
+    int x, y;
+    int vitri = 0;
+    int slcb = 0;
+    int tranghientai = 0;
+    int trangcuoi = 0;
+
+    bool has_valid_flights = false;  
+
+    if (dsCBEmpty(first)) {
+
+
+    } else {
+        tranghientai = 1;
+        slcb = 0;
+        for (nodechay = first; nodechay != NULL; nodechay = nodechay->next) {
+            if (nodechay->data.trangthai == CON_VE || nodechay->data.trangthai == HET_VE) {
+                slcb++;
+                has_valid_flights = true;  
+                if (slcb <= 10) {
+                    taodongcb(slcb, 300, 110 + slcb * 30, 1350, 140 + slcb * 30, nodechay->data, mapID, 15);
+                    setID(1000 + slcb, 300, 110 + slcb * 30, 1350, 140 + slcb * 30, mapID);
+
+                    cb = first->data;
+                    vitri = 1;
+                    clickcb(vitri, cb, mapID);
+                }
+                if (slcb % 10 == 1) {
+                    trangcuoi++;
+                    dautrang[trangcuoi] = new nodeCB;
+                    dautrang[trangcuoi] = nodechay;
+                }
+            }
+        }
+        if (!has_valid_flights) {  
+            outtextxy(800 - strlen("! KHONG CO CHUYEN BAY KHA DUNG !") * 4, 145, "! KHONG CO CHUYEN BAY KHA DUNG !");
+        } else {
+            cb = first->data;
+            clickcb(1, cb, mapID);
+            taoButton(DATVE, 300, 500, 475, 530, BLACK, BLACK, WHITE, "DAT VE", mapID);
+        }
+    }
+
+    if (slcb > 10) {
+        taoButton(NEXTPAGECB, 1175, 460, 1350, 490, BLACK, BLACK, GRAY, "NEXT PAGE", mapID);
+    } else {
+        taoLabel(1175, 460, 1350, 490, BLACK, BLACK, WHITE, "NEXT PAGE");
+        taoLabel(300, 460, 475, 490, BLACK, BLACK, WHITE, "BACK PAGE");
+    }
+
+    while (true) {
+        if (ismouseclick(WM_LBUTTONDOWN)) {
+            getmouseclick(WM_LBUTTONDOWN, x, y);
+            idcb = mapID[y][x];
+            clearmouseclick(WM_LBUTTONDOWN);
+        }
+        if (idcb <= 5 && idcb >= 1) {
+            luu_id = idcb;
+            break;
+        }
+        switch (idcb) {
+            case 1001: case 1002: case 1003: case 1004: case 1005: case 1006: case 1007: case 1008: case 1009:
+                unclickcb(vitri, cb, mapID);
+                vitri = idcb - 1000;
+                nodechay = dautrang[tranghientai];
+                
+                for (int i = 1; i < vitri;) {
+                    nodechay = nodechay->next;
+                    i++;
+                }
+                cb = nodechay->data;
+                clickcb(vitri + (tranghientai - 1) * 10, cb, mapID);
+                taoButton(DATVE, 300, 500, 475, 530, BLACK, BLACK, WHITE, "DAT VE", mapID);
+                idcb = 0;
+                break;
+        }
+        delay(0.001);
+    }
+}
+
+
 
 ////////////////////////////////// VE /////////////////////////////////
 void vekhungve(unsigned short int ** mapID) {
@@ -1608,11 +1705,11 @@ void vekhungve(unsigned short int ** mapID) {
 
 void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangChon, ve &veMoi, khachhang &kh, danhsachmaybay &dsmb) {
     int soDay, soDong;
-    int marginX = 300; // L? trái
-    int marginY = 100; // L? trên
-    int boxWidth = 50; // Chi?u r?ng c?a m?i ô
-    int boxHeight = 30; // Chi?u cao c?a m?i ô
-    int gap = 5; // Kho?ng cách gi?a các ô
+    int marginX = 300; // L? trï¿½i
+    int marginY = 100; // L? trï¿½n
+    int boxWidth = 50; // Chi?u r?ng c?a m?i ï¿½
+    int boxHeight = 30; // Chi?u cao c?a m?i ï¿½
+    int gap = 5; // Kho?ng cï¿½ch gi?a cï¿½c ï¿½
 
     soDay = dsmb.data[timkiem(dsmb, cb.SHMB)]->soday;
     soDong = dsmb.data[timkiem(dsmb, cb.SHMB)]->sodong;
@@ -1626,7 +1723,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
 
             char soVe[5];
             sprintf(soVe, "%c%02d", day, dong);
-
+			if(index==0) cout<<cb.dsve[index].cccd;
             if (index == veDangChon) {
                 setfillstyle(SOLID_FILL, YELLOW);
             } else if (strcmp(cb.dsve[index].cccd, "") > 0) {
@@ -1647,7 +1744,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         }
     }
 
-    // V? chú thích
+    // V? chï¿½ thï¿½ch
     setbkcolor(WHITE);
     outtextxy(CUASO_NGANG - 200, CUASO_DOC - 100, "Chua Dat");
     setfillstyle(SOLID_FILL, WHITE);
@@ -1666,7 +1763,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
     bar(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
     rectangle(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
 
-    // V? thông tin vé dang ch?n và nút "Ð?t Vé" và "H?y"
+    // V? thï¿½ng tin vï¿½ dang ch?n vï¿½ nï¿½t "ï¿½?t Vï¿½" vï¿½ "H?y"
     if (veDangChon != -1 && cb.dsve[veDangChon].cccd[0] == '\0') {
         int infoX = 300;
         int infoY = 570;
@@ -1682,18 +1779,46 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         taoEditText(3601, infoX + 100, infoY, infoX + 300, infoY + 30, BLACK, BLACK, WHITE, mapID);
         taoEditText(3602, infoX + 100, infoY + 40, infoX + 300, infoY + 70, BLACK, BLACK, WHITE, mapID);
         taoEditText(3603, infoX + 100, infoY + 80, infoX + 300, infoY + 110, BLACK, BLACK, WHITE, mapID);
-        taoEditText(3604, infoX + 100, infoY + 120, infoX + 300, infoY + 150, BLACK, BLACK, WHITE, mapID);
-        taoEditText(3605, infoX + 100, infoY + 160, infoX + 300, infoY + 190, BLACK, BLACK, WHITE, mapID);
+//        taoEditText(3604, infoX + 100, infoY + 120, infoX + 300, infoY + 150, BLACK, BLACK, WHITE, mapID);
+        
 
-        setfillstyle(SOLID_FILL, kh.cmnd[0] != '\0' && veMoi.vitri[0] != '\0' ? WHITE : LIGHTGRAY);
+
+		
+		if (SOLID_FILL,strstr(kh.phai, "NAM") >0) {
+           	setfillstyle(SOLID_FILL,BLACK );
+        } else  {
+            setfillstyle(SOLID_FILL, WHITE);
+        }
+     	setbkcolor(strstr(kh.phai, "NAM") >0 ?BLACK:WHITE );
+        setcolor(strstr(kh.phai, "NAM")?WHITE: BLACK);
+        bar(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+        rectangle(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+        outtextxy(infoX + 105, infoY + 125, "NAM");
+        setID(3604, infoX + 100, infoY + 120, infoX + 200, infoY + 150, mapID);
+
+		if (SOLID_FILL,strstr(kh.phai, "NU") >0) {
+            setfillstyle(SOLID_FILL,BLACK );
+        } else  {
+            setfillstyle(SOLID_FILL, WHITE);
+        }
+        setbkcolor(strstr(kh.phai, "NU") >0 ?BLACK:WHITE );
+        setcolor(strstr(kh.phai, "NU")?WHITE: BLACK);
+        bar(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+        rectangle(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+        setcolor(strstr(kh.phai, "NU") >0 ?WHITE: BLACK );
+        outtextxy(infoX + 205, infoY + 125, "NU");
+        setID(3605, infoX + 202, infoY + 120, infoX + 300, infoY + 150, mapID);
+        outtextxy(infoX + 100, infoY + 160,cb.dsve[veDangChon].vitri );
+
+        setfillstyle(SOLID_FILL, WHITE);
         bar(infoX, infoY + 200, infoX + 200, infoY + 250);
         rectangle(infoX, infoY + 200, infoX + 200, infoY + 250);
-        setbkcolor(kh.cmnd[0] != '\0' && veMoi.vitri[0] != '\0' ? WHITE : LIGHTGRAY);
         outtextxy(infoX + 50, infoY + 215, "Dat Ve");
-
+		setID(3611,infoX, infoY + 200, infoX + 200, infoY + 250,mapID );
         setfillstyle(SOLID_FILL, WHITE);
         bar(infoX + 220, infoY + 200, infoX + 420, infoY + 250);
         rectangle(infoX + 220, infoY + 200, infoX + 420, infoY + 250);
+        setID(3612,infoX + 220, infoY + 200, infoX + 420, infoY + 250,mapID );
         setbkcolor(WHITE);
         outtextxy(infoX + 270, infoY + 215, "Huy");
     }
@@ -1705,19 +1830,21 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 
     settextstyle(10, 0, 4);
     taoLabel(575, 0, 975, 55, BLACK, BLACK, GRAY, "DANH SACH VE");
-    int marginX = 300; // L? trái
-    int marginY = 100; // L? trên
-    int boxWidth = 50; // Chi?u r?ng c?a m?i ô
-    int boxHeight = 30; // Chi?u cao c?a m?i ô
-    int gap = 5; // Kho?ng cách gi?a các ô
-    int veDangChon = -1; // Kh?i t?o giá tr? c?a vé dang ch?n là -1 (chua ch?n vé nào)
-    khachhang kh; // Kh?i t?o khách hàng m?i tr?ng
+    int infoX = 300;
+    int infoY = 570;
+    int marginX = 300; // L? trï¿½i
+    int marginY = 100; // L? trï¿½n
+    int boxWidth = 50; // Chi?u r?ng c?a m?i ï¿½
+    int boxHeight = 30; // Chi?u cao c?a m?i ï¿½
+    int gap = 5; // Kho?ng cï¿½ch gi?a cï¿½c ï¿½
+    int veDangChon = -1; // Kh?i t?o giï¿½ tr? c?a vï¿½ dang ch?n lï¿½ -1 (chua ch?n vï¿½ nï¿½o)
+    khachhang kh; // Kh?i t?o khï¿½ch hï¿½ng m?i tr?ng
     ve veMoi;
     strcpy(kh.cmnd, "");
     strcpy(kh.ho, "");
     strcpy(kh.ten, "");
     strcpy(veMoi.vitri, "");
-    strcpy(kh.phai, "Nam");
+    strcpy(kh.phai, "NAM");
 
     int soDay, soDong;
     soDay = dsmb.data[timkiem(dsmb, cb.SHMB)]->soday;
@@ -1741,6 +1868,11 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                 if (cb.dsve[veIndex].cccd[0] == '\0') {
                     veDangChon = veIndex;
                     sprintf(veMoi.vitri, "%c%02d", 'A' + veDangChon / soDong, veDangChon % soDong + 1);
+                    setcolor(WHITE);
+        	 		setfillstyle(SOLID_FILL, LIGHTGRAY);
+        	 		bar(infoX+100, infoY + 120, infoX + 200, infoY + 150);
+                    rectangle(infoX+100, infoY + 120, infoX + 200, infoY + 150);
+        			outtextxy(infoX + 105, infoY + 125, "NAM");
                     hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
                 }
             } else if (idve >= 3601 && idve <= 3605) {
@@ -1754,54 +1886,83 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                     strcpy(kh.ho, "");
                     strcpy(kh.ten, "");
                     strcpy(veMoi.vitri, "");
-                    strcpy(kh.phai, "Nam");
+                    strcpy(kh.phai, "NAM");
+
                     hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
-                } else {
-                    setbkcolor(WHITE);
-                    outtextxy(300, 720, "Vui long nhap day du thong tin!");
-                }
+                } 
             } else if (x >= 520 && x <= 720 && y >= 650 && y <= 700) {
                 veDangChon = -1;
                 strcpy(kh.cmnd, "");
                 strcpy(kh.ho, "");
                 strcpy(kh.ten, "");
                 strcpy(veMoi.vitri, "");
-                strcpy(kh.phai, "Nam");
+                strcpy(kh.phai, "NAM");
                 hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
             } else {
                 selectedTextbox = -1;
             }
         }
-        if (selectedTextbox != -1 ) {
-            char ch = getch();
-            if(kbhit()){
-            	      if (ch == 13) {
-                input[inputIndex] = '\0';
-                inputIndex = 0;
-            
-                if (selectedTextbox == 3601) {
-                    strcpy(kh.cmnd, input);
-                } else if (selectedTextbox == 3602) {
-                    strcpy(kh.ho, input);
-                } else if (selectedTextbox == 3603) {
-                    strcpy(kh.ten, input);
-                } else if (selectedTextbox == 3604) {
-                    strcpy(kh.phai, input);
-                }
-                selectedTextbox = -1;
-                hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
-            } else if (ch == 8) {
-                if (inputIndex > 0) {
-                    inputIndex--;
-                    input[inputIndex] = '\0';
-                }
-            } else {
-                input[inputIndex++] = ch;
-                input[inputIndex] = '\0';
-            }
-			}
-      
-        }
+        cout<<idve;
+            int marginX = 300; 
+		switch(selectedTextbox){
+			case 3601:
+				NhapLieu(420,575,selectedTextbox,mapID,kh.cmnd);
+
+				break;
+			case 3602:
+				NhapLieu(420,615,selectedTextbox,mapID,kh.ho);
+
+				break;
+			case 3603:
+				NhapLieu(420,655,selectedTextbox,mapID,kh.ten);
+				break;
+			case 3604:  
+		  	 	setfillstyle(SOLID_FILL,BLACK );
+		  	 	setbkcolor(BLACK);
+		        setcolor(WHITE);
+		        bar(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+		        rectangle(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+
+		        outtextxy(infoX + 105, infoY + 125, "NAM");
+		        setID(3604, infoX + 100, infoY + 120, infoX + 200, infoY + 150, mapID);
+		
+		
+				setfillstyle(SOLID_FILL, WHITE);
+				setbkcolor(WHITE);
+		        setcolor(BLACK);
+		        bar(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+		        rectangle(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+		        setcolor(BLACK );
+		        outtextxy(infoX + 205, infoY + 125, "NU");
+		        setID(3605, infoX + 202, infoY + 120, infoX + 300, infoY + 150, mapID);
+		        selectedTextbox=-1;
+        	 	break;
+        
+			case 3605:
+				setfillstyle(SOLID_FILL, WHITE);
+				setbkcolor(WHITE);
+		        setcolor(BLACK);
+		        bar(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+		        rectangle(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+
+		        outtextxy(infoX + 105, infoY + 125, "NAM");
+		        setID(3604, infoX + 100, infoY + 120, infoX + 200, infoY + 150, mapID);
+		
+		
+		
+
+		        setfillstyle(SOLID_FILL,BLACK );
+		  	 	setbkcolor(BLACK);
+		        setcolor(WHITE);
+		        bar(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+		        rectangle(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+
+		        outtextxy(infoX + 205, infoY + 125, "NU");
+		        setID(3605, infoX + 202, infoY + 120, infoX + 300, infoY + 150, mapID);
+		        selectedTextbox=-1;
+        	 	break;
+
+		}
 
         if (idve <= 6 && idve >= 1) {
             luu_id = idve;
@@ -1949,19 +2110,19 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id) {
     Node* root = NULL;
 
     // Chï¿½n d? li?u m?u vï¿½o cï¿½y AVL
-    khachhang kh1 = {"123456789", "Nguyen", "Van A", "Nam"};
+    khachhang kh1 = {"123456789", "Nguyen", "Van A", "NAM"};
     khachhang kh2 = {"987654321", "Tran", "Thi B", "Nu"};
-    khachhang kh3 = {"654321987", "Le", "Van C", "Nam"};
-    khachhang kh4 = {"123456788", "Nguyen", "Van B", "Nam"};
+    khachhang kh3 = {"654321987", "Le", "Van C", "NAM"};
+    khachhang kh4 = {"123456788", "Nguyen", "Van B", "NAM"};
     khachhang kh5 = {"987654322", "Tran", "Thi C", "Nu"};
-    khachhang kh6 = {"654321988", "Le", "Van D", "Nam"};
-    khachhang kh7 = {"123456787", "Nguyen", "Van E", "Nam"};
+    khachhang kh6 = {"654321988", "Le", "Van D", "NAM"};
+    khachhang kh7 = {"123456787", "Nguyen", "Van E", "NAM"};
     khachhang kh8 = {"987654323", "Tran", "Thi F", "Nu"};
-    khachhang kh9 = {"654321987", "Le", "Van G", "Nam"};
-    khachhang kh10 = {"123456786", "Nguyen", "Van H", "Nam"};
+    khachhang kh9 = {"654321987", "Le", "Van G", "NAM"};
+    khachhang kh10 = {"123456786", "Nguyen", "Van H", "NAM"};
     khachhang kh11 = {"987654324", "Tran", "Thi I", "Nu"};
-    khachhang kh12 = {"654321986", "Le", "Van J", "Nam"};
-    khachhang kh13 = {"123456785", "Nguyen", "Van K", "Nam"};
+    khachhang kh12 = {"654321986", "Le", "Van J", "NAM"};
+    khachhang kh13 = {"123456785", "Nguyen", "Van K", "NAM"};
     khachhang kh14 = {"987654325", "Tran", "Thi L", "Nu"};
     
     root = insert(root, kh1);

@@ -65,12 +65,15 @@
 #define BACKPAGECB 2001
 
 
-//#define
+//#define 
+#define DATVE 3300
 
-#define MAX_CUSTOMERS 1000 // Gi? s? t?i da 1000 khách hàng
+
+
+#define MAX_CUSTOMERS 1000 
 //#define
-#define MAX_CUSTOMERS 1000 // Gi? s? t?i da 1000 khách hàng
-#define CUSTOMERS_PER_PAGE 10 // S? khách hàng trên m?i trang
+#define MAX_CUSTOMERS 1000
+#define CUSTOMERS_PER_PAGE 10 
 //#define
 //#define
 //#define
