@@ -65,8 +65,8 @@ bool is_valid_time(Time t) {
 
 bool TGquakhu(Time past_time) {
 	
-	if(is_valid_time(past_time) == false)
-	return false;
+//	if(is_valid_time(past_time) == false)
+//	return false;
     // L?y th?i gian hi?n t?i
     Time now = time_now();
 
@@ -94,5 +94,41 @@ bool TGquakhu(Time past_time) {
 
     // N?u t?t c? các thành ph?n d?u không l?n hon, thì th?i gian hi?n t?i không l?n hon th?i gian trong quá kh?
     return false;
+}
+
+
+bool TGNew(Time new_time) {
+	
+//	if(is_valid_time(past_time) == false)
+//	return false;
+    // L?y th?i gian hi?n t?i
+    Time now = time_now();
+
+   if(now.nam > new_time.nam ) return false;
+	else if(now.nam < new_time.nam) return true;
+	else
+	{
+		if(now.thang > new_time.thang ) return false;
+	    else if(now.thang < new_time.thang) return true;
+	    else
+	    {
+		     if(now.ngay > new_time.ngay ) return false;
+	         else if(now.ngay < new_time.ngay) return true;
+	         else 
+	         	return false;
+//	         else
+//	         {
+//		          if(now.gio > new_time.gio ) return false;
+//	              else if(now.gio < new_time.gio) return true;
+//	              else
+//	              {
+//		                if(now.phut > new_time.phut ) return false;
+//                     	else if(now.phut < new_time.phut) return true;
+//                     	else
+//                     	   return false;
+//	              }
+//	         }
+	    }
+	}
 }
 

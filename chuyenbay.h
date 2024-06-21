@@ -86,21 +86,35 @@ bool dsCBEmpty(nodeCB *first) {
 }
 
 int huychuyen(nodeCB *First) {
-	if (First->data.trangthai== CON_VE || First->data.trangthai== HET_VE){
+	
+//	|| First->data.trangthai== HET_VE
+	if (First->data.trangthai == CON_VE || First->data.trangthai== HET_VE ){
+//		cout<<First->data.SHMB;
 		First->data.trangthai = HUY_CHUYEN;
 		return 1;
 	}
 	 return 0;
 }
 
-int timkiemmaybay(nodeCB *first, char *x) {
+nodeCB *timkiemmaybay(nodeCB *first, char *x) {
 	
-	for (nodeCB *p = first; p!=NULL;p=p->next){
+	nodeCB *p;
+	for (p = first; p!=NULL;p=p->next){
 		if (strcmp(p->data.SHMB,x) == 0)
-		return 1;
+		return p;
 	}
 	
-	return 0;
+	return NULL;
+}
+
+nodeCB *timkiemMACB(nodeCB *first, char *x){
+	nodeCB *p;
+	for (p = first; p!=NULL;p=p->next){
+		if (strcmp(p->data.MaCB,x) == 0)
+		return p;
+	}
+	
+	return NULL;
 }
 
 void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
@@ -125,6 +139,35 @@ void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
     }
     
 
+}
+
+
+//void chuyenbayquakhu(nodeCB *&first, danhsachmaybay &dsmb) {
+//	nodeCB *nodechay;
+//	   for( nodechay=first; nodechay != NULL ; nodechay = nodechay->next){
+//	   	 if (nodechay->data.trangthai==CON_VE || nodechay->data.trangthai==HET_VE ) {
+//		if (TGquakhu(nodechay->data.time)==true) {
+//			nodechay->data.trangthai= HOAN_TAT;
+//			dsmb.data[timkiem(dsmb,nodechay->data.SHMB)]->soChuyenDaBay++;
+//		}
+//	}
+//	   	    
+//	   }
+//	
+//}
+
+void chuyenbayquakhu(nodeCB *&first, danhsachmaybay &dsmb) {
+	nodeCB *nodechay;
+	   for( nodechay=first; nodechay != NULL ; nodechay = nodechay->next){
+	   	 if (nodechay->data.trangthai==HUY_CHUYEN || nodechay->data.trangthai==HET_VE ) {
+//		if (TGquakhu(nodechay->data.time)==true) {
+			nodechay->data.trangthai= CON_VE;
+//			dsmb.data[timkiem(dsmb,nodechay->data.SHMB)]->soChuyenDaBay++;
+//		}
+	}
+	   	    
+	   }
+	
 }
 
 	
