@@ -40,10 +40,34 @@ nodeCB *taonodemoi(chuyenbay &cb){
 	return temp;
 }
 
+
+void InsertTheoMaCB(nodeCB *&first, chuyenbay &cb ){
+	 nodeCB *p = taonodemoi(cb);
+    
+    // Tru?ng h?p danh sách r?ng
+    if (first == NULL) {
+        first = p;
+        return;
+    }
+    // them vao dau danh sach
+   if (strcmp(first->data.MaCB, cb.MaCB) >= 0) {
+        p->next = first;
+        first = p;
+        return;
+    }
+    
+    // Tru?ng h?p thêm vào cu?i danh sách ho?c gi?a danh sách
+    nodeCB *nodechay = first;
+    while (nodechay->next != NULL && strcmp(nodechay->next->data.MaCB, cb.MaCB) < 0) {
+        nodechay = nodechay->next;
+    }
+    cout<<nodechay->data.MaCB;
+    p->next = nodechay->next;
+    nodechay->next = p;
+}
+
 void InsertLast(nodeCB *&first, chuyenbay &cb) {
 	nodeCB *p = taonodemoi(cb);
-//	cout<<p->data.sove;
-
     if (first == NULL) {
         first = p;
     } else {
@@ -51,16 +75,6 @@ void InsertLast(nodeCB *&first, chuyenbay &cb) {
 		for(nodechay = first; nodechay->next != NULL; nodechay = nodechay-> next );
 			nodechay-> next = p;
     }
-
- 
-//    nodeCB p = taonodemoi(cb);
-//    if (first == NULL) {
-//        first = p;
-//        first->next=NULL;
-//    } else {
-//        for(nodeCB nodechay = first; nodechay -> nodeCB != NULL; nodechay = nodechay -> nodeCB );
-//			nodechay -> nodeCB = p ;
-//    }
 }
 
 void EditChuyenBay(nodeCB *&first,int vitri ,chuyenbay cb){
@@ -216,7 +230,7 @@ void Open_file_chuyen_bay(nodeCB *&first ){
 			 }
  	   
  	   
-			InsertLast(first,cb);
+			InsertTheoMaCB(first,cb);
 	}	
  fclose(PTR1);
 }
