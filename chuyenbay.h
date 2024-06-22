@@ -77,19 +77,31 @@ void InsertLast(nodeCB *&first, chuyenbay &cb) {
     }
 }
 
-void EditChuyenBay(nodeCB *&first,int vitri ,chuyenbay cb){
+int demslcb(nodeCB *first){
+	nodeCB *p;
+	int dem=0;
+	for (p = first; p!=NULL;p=p->next){
+		dem++;
+	}	
+	return dem;
+}
+
+void EditChuyenBay(nodeCB *temp,chuyenbay &cb){
+	
+	
+	temp->data=cb;
 
 //	try {
-		if (first == NULL )
-	{
-		cout<<"hihi";
-		return;
-	}
-	nodeCB *nodechay = first;
-	for(int i=0; i < vitri - 1 && nodechay->next != NULL; i++ ){
-		nodechay= nodechay-> next;
-	}
-	nodechay->data = cb;
+//		if (first == NULL )
+//	{
+//		cout<<"hihi";
+//		return;
+//	}
+//	nodeCB *nodechay = first;
+//	for(int i=0; i < vitri - 1 && nodechay->next != NULL; i++ ){
+//		nodechay= nodechay-> next;
+//	}
+//	nodechay->data = cb;
 //	} catch (const std::runtime_error& e) {
 //        std::cerr << "L?i runtime: " << e.what() << std::endl;
 //}
