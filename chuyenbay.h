@@ -61,7 +61,7 @@ void InsertTheoMaCB(nodeCB *&first, chuyenbay &cb ){
     while (nodechay->next != NULL && strcmp(nodechay->next->data.MaCB, cb.MaCB) < 0) {
         nodechay = nodechay->next;
     }
-    cout<<nodechay->data.MaCB;
+//    cout<<nodechay->data.MaCB;
     p->next = nodechay->next;
     nodechay->next = p;
 }
