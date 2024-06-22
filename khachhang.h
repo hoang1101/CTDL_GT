@@ -1,4 +1,4 @@
-
+#define file_hanh_khach "datakhachhang"
 // Ð?nh nghia c?u trúc khách hàng
 struct khachhang {
     char cmnd[12];
@@ -66,7 +66,7 @@ Node* leftRotate(Node* x) {
     return y;
 }
 
-// Hàm d? l?y h? s? cân b?ng c?a m?t nút
+
 int getBalance(Node* N) {
     if (N == NULL)
         return 0;
@@ -75,7 +75,7 @@ int getBalance(Node* N) {
 
 // Hàm d? chèn m?t nút m?i vào cây AVL
 Node* insert(Node* node, khachhang kh) {
-    // 1. Th?c hi?n chèn bình thu?ng c?a cây BST
+
     if (node == NULL)
         return(newNode(kh));
 
@@ -83,43 +83,46 @@ Node* insert(Node* node, khachhang kh) {
         node->left = insert(node->left, kh);
     else if (strcmp(kh.cmnd, node->data.cmnd) > 0)
         node->right = insert(node->right, kh);
-    else // Các khóa b?ng nhau không du?c phép trong BST
+    else
         return node;
 
-    // 2. C?p nh?t chi?u cao c?a nút t? tiên này
+
     node->height = 1 + max(height(node->left), height(node->right));
 
-    // 3. L?y h? s? cân b?ng c?a nút t? tiên này d? ki?m tra xem
-    // nút này có b? m?t cân b?ng hay không
+
     int balance = getBalance(node);
 
-    // N?u nút này tr? nên m?t cân b?ng, thì có 4 tru?ng h?p
-
-    // Tru?ng h?p Left Left
     if (balance > 1 && strcmp(kh.cmnd, node->left->data.cmnd) < 0)
         return rightRotate(node);
 
-    // Tru?ng h?p Right Right
     if (balance < -1 && strcmp(kh.cmnd, node->right->data.cmnd) > 0)
         return leftRotate(node);
 
-    // Tru?ng h?p Left Right
+
     if (balance > 1 && strcmp(kh.cmnd, node->left->data.cmnd) > 0) {
         node->left = leftRotate(node->left);
         return rightRotate(node);
     }
 
-    // Tru?ng h?p Right Left
+
     if (balance < -1 && strcmp(kh.cmnd, node->right->data.cmnd) < 0) {
         node->right = rightRotate(node->right);
         return leftRotate(node);
     }
 
-    // Tr? v? con tr? nút (không thay d?i)
+
     return node;
 }
 
-// Hàm d? tìm ki?m khách hàng trong cây AVL
+bool timKiemCCCDTrongVe(chuyenbay &cb, const char* cccd) {
+    for (int i = 0; i < cb.sove; ++i) {
+        if (strcmp(cb.dsve[i].cccd, cccd) == 0) {
+            return true;  
+        }
+    }
+    return false;  
+}
+
 Node* search(Node* root, const char* cmnd) {
     if (root == NULL || strcmp(root->data.cmnd, cmnd) == 0)
         return root;
@@ -138,5 +141,34 @@ void deleteTree(Node* root) {
     
     delete root;
 }
+void luudatakhachhang(Node* nodetemp, FILE* f) {
+    if (nodetemp != NULL) {
+        luudatakhachhang(nodetemp->left, f);
+        fwrite(&nodetemp->data, sizeof(khachhang), 1, f);
+        luudatakhachhang(nodetemp->right, f);
+    }
+}
 
+void Save_file_hanh_khach(Node* root) {
+    FILE* f;
+    if ((f = fopen(file_hanh_khach, "wb")) == NULL) {
+        cout << "ERROR! Khong The Mo Hanh Khach" << endl;
+        return;
+    }
+    luudatakhachhang(root, f);
+    fclose(f);
+}
+void Openfilekhachhang(Node *&root) {
+    FILE* f;
+    if ((f = fopen(file_hanh_khach, "rb")) == NULL) {
+        cout << "ERROR! Khong The Mo File Hanh Khach" << endl;
+        return;
+    }
+    khachhang kh;
 
+    while (fread(&kh, sizeof(khachhang), 1, f)) {
+        root = insert(root, kh);
+    }
+
+    fclose(f);
+}

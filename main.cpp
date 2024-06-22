@@ -17,12 +17,13 @@ main(int argc, char *argv[])
 	 	
 	danhsachmaybay dsmb;
 	nodeCB *first = NULL;
-    
+    Node* root = NULL;
+
 	Open_file_MB(dsmb);
 	Open_file_chuyen_bay(first);
 
 	Save_file_chuyen_bay(first);
-	
+	Openfilekhachhang(root);
 	initwindow(CUASO_NGANG,CUASO_DOC);					// init window graphics
 	setwindowtitle("Quan Li May Bay");	
 	setbkcolor(WHITE);							// set background
@@ -77,7 +78,7 @@ main(int argc, char *argv[])
 	                resetMH(mapID);
 	                vemenu(mapID);
 	                taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, WHITE, "DAT VE", mapID);
-	                xulychuyenbayconkhadung(mapID,id,first,dsmb);
+	                xulychuyenbayconkhadung(mapID,id,first,dsmb, root);
 //	                if (first != NULL) {
 //	                    xulyve(mapID, id, first->next->data ,dsmb);
 //	                }
@@ -92,7 +93,7 @@ main(int argc, char *argv[])
 	            resetMH(mapID);
 	            vemenu(mapID);
 	            taoButton(ID_KHACHHANG, 0, 525, 249, 600, BLACK, BLACK, WHITE, "KHACH HANG", mapID);
-	            xulykhachhang(mapID, id);
+	            xulykhachhang(mapID, id, root);
 	            settextstyle(8, 0, 2);
 	            break;
 	        case ID_THONGKE:

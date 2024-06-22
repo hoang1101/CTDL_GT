@@ -1834,7 +1834,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
     outtextxy(CUASO_NGANG - 700, CUASO_DOC - 50, thongTinChuyenBay);
 }
 
-void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmaybay &dsmb) {
+void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmaybay &dsmb, Node *&root,  nodeCB *&first) {
     setfillstyle(1, WHITE);
     bar(250, 0, CUASO_NGANG, CUASO_DOC);
 
@@ -1856,7 +1856,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
     strcpy(kh.ten, "");
     strcpy(veMoi.vitri, "");
     strcpy(kh.phai, "NAM");
-
+	Node* searchKH = NULL;
     int soDay, soDong;
     soDay = dsmb.data[timkiem(dsmb, cb.SHMB)]->soday;
     soDong = dsmb.data[timkiem(dsmb, cb.SHMB)]->sodong;
@@ -1914,6 +1914,64 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 		switch(selectedTextbox){
 			case 3601:
 				NhapLieu(420,575,selectedTextbox,mapID,kh.cmnd);
+				searchKH = search(root, kh.cmnd);
+                if (searchKH != NULL) {
+                    strcpy(kh.ho, searchKH->data.ho);
+                    strcpy(kh.ten, searchKH->data.ten);
+                    strcpy(kh.phai, searchKH->data.phai);
+                    outtextxy(420, 615, kh.ho);
+                    outtextxy(420, 655, kh.ten);
+                    if(strcmp(kh.phai, "NAM")==0){
+                    	setfillstyle(SOLID_FILL,BLACK );
+				  	 	setbkcolor(BLACK);
+				        setcolor(WHITE);
+				        bar(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+				        rectangle(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+		
+				        outtextxy(infoX + 105, infoY + 125, "NAM");
+				        setID(3604, infoX + 100, infoY + 120, infoX + 200, infoY + 150, mapID);
+				
+				
+						setfillstyle(SOLID_FILL, WHITE);
+						setbkcolor(WHITE);
+				        setcolor(BLACK);
+				        bar(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+				        rectangle(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+				        setcolor(BLACK );
+				        outtextxy(infoX + 205, infoY + 125, "NU");
+				        setID(3605, infoX + 202, infoY + 120, infoX + 300, infoY + 150, mapID);
+				        selectedTextbox=-1;
+				        strcpy(kh.phai, "NAM");
+					}else{
+						setfillstyle(SOLID_FILL, WHITE);
+						setbkcolor(WHITE);
+				        setcolor(BLACK);
+				        bar(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+				        rectangle(infoX + 100, infoY + 120, infoX + 200, infoY + 150);
+		
+				        outtextxy(infoX + 105, infoY + 125, "NAM");
+				        setID(3604, infoX + 100, infoY + 120, infoX + 200, infoY + 150, mapID);
+				
+				
+				
+		
+				        setfillstyle(SOLID_FILL,BLACK );
+				  	 	setbkcolor(BLACK);
+				        setcolor(WHITE);
+				        bar(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+				        rectangle(infoX + 200, infoY + 120, infoX + 300, infoY + 150);
+		
+				        outtextxy(infoX + 205, infoY + 125, "NU");
+				        setID(3605, infoX + 202, infoY + 120, infoX + 300, infoY + 150, mapID);
+				        strcpy(kh.phai, "NU");
+				        selectedTextbox=-1;
+					}
+//                  
+                } else {
+                    strcpy(kh.ho, "");
+                    strcpy(kh.ten, "");
+                    strcpy(kh.phai, "NAM");
+                }
 				break;
 			case 3602:
 				NhapLieu(420,615,selectedTextbox,mapID,kh.ho);
@@ -1974,6 +2032,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 				if(strlen(kh.cmnd)!=9 && strlen(kh.cmnd)!=12 ){
 					MessageBox(NULL, "\t \t ERROR! \n DO DAI CMND KHONG HOP LE. VUI LONG NHAP LAI !", "THONG BAO", MB_ICONERROR | MB_OK);
 					selectedTextbox=3601;
+					outtextxy(420,575 ,"");
 					NhapLieu(420,575,selectedTextbox,mapID,kh.cmnd);
 					
 					idve=0;
@@ -1982,6 +2041,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 				
 				if(strlen(kh.ho)==0 ){
 					MessageBox(NULL, "\t \t ERROR! \n VUI LONG NHAP HO!", "THONG BAO", MB_ICONERROR | MB_OK);
+					outtextxy(420, 615, "");
 					selectedTextbox=3602;
 					NhapLieu(420,615,selectedTextbox,mapID,kh.ho);
 					idve=0;
@@ -1989,15 +2049,38 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 				}
 				if(strlen(kh.ten)==0 ){
 					MessageBox(NULL, "\t \t ERROR! \n VUI LONG NHAP TEN!", "THONG BAO", MB_ICONERROR | MB_OK);
+					outtextxy(420, 655, "");
 					selectedTextbox=3603;
 					NhapLieu(420,655,selectedTextbox,mapID,kh.ten);
 					idve=0;
 					break;
 				}
+
 				cout<<kh.cmnd;
 				cout<<kh.ho;
 				cout<<kh.ten;
 				cout<<kh.phai;
+				if(timKiemCCCDTrongVe(cb,kh.cmnd)==1){
+						MessageBox(NULL, "\t \t ERROR! \n DAT VE KHONG THANH CONG. KHACH HANG DA DAT VE!", "THONG BAO", MB_ICONERROR | MB_OK);
+						strcpy(kh.cmnd, "");
+		                strcpy(kh.ho, "");
+		                strcpy(kh.ten, "");
+		                strcpy(veMoi.vitri, "");
+		                strcpy(kh.phai, "NAM");
+		                veDangChon=-1;
+		                selectedTextbox=-1;
+
+		                hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
+						break;
+				}else{
+						strcpy(cb.dsve[veDangChon].cccd, kh.cmnd);
+				}
+				veDangChon=-1;
+				root = insert(root, kh);
+				Save_file_hanh_khach(root);
+				Save_file_chuyen_bay(first);
+				MessageBox(NULL," \nDAT VE  Thanh Cong !!!  \n","THONG BAO",MB_ICONINFORMATION); 
+				hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
 				selectedTextbox=-1;
 				break;
 		}
@@ -2014,7 +2097,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 ///
 
 
-void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&first, danhsachmaybay &dsmb) {
+void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&first, danhsachmaybay &dsmb, Node *&root) {
     maybay mb;
     chuyenbay cb;
     resetcb(cb);
@@ -2034,7 +2117,7 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
     int trangcuoi = 0;
 
     bool has_valid_flights = false;
-
+	
     if (dsCBEmpty(first)) {
 
     } else {
@@ -2102,7 +2185,7 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
                 idcb = 0;
                 break;
             case DATVE:
-                xulyve(mapID, idcb, cb,dsmb);  // G?i hàm x? lý vé và truy?n chuy?n bay du?c ch?n vào
+                xulyve(mapID, idcb, cb,dsmb, root, first);  // G?i hàm x? lý vé và truy?n chuy?n bay du?c ch?n vào
 //                idcb = 0;
                 break;
         }
@@ -2184,9 +2267,9 @@ void vekhungkhachhang(unsigned short int ** mapID) {
 
 // Hï¿½m highlight dï¿½ng khï¿½ch hï¿½ng du?c ch?n
 void highlightKhachHang(int vitri, khachhang &kh, unsigned short int **mapID) {
-    setfillstyle(SOLID_FILL, BLACK); // Bï¿½i den hoï¿½n toï¿½n dï¿½ng
+    setfillstyle(SOLID_FILL, BLACK); // B?i den hoàn toàn dòng
     bar(300, 150 + vitri * 30, 1350, 180 + vitri * 30);
-    setcolor(WHITE); // Ch? mï¿½u tr?ng
+    setcolor(WHITE); // Ch? màu tr?ng
     setbkcolor(BLACK);
     settextstyle(8, 0, 2);
     
@@ -2199,103 +2282,70 @@ void highlightKhachHang(int vitri, khachhang &kh, unsigned short int **mapID) {
     outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + vitri * 30, kh.phai);
 }
 
-void inorderStore(Node* root, Node* nodeArray[], int &customerCount) {
-    if (root != NULL) {
-        inorderStore(root->left, nodeArray, customerCount);
-        nodeArray[customerCount++] = root;
-        inorderStore(root->right, nodeArray, customerCount);
-    }
-}
+void inorderDisplay(Node* root, int &index, int start, int end, unsigned short int **mapID) {
+    if (root == NULL) return;
 
-void inorderDisplay(Node* root, int &index, unsigned short int **mapID) {
-    if (root != NULL) {
-        inorderDisplay(root->left, index, mapID);
+    if (index >= start && index < end) {
+        inorderDisplay(root->left, index, start, end, mapID);
+        
         khachhang kh = root->data;
         setbkcolor(WHITE);
         char stt[15];
         sprintf(stt, "%d", index + 1);
-        outtextxy(300 + 2 * 16 - textwidth(stt) / 2, 150 + index * 30, stt);
-        outtextxy(300 + 9 * 16 - textwidth(kh.cmnd) / 2, 150 + index * 30, kh.cmnd);
-        outtextxy(300 + 25 * 16 - textwidth(kh.ho) / 2, 150 + index * 30, kh.ho);
-        outtextxy(300 + 45 * 16 - textwidth(kh.ten) / 2, 150 + index * 30, kh.ten);
-        outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + index * 30, kh.phai);
-        setID(1000 + index, 300, 150 + index * 30, 1350, 150 + (index + 1) * 30 - 1, mapID);
+        outtextxy(300 + 2 * 16 - textwidth(stt) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, stt);
+        outtextxy(300 + 9 * 16 - textwidth(kh.cmnd) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.cmnd);
+        outtextxy(300 + 25 * 16 - textwidth(kh.ho) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.ho);
+        outtextxy(300 + 45 * 16 - textwidth(kh.ten) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.ten);
+        outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.phai);
+        setID(1000 + (index % CUSTOMERS_PER_PAGE), 300, 150 + (index % CUSTOMERS_PER_PAGE) * 30, 1350, 150 + ((index % CUSTOMERS_PER_PAGE) + 1) * 30 - 1, mapID);
+
         index++;
-        inorderDisplay(root->right, index, mapID);
+        
+        inorderDisplay(root->right, index, start, end, mapID);
+    } else if (index < start) {
+        inorderDisplay(root->left, index, start, end, mapID);
+        index++;
+        inorderDisplay(root->right, index, start, end, mapID);
     }
 }
 
-
-
-void displayCustomers(Node* nodeArray[], int customerCount, int page, unsigned short int** mapID) {
-    int start = page * CUSTOMERS_PER_PAGE;
-    int end = min(start + CUSTOMERS_PER_PAGE, customerCount);
-	cout<<customerCount;
-  for (int i = start; i < end; i++) {
-    	settextstyle(8, 0, 2);
-        khachhang kh = nodeArray[i]->data;
-        setbkcolor(WHITE);
-        char stt[3];
-    	sprintf(stt, "%d ", i + 1);
-        sprintf(stt, "%d", (i-start+1));
-        outtextxy(300 + 2 * 16 - textwidth(stt) / 2, 150 + (i-start) * 30, stt);
-        outtextxy(300 + 9 * 16 - textwidth(kh.cmnd) / 2, 150 + (i-start) * 30, kh.cmnd);
-        outtextxy(300 + 25 * 16 - textwidth(kh.ho) / 2, 150 +(i-start)* 30, kh.ho);
-        outtextxy(300 + 45 * 16 - textwidth(kh.ten) / 2, 150 + (i-start) * 30, kh.ten);
-        outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + (i-start) * 30, kh.phai);
-        setID(1000 + (i-start), 300, 150 + (i-start) * 30, 1350, 150 + ((i-start) + 1) * 30 - 1, mapID);
+void displayCustomers(Node* root, int customerCount, int page, unsigned short int** mapID) {
+	  Node* temp = root;
+	  if(temp != NULL){
+	  	    int start = page * CUSTOMERS_PER_PAGE;
+		    int end = min(start + CUSTOMERS_PER_PAGE, customerCount);
+		    int index = 0;
+		
+		    inorderDisplay(root, index, start, end, mapID);
+	  }
+}
+void inorderCount(Node* node, int &count) {
+    if (node != NULL) {
+        inorderCount(node->left, count);
+        count++;
+        inorderCount(node->right, count);
     }
 }
-
-void xulykhachhang(unsigned short int **mapID, int &luu_id) {
-    Node* root = NULL;
-
-    // Chï¿½n d? li?u m?u vï¿½o cï¿½y AVL
-    khachhang kh1 = {"123456789", "Nguyen", "Van A", "NAM"};
-    khachhang kh2 = {"987654321", "Tran", "Thi B", "Nu"};
-    khachhang kh3 = {"654321987", "Le", "Van C", "NAM"};
-    khachhang kh4 = {"123456788", "Nguyen", "Van B", "NAM"};
-    khachhang kh5 = {"987654322", "Tran", "Thi C", "Nu"};
-    khachhang kh6 = {"654321988", "Le", "Van D", "NAM"};
-    khachhang kh7 = {"123456787", "Nguyen", "Van E", "NAM"};
-    khachhang kh8 = {"987654323", "Tran", "Thi F", "Nu"};
-    khachhang kh9 = {"654321987", "Le", "Van G", "NAM"};
-    khachhang kh10 = {"123456786", "Nguyen", "Van H", "NAM"};
-    khachhang kh11 = {"987654324", "Tran", "Thi I", "Nu"};
-    khachhang kh12 = {"654321986", "Le", "Van J", "NAM"};
-    khachhang kh13 = {"123456785", "Nguyen", "Van K", "NAM"};
-    khachhang kh14 = {"987654325", "Tran", "Thi L", "Nu"};
-    
-    root = insert(root, kh1);
-    root = insert(root, kh2);
-    root = insert(root, kh3);
-    root = insert(root, kh4);
-    root = insert(root, kh5);
-    root = insert(root, kh6);
-    root = insert(root, kh7);
-    root = insert(root, kh8);
-    root = insert(root, kh9);
-    root = insert(root, kh10);
-    root = insert(root, kh11);
-    root = insert(root, kh12);
-    root = insert(root, kh13);
-    root = insert(root, kh14);
-
-    // Kh?i t?o m?ng nodeArray vï¿½ customerCount
-    Node* nodeArray[MAX_CUSTOMERS];
+void xulykhachhang(unsigned short int **mapID, int &luu_id, Node* root) {
     int customerCount = 0;
 
-    // Duy?t cï¿½y AVL vï¿½ luu khï¿½ch hï¿½ng vï¿½o m?ng t?m
-    inorderStore(root, nodeArray, customerCount);
+    // Ð?m s? lu?ng khách hàng trong cây AVL
+    Node* temp = root;
+	inorderCount(root, customerCount);
 
-    // V? khung vï¿½ hi?n th? danh sï¿½ch khï¿½ch hï¿½ng
+    // V? khung và hi?n th? danh sách khách hàng
     int currentPage = 0;
     int totalPages = (customerCount + CUSTOMERS_PER_PAGE - 1) / CUSTOMERS_PER_PAGE;
     
     vekhungkhachhang(mapID);
-    displayCustomers(nodeArray, customerCount, currentPage, mapID);
+    if (customerCount == 0) {
+        setbkcolor(WHITE);
+        setcolor(BLACK);
+        outtextxy(600, 150, "Hien Khong co khach hang!");
+    }
+    displayCustomers(root, customerCount, currentPage, mapID);
     
-    // V? nï¿½t "Next" vï¿½ "Previous"
+    // V? nút "Next" và "Previous"
     taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
     taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
     
@@ -2314,16 +2364,16 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id) {
             idkh = mapID[y][x];
             clearmouseclick(WM_LBUTTONDOWN);
         }
-        if (idkh <= 6 && idkh >= 1) { // thoï¿½t ra vï¿½o ch?c nang khï¿½c
+        if (idkh <= 6 && idkh >= 1) { // Thoát ra vào ch?c nang khác
             luu_id = idkh;
             break;
         }
         if (idkh >= 1000 && idkh < 1000 + CUSTOMERS_PER_PAGE) {
             int newVitri = idkh - 1000;
-            if (vitri != -1) { // N?u dï¿½ cï¿½ dï¿½ng du?c ch?n tru?c dï¿½, khï¿½i ph?c l?i n?n tr?ng
+            if (vitri != -1) { // N?u dã có dòng du?c ch?n tru?c dó, khôi ph?c l?i n?n tr?ng
                 setfillstyle(SOLID_FILL, WHITE);
                 bar(300, 150 + vitri * 30, 1350, 180 + vitri * 30);
-                khachhang kh = nodeArray[currentPage * CUSTOMERS_PER_PAGE + vitri]->data;
+                khachhang kh = root->data;
                 setcolor(BLACK);
                 setbkcolor(WHITE);
                 char stt[3];
@@ -2335,41 +2385,37 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id) {
                 outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + vitri * 30, kh.phai);
             }
             vitri = newVitri;
-            khachhang kh = nodeArray[currentPage * CUSTOMERS_PER_PAGE + vitri]->data;
+            khachhang kh = root->data;
             highlightKhachHang(vitri, kh, mapID);
-            idkh=0;
+            idkh = 0;
         } else if (idkh == 7 && currentPage < totalPages - 1) { // Next button
             currentPage++;
-            // V? l?i khung vï¿½ hi?n th? danh sï¿½ch khï¿½ch hï¿½ng cho trang ti?p theo
+            // V? l?i khung và hi?n th? danh sách khách hàng cho trang ti?p theo
             vekhungkhachhang(mapID);
-            displayCustomers(nodeArray, customerCount, currentPage, mapID);
-            // V? l?i nï¿½t "Next" vï¿½ "Previous"
-		    taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
-		    taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
+            displayCustomers(root, customerCount, currentPage, mapID);
+            // V? l?i nút "Next" và "Previous"
+            taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
+            taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
             // V? l?i s? trang
             sprintf(pageNumber, "%d / %d", currentPage + 1, totalPages);
             outtextxy(1300, 760, pageNumber);
-            vitri = -1; // Reset dï¿½ng du?c ch?n
+            vitri = -1; // Reset dòng du?c ch?n
         } else if (idkh == 8 && currentPage > 0) { // Previous button
             currentPage--;
-            // V? l?i khung vï¿½ hi?n th? danh sï¿½ch khï¿½ch hï¿½ng cho trang tru?c dï¿½
+            // V? l?i khung và hi?n th? danh sách khách hàng cho trang tru?c dó
             vekhungkhachhang(mapID);
-            displayCustomers(nodeArray, customerCount, currentPage, mapID);
-            // V? l?i nï¿½t "Next" vï¿½ "Previous"
-		    taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
-		    taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
+            displayCustomers(root, customerCount, currentPage, mapID);
+            // V? l?i nút "Next" và "Previous"
+            taoButton(7, 1400, 750, 1500, 800, BLACK, BLACK, GRAY, "Next", mapID);
+            taoButton(8, 1150, 750, 1250, 800, BLACK, BLACK, GRAY, "Previous", mapID);
             // V? l?i s? trang
             sprintf(pageNumber, "%d / %d", currentPage + 1, totalPages);
             outtextxy(1300, 760, pageNumber);
-            vitri = -1; // Reset dï¿½ng du?c ch?n
+            vitri = -1; // Reset dòng du?c ch?n
         }
         delay(0.001);
     }
-
-    // Gi?i phï¿½ng b? nh? khi khï¿½ng cï¿½n s? d?ng n?a
-    deleteTree(root);
 }
-
 
 // Hï¿½m hi?n th? danh sï¿½ch vï¿½ c?a m?t chuy?n bay
 
