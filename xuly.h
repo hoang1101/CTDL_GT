@@ -2060,7 +2060,8 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 				cout<<kh.ho;
 				cout<<kh.ten;
 				cout<<kh.phai;
-				if(timKiemCCCDTrongVe(cb,kh.cmnd)==1){
+
+ 				if(timKiemCCCDTrongVe(cb,kh.cmnd)==1){
 						MessageBox(NULL, "\t \t ERROR! \n DAT VE KHONG THANH CONG. KHACH HANG DA DAT VE!", "THONG BAO", MB_ICONERROR | MB_OK);
 						strcpy(kh.cmnd, "");
 		                strcpy(kh.ho, "");
@@ -2075,13 +2076,46 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 				}else{
 						strcpy(cb.dsve[veDangChon].cccd, kh.cmnd);
 				}
-				veDangChon=-1;
-				root = insert(root, kh);
-				Save_file_hanh_khach(root);
-				Save_file_chuyen_bay(first);
-				MessageBox(NULL," \nDAT VE  Thanh Cong !!!  \n","THONG BAO",MB_ICONINFORMATION); 
-				hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
-				selectedTextbox=-1;
+				if(searchKH!=NULL){
+					if(strcmp(searchKH->data.cmnd, kh.cmnd)==0){
+						if(strcmp(searchKH->data.ho, kh.ho)==0 && strcmp(searchKH->data.ten, kh.ten)==0 && strcmp(searchKH->data.phai, kh.phai)==0){
+								strcpy(cb.dsve[veDangChon].cccd, kh.cmnd);
+								veDangChon=-1;
+								root = insert(root, kh);
+								Save_file_hanh_khach(root);
+								Save_file_chuyen_bay(first);
+								MessageBox(NULL," \nDAT VE  Thanh Cong !!!  \n","THONG BAO",MB_ICONINFORMATION); 
+								hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
+								selectedTextbox=-1;
+								searchKH = NULL;
+						}else{
+								MessageBox(NULL, "\t \t ERROR! \n THONG TIN KHACH HANG KHONG KHOP, VUI LONG CHON LAI!", "THONG BAO", MB_ICONERROR | MB_OK);
+								strcpy(kh.cmnd, "");
+				                strcpy(kh.ho, "");
+				                strcpy(kh.ten, "");
+				                strcpy(cb.dsve[veDangChon].cccd, "");
+				                strcpy(veMoi.vitri, "");
+				                strcpy(kh.phai, "NAM");
+				                selectedTextbox=-1;
+								searchKH = NULL;
+								veDangChon=-1;
+								hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
+								break;
+						}
+					}
+				}else{
+						strcpy(cb.dsve[veDangChon].cccd, kh.cmnd);
+						veDangChon=-1;
+						root = insert(root, kh);
+						Save_file_hanh_khach (root);
+						Save_file_chuyen_bay(first);
+						MessageBox(NULL," \nDAT VE  Thanh Cong !!!  \n","THONG BAO",MB_ICONINFORMATION); 
+						hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb);
+						selectedTextbox=-1;
+						searchKH = NULL;
+						break;
+				}
+
 				break;
 		}
 
