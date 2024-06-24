@@ -564,27 +564,7 @@ void taodongmb(int stt, int x, int y, int x1, int y1, maybay &mb, unsigned short
 	
 
 }
-void taodongmbTK(int stt, int x, int y, int x1, int y1, maybay &mb, unsigned short int **mapID,int bgcl){
-		setcolor(BLACK);
-		settextstyle(8, 0, 0);
-		setusercharsize(1,2,1,2);
-		line(x,y1,x1,y1);
-		line(x+4*16,y,x+4*16,y1);
-		line(x+20*16,y,x+20*16,y1);
-		line(x+45*16,y,x+45*16,y1);
-		line(x+55*16,y,x+55*16,y1);
-		
-		if(bgcl<15)
-			setbkcolor(bgcl);
-		else 
-		setbkcolor(WHITE);
-		outtextxy(x+2*16-textwidth(toChars(stt))/2,y+10,toChars(stt));
-		outtextxy(x+12*16-textwidth(mb.sohieumaybay)/2,y+10,mb.sohieumaybay);
-		outtextxy(x+30*16-textwidth(mb.loaimaybay)/2,y+10,mb.loaimaybay);
-		settextstyle(0, 0, 2);	
-	
 
-}
 void clickmb(maybay &mb,int vitri,unsigned short int **mapID){
 
 		setfillstyle(1,YELLOW);
@@ -634,109 +614,7 @@ void unclickmb(maybay &mb,int vitri,unsigned short int **mapID){
 		bar(571,666,900,714);
 		bar(1151,666,1280,714);
 }
-void hienThiDanhSachMayBay(danhsachmaybay &dsmb, unsigned short int **mapID) {
-    int tranghientai = 1;
-    int trangcuoi = ceil(dsmb.soluong / 10.0);
 
-    setfillstyle(1, WHITE);
-    bar(250, 0, CUASO_NGANG, CUASO_DOC);
-
-    settextstyle(10, 0, 4);
-    taoLabel(575, 0, 975, 55, BLACK, BLACK, GRAY, "THONG KE MAY BAY");
-
-    setusercharsize(1, 2, 1, 2);
-    setbkcolor(WHITE);
-    outtextxy(300 + 2 * 16 - textwidth("STT") / 2, 110, "STT");
-    outtextxy(300 + 20 * 16 - textwidth("SoHieuMayBay") / 2, 110, "SoHieuMayBay");
-    outtextxy(300 + 45 * 16 - textwidth("Loai May Bay") / 2, 110, "Loai May Bay");
-    outtextxy(300 + 65 * 16 - textwidth("So Luot Thuc Hien") / 2, 110, "So Luot Thuc Hien");
-    settextstyle(8, 0, 2);
-    rectangle(300, 100, 1550, 490);
-    line(300, 140, 1550, 140);
-    line(300 + 4 * 16, 100, 300 + 4 * 16, 140);
-    line(300 + 15 * 16, 100, 300 + 15 * 16, 140);
-    line(300 + 35 * 16, 100, 300 + 35 * 16, 140);
-    line(300 + 55 * 16, 100, 300 + 55 * 16, 140);
-    line(300 + 85 * 16, 100, 300 + 85 * 16, 140);
-
-    for (int i = 0; i < dsmb.soluong && i < 10; i++) {
-        taodongmbTK(i + 1, 300, 130 + i * 30, 1550, 160 + i * 30, *dsmb.data[i], mapID, 15);
-        char soLuot[10];
-        sprintf(soLuot, "%d", dsmb.data[i]->soChuyenDaBay);
-        outtextxy(300 + 65 * 16 - textwidth(soLuot) / 2, 150 + i * 30, soLuot);
-    }
-
-    // Hi?n th? các nút di?u khi?n trang
-    if (tranghientai < trangcuoi) {
-        taoButton(NEXT_PAGE, 1175, 450, 1350, 480, BLACK, BLACK, GRAY, "NEXT PAGE", mapID);
-    } else {
-        taoLabel(1175, 450, 1350, 480, BLACK, BLACK, WHITE, "NEXT PAGE");
-    }
-    taoLabel(300, 450, 475, 480, BLACK, BLACK, WHITE, "BACK PAGE");
-
-    int idmb = 0;
-    int x, y;
-
-    while (true) {
-        if (ismouseclick(WM_LBUTTONDOWN)) {
-            getmouseclick(WM_LBUTTONDOWN, x, y);
-            idmb = mapID[y][x];
-            clearmouseclick(WM_LBUTTONDOWN);
-        }
-
-        switch (idmb) {
-            case NEXT_PAGE:
-                tranghientai++;
-                if (tranghientai >= trangcuoi) {
-                    setID(0, 1175, 450, 1350, 480, mapID);
-                    taoLabel(1175, 450, 1350, 480, BLACK, BLACK, WHITE, "NEXT PAGE");
-                } else {
-                    taoButton(NEXT_PAGE, 1175, 450, 1350, 480, BLACK, BLACK, GRAY, "NEXT PAGE", mapID);
-                }
-                taoButton(BACK_PAGE, 300, 450, 475, 480, BLACK, BLACK, GRAY, "BACK PAGE", mapID);
-
-                setfillstyle(1, WHITE);
-                bar(300, 130, 1550, 490);
-                for (int i = 0; i < 10 && i + (tranghientai - 1) * 10 < dsmb.soluong; i++) {
-                    taodongmbTK(i + 1 + (tranghientai - 1) * 10, 300, 130 + i * 30, 1550, 160 + i * 30, *dsmb.data[i + (tranghientai - 1) * 10], mapID, 15);
-                    char soLuot[10];
-                    sprintf(soLuot, "%d", dsmb.data[i + (tranghientai - 1) * 10]->soChuyenDaBay);
-                    outtextxy(300 + 65 * 16 - textwidth(soLuot) / 2, 150 + i * 30, soLuot);
-                }
-                idmb = 0;
-                break;
-
-            case BACK_PAGE:
-                tranghientai--;
-                if (tranghientai <= 1) {
-                    setID(0, 300, 450, 475, 480, mapID);
-                    taoLabel(300, 450, 475, 480, BLACK, BLACK, WHITE, "BACK PAGE");
-                } else {
-                    taoButton(BACK_PAGE, 300, 450, 475, 480, BLACK, BLACK, GRAY, "BACK PAGE", mapID);
-                }
-                taoButton(NEXT_PAGE, 1175, 450, 1350, 480, BLACK, BLACK, GRAY, "NEXT PAGE", mapID);
-
-                setfillstyle(1, WHITE);
-                bar(300, 130, 1550, 490);
-                for (int i = 0; i < 10 && i + (tranghientai - 1) * 10 < dsmb.soluong; i++) {
-                    taodongmbTK(i + 1 + (tranghientai - 1) * 10, 300, 130 + i * 30, 1550, 160 + i * 30, *dsmb.data[i + (tranghientai - 1) * 10], mapID, 15);
-                    char soLuot[10];
-                    sprintf(soLuot, "%d", dsmb.data[i + (tranghientai - 1) * 10]->soChuyenDaBay);
-                    outtextxy(300 + 65 * 16 - textwidth(soLuot) / 2, 150 + i * 30, soLuot);
-                }
-                idmb = 0;
-                break;
-
-            default:
-                if (idmb <= 5 && idmb >= 1) { // Thoát ra vào ch?c nang khác
-                    return;
-                }
-                break;
-        }
-
-        delay(0.001);
-    }
-}
 
 
 void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb, nodeCB *first){
@@ -1413,6 +1291,9 @@ void thanhtimkiem(unsigned short int ** mapID) {
 }
 
 void nhaplieuchuyenbay(unsigned short int ** mapID) {
+		setfillstyle(1,WHITE);
+	bar(300,500,1350,750);
+	
 	settextstyle(10, 0, 2);	
 
 	setcolor(BLACK);
@@ -1493,6 +1374,9 @@ void taodongcb(int stt, int x, int y, int x1, int y1, chuyenbay &cb, unsigned sh
 }
 
 void clickcb(int vitri, chuyenbay &cb,unsigned short int **mapID) {
+	
+	nhaplieuchuyenbay(mapID);
+	
 	setfillstyle(1,YELLOW);
     bar(300,140+(vitri-1)%10*30,1350,170+(vitri-1)%10*30);
     rectangle(300,140+(vitri-1)%10*30,1350,170+(vitri-1)%10*30);
@@ -3244,7 +3128,7 @@ void vekhungchuyenbaykhaddung(unsigned short int ** mapID) {
 	
 	
 	settextstyle(10, 0, 4);
-	taoLabel(595,0,995,50,BLACK,BLACK,GRAY,"DANH SACH CHUYEN BAY KHA DUNG");
+	taoLabel(565,0,1175,50,BLACK,BLACK,GRAY,"DANH SACH CHUYEN BAY KHA DUNG");
 	
 	settextstyle(8,0,2);
 	
@@ -3696,7 +3580,7 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
                 xulyve(mapID, idcbkd, cb,dsmb, root, first);  // G?i hàm x? lý vé và truy?n chuy?n bay du?c ch?n vào
                 idcbkd = 0;
                 break;
-			case 1: case 2: case 3: case 4: case 5:
+			case 1: case 2:  case 4: case 5:
 	
 			if (nhap) {
 				if( MessageBox(NULL," Du Lieu Vua Nhap Chua Duoc Luu \n"
@@ -3719,100 +3603,6 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
 }
 	
 	
-//    maybay mb;
-//    chuyenbay cb;
-//    resetcb(cb);
-//    resetthanhchucnangcb(mapID);
-//    vekhungchuyenbay(mapID);
-//
-//    int namhientai = cb.time.nam;
-//    nodeCB *nodechay;
-//    nodeCB **dautrang = new nodeCB*[0];
-//    char s[50];
-//
-//    int idcb = 0;
-//    int x, y;
-//    int vitri = 0;
-//    int slcb = 0;
-//    int tranghientai = 0;
-//    int trangcuoi = 0;
-//
-//    bool has_valid_flights = false;
-//	
-//    if (dsCBEmpty(first)) {
-//
-//    } else {
-//        tranghientai = 1;
-//        slcb = 0;
-//        for (nodechay = first; nodechay != NULL; nodechay = nodechay->next) {
-//            if (nodechay->data.trangthai == CON_VE || nodechay->data.trangthai == HET_VE) {
-//                slcb++;
-//                has_valid_flights = true;
-//                if (slcb <= 10) {
-//                    taodongcb(slcb, 300, 110 + slcb * 30, 1350, 140 + slcb * 30, nodechay->data, mapID, 15);
-//                    setID(1000 + slcb, 300, 110 + slcb * 30, 1350, 140 + slcb * 30, mapID);
-//
-//                    if(slcb==1){
-//                    	cb = nodechay->data;
-//                    	vitri = 1;
-////                    clickcbdatve(vitri, cb, mapID);
-//					}
-//                }
-//                if (slcb % 10 == 1) {
-//                    trangcuoi++;
-//                    dautrang[trangcuoi] = new nodeCB;
-//                    dautrang[trangcuoi] = nodechay;
-//                }
-//            }
-//        }
-//        if (!has_valid_flights) {
-//            outtextxy(800 - strlen("! KHONG CO CHUYEN BAY KHA DUNG !") * 4, 145, "! KHONG CO CHUYEN BAY KHA DUNG !");
-//        } else {
-////            cb = nodechay->data;
-//            clickcbdatve(1, cb, mapID);
-//            taoButton(DATVE, 700, 460, 800, 490, BLACK, BLACK, WHITE, "DAT VE", mapID);
-//        }
-//    }
-//
-//    if (slcb > 10) {
-//        taoButton(NEXTPAGECB, 1175, 460, 1350, 490, BLACK, BLACK, GRAY, "NEXT PAGE", mapID);
-//    } else {
-//        taoLabel(1175, 460, 1350, 490, BLACK, BLACK, WHITE, "NEXT PAGE");
-//        taoLabel(300, 460, 475, 490, BLACK, BLACK, WHITE, "BACK PAGE");
-//    }
-//
-//    while (true) {
-//        if (ismouseclick(WM_LBUTTONDOWN)) {
-//            getmouseclick(WM_LBUTTONDOWN, x, y);
-//            idcb = mapID[y][x];
-//            clearmouseclick(WM_LBUTTONDOWN);
-//        }
-//        if (idcb <= 5 && idcb >= 1) {
-//            luu_id = idcb;
-//            break;
-//        }
-//        switch (idcb) {
-//            case 1001: case 1002: case 1003: case 1004: case 1005: case 1006: case 1007: case 1008: case 1009:
-//                unclickcbdatve(vitri, cb, mapID);
-//                vitri = idcb - 1000;
-//                nodechay = dautrang[tranghientai];
-//
-//                for (int i = 1; i < vitri;i++) {
-//                    nodechay = nodechay->next;
-//                }
-//                cb = nodechay->data;
-//                clickcbdatve(vitri + (tranghientai - 1) * 10, cb, mapID);
-//                taoButton(DATVE, 700, 460, 800, 490, BLACK, BLACK, WHITE, "DAT VE", mapID);
-//                idcb = 0;
-//                break;
-//            case DATVE:
-//                xulyve(mapID, idcb, cb,dsmb, root, first);  // G?i hàm x? lý vé và truy?n chuy?n bay du?c ch?n vào
-////                idcb = 0;
-//                break;
-//        }
-//        delay(0.001);
-//    }
-//}
 
 
 
@@ -3833,31 +3623,137 @@ void vekhungthongke(unsigned short int ** mapID) {
 	
 
 }
-void xulythongke(unsigned short int ** mapID, int &luu_id) {
+
+
+void taodongmbTK(int stt, int x, int y, int x1, int y1, maybay &mb, unsigned short int **mapID,int bgcl){
+		setcolor(BLACK);
+		settextstyle(8, 0, 0);
+		setusercharsize(1,2,1,2);
+		line(x,y1,x1,y1);
+		line(x+4*16,y,x+4*16,y1);
+		line(x+20*16,y,x+20*16,y1);
+		
+		if(bgcl<15)
+			setbkcolor(bgcl);
+		else 
+		setbkcolor(WHITE);
+		outtextxy(x+2*16-textwidth(toChars(stt))/2,y+10,toChars(stt));
+		outtextxy(x+12*16-textwidth(mb.sohieumaybay)/2,y+10,mb.sohieumaybay);
+		outtextxy(x+30*16-textwidth(toChars(mb.soChuyenDaBay))/2,y+10,toChars(mb.soChuyenDaBay));
+		settextstyle(0, 0, 2);	
+	
+
+}
+
+void vekhungmaybaytk(unsigned short int ** mapID) {
+	
+
+	setfillstyle(1,WHITE);
+	bar(250,0,CUASO_NGANG,CUASO_DOC);
+	
+	settextstyle(10, 0, 4);
+	taoLabel(575,0,975,55,BLACK,BLACK,GRAY,"DANH SACH MAY BAY");
+	
+	settextstyle(8,0,2);
+	
+	rectangle(500,90,1200,430);
+	line(500,130,1200,130);
+	line(500+4*16,90,500+4*16,130);
+	line(500+20*16,90,500+20*16,130);
+
+//	setusercharsize(1,2,1,2);
+	setbkcolor(WHITE);
+	outtextxy(500+2*16-textwidth("STT")/2,100,"STT");
+	outtextxy(500+12*16-textwidth("SoHieuMayBay")/2,100,"SoHieuMayBay");
+	outtextxy(500+30*16-textwidth("So Chuyen Da Bay")/2,100,"So Chuyen Da Bay");
+	
+
+//	settextstyle(8,0,2);
+	
+	
+}
+
+void xulythongke(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb) {
 
 	vekhungthongke(mapID);
 	
 	int idtk = 0;
 	int x,y;
+
 	
-	
-	
-	while(true)
-	{
-		if(ismouseclick(WM_LBUTTONDOWN)){
-			getmouseclick(WM_LBUTTONDOWN, x, y);
-			idtk = mapID[y][x];
-			clearmouseclick(WM_LBUTTONDOWN);
-		}
-		if (idtk<=6 && idtk>=1)//thoat ra v?o chuc nang khac
-		{
-			luu_id=idtk;
-			break;
-		}
-		switch(idtk){
-			
-		}
-		delay(0.001);
-	}
+  	int tranghientai = 1;
+    int trangcuoi = ceil(dsmb.soluong / 10.0);
+    
+    vekhungmaybaytk(mapID);
+
+
+    for (int i = 0; i < dsmb.soluong && i < 10; i++) {
+        taodongmbTK(i + 1, 500, 130 + i * 30, 1200, 160 + i * 30, *dsmb.data[i], mapID, 15);
+    }
+
+	if (tranghientai < trangcuoi) {
+		taoButton(NEXT_PAGETK,1175,450,1350,480,BLACK,BLACK,GRAY,"NEXT PAGE",mapID);
+	} else
+	taoLabel(1175,450,1350,480,BLACK,BLACK,WHITE,"NEXT PAGE");
+	taoLabel(300,450,475,480,BLACK,BLACK,WHITE,"BACK PAGE");
+
+
+    while (true) {
+        if (ismouseclick(WM_LBUTTONDOWN)) {
+            getmouseclick(WM_LBUTTONDOWN, x, y);
+            idtk = mapID[y][x];
+            clearmouseclick(WM_LBUTTONDOWN);
+        }
+
+        switch (idtk) {
+            case NEXT_PAGETK:
+               	tranghientai++;
+				 if ( tranghientai < trangcuoi)
+					taoButton(NEXT_PAGETK,1175,450,1350,480,BLACK,BLACK,GRAY,"NEXT PAGE",mapID);
+				else{
+					if(dsmb.soluong % 10 != 0)
+							setID(0,300,130+(dsmb.soluong % 10)*30,1350,430,mapID);
+					taoButton(0,1175,450,1350,480,BLACK,BLACK,WHITE,"NEXT PAGE",mapID);
+				} 
+					
+				taoButton(BACK_PAGETK,300,450,475,480,BLACK,BLACK,GRAY,"BACK PAGE",mapID);
+				
+				setfillstyle(1,WHITE);
+				bar(500,130,1200,430);
+				rectangle(500,130,1200,430);
+				for (int i=0; i+(tranghientai-1)*10 < dsmb.soluong && i < 10 ;i++ ) {
+			        taodongmbTK(i+1+(tranghientai-1)*10, 500, 130 + i * 30, 1200, 160 + i * 30, *dsmb.data[i+(tranghientai-1)*10], mapID, 15);
+			    }
+
+
+                idtk = 0;
+                break;
+
+            case BACK_PAGETK:
+                tranghientai--;
+				if( tranghientai > 1)
+				   	taoButton(BACK_PAGETK,300,450,475,480,BLACK,BLACK,GRAY,"BACK PAGE",mapID);
+				else 
+					taoButton(0,300,450,475,480,BLACK,BLACK,WHITE,"BACK PAGE",mapID);
+				if( tranghientai < trangcuoi){
+					taoButton(NEXT_PAGETK,1175,450,1350,480,BLACK,BLACK,GRAY,"NEXT PAGE",mapID);
+				}
+					setfillstyle(1,WHITE);
+				bar(500,130,1200,430);
+				rectangle(500,130,1200,430);
+				for (int i=0; i+(tranghientai-1)*10 < dsmb.soluong && i < 10 ;i++ ) {
+			        taodongmbTK(i+1+(tranghientai-1)*10, 500, 130 + i * 30, 1200, 160 + i * 30, *dsmb.data[i+(tranghientai-1)*10], mapID, 15);
+			    }
+
+                idtk = 0;
+                break;
+
+            case 1: case 2: case 3: case 4: case 5:	
+	        	luu_id=idtk;
+				return;
+        }
+
+        delay(0.001);
+    }
 }
 
