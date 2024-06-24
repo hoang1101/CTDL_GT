@@ -21,9 +21,12 @@ main(int argc, char *argv[])
 
 	Open_file_MB(dsmb);
 	Open_file_chuyen_bay(first);
-
-	Save_file_chuyen_bay(first);
 	Openfilekhachhang(root);
+	
+	Save_file_chuyen_bay(first);
+
+	
+	
 	initwindow(CUASO_NGANG,CUASO_DOC);					// init window graphics
 	setwindowtitle("Quan Li May Bay");	
 	setbkcolor(WHITE);							// set background
@@ -63,12 +66,12 @@ main(int argc, char *argv[])
 	        case ID_VE:
 	        	if (Empty(dsmb)) {
 						MessageBox(NULL, "\n                     ERROR!	\n  Hien Chua Co may Nao Trong Danh Sach !", "THONG BAO", MB_ICONERROR | MB_OK);
-							id=0;
+							id=ID_MAYBAY;
 							break;
 					
 				}else if (dsCBEmpty(first)) {
 					MessageBox(NULL, "\n                     ERROR!	\n  Hien Chua Co Chuyen bay Nao Trong Danh Sach !", "THONG BAO", MB_ICONERROR | MB_OK);
-					id=0;
+					id=ID_CHUYENBAY;
 					break;
 				}else{
 					kiemtra_thoigian_khoihanh_all(first, dsmb);
@@ -83,7 +86,7 @@ main(int argc, char *argv[])
 //	                    xulyve(mapID, id, first->next->data ,dsmb);
 //	                }
 	                settextstyle(8, 0, 2);
-	                id=0;
+//	                id=0;
 	                break;
 					
 				}

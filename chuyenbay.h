@@ -40,10 +40,34 @@ nodeCB *taonodemoi(chuyenbay &cb){
 	return temp;
 }
 
+
+void InsertTheoMaCB(nodeCB *&first, chuyenbay &cb ){
+	 nodeCB *p = taonodemoi(cb);
+    
+    // Tru?ng h?p danh s?ch r?ng
+    if (first == NULL) {
+        first = p;
+        return;
+    }
+    // them vao dau danh sach
+   if (strcmp(first->data.MaCB, cb.MaCB) >= 0) {
+        p->next = first;
+        first = p;
+        return;
+    }
+    
+    // Tru?ng h?p th?m v?o cu?i danh s?ch ho?c gi?a danh s?ch
+    nodeCB *nodechay = first;
+    while (nodechay->next != NULL && strcmp(nodechay->next->data.MaCB, cb.MaCB) < 0) {
+        nodechay = nodechay->next;
+    }
+//    cout<<nodechay->data.MaCB;
+    p->next = nodechay->next;
+    nodechay->next = p;
+}
+
 void InsertLast(nodeCB *&first, chuyenbay &cb) {
 	nodeCB *p = taonodemoi(cb);
-//	cout<<p->data.sove;
-
     if (first == NULL) {
         first = p;
     } else {
@@ -51,31 +75,33 @@ void InsertLast(nodeCB *&first, chuyenbay &cb) {
 		for(nodechay = first; nodechay->next != NULL; nodechay = nodechay-> next );
 			nodechay-> next = p;
     }
-
- 
-//    nodeCB p = taonodemoi(cb);
-//    if (first == NULL) {
-//        first = p;
-//        first->next=NULL;
-//    } else {
-//        for(nodeCB nodechay = first; nodechay -> nodeCB != NULL; nodechay = nodechay -> nodeCB );
-//			nodechay -> nodeCB = p ;
-//    }
 }
 
-void EditChuyenBay(nodeCB *&first,int vitri ,chuyenbay cb){
+int demslcb(nodeCB *first){
+	nodeCB *p;
+	int dem=0;
+	for (p = first; p!=NULL;p=p->next){
+		dem++;
+	}	
+	return dem;
+}
+
+void EditChuyenBay(nodeCB *temp,chuyenbay &cb){
+	
+	
+	temp->data=cb;
 
 //	try {
-		if (first == NULL )
-	{
-		cout<<"hihi";
-		return;
-	}
-	nodeCB *nodechay = first;
-	for(int i=0; i < vitri - 1 && nodechay->next != NULL; i++ ){
-		nodechay= nodechay-> next;
-	}
-	nodechay->data = cb;
+//		if (first == NULL )
+//	{
+//		cout<<"hihi";
+//		return;
+//	}
+//	nodeCB *nodechay = first;
+//	for(int i=0; i < vitri - 1 && nodechay->next != NULL; i++ ){
+//		nodechay= nodechay-> next;
+//	}
+//	nodechay->data = cb;
 //	} catch (const std::runtime_error& e) {
 //        std::cerr << "L?i runtime: " << e.what() << std::endl;
 //}
@@ -86,21 +112,35 @@ bool dsCBEmpty(nodeCB *first) {
 }
 
 int huychuyen(nodeCB *First) {
-	if (First->data.trangthai== CON_VE || First->data.trangthai== HET_VE){
+	
+//	|| First->data.trangthai== HET_VE
+	if (First->data.trangthai == CON_VE || First->data.trangthai== HET_VE ){
+//		cout<<First->data.SHMB;
 		First->data.trangthai = HUY_CHUYEN;
 		return 1;
 	}
 	 return 0;
 }
 
-int timkiemmaybay(nodeCB *first, char *x) {
+nodeCB *timkiemmaybay(nodeCB *first, char *x) {
 	
-	for (nodeCB *p = first; p!=NULL;p=p->next){
+	nodeCB *p;
+	for (p = first; p!=NULL;p=p->next){
 		if (strcmp(p->data.SHMB,x) == 0)
-		return 1;
+		return p;
 	}
 	
-	return 0;
+	return NULL;
+}
+
+nodeCB *timkiemMACB(nodeCB *first, char *x){
+	nodeCB *p;
+	for (p = first; p!=NULL;p=p->next){
+		if (strcmp(p->data.MaCB,x) == 0)
+		return p;
+	}
+	
+	return NULL;
 }
 
 void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
@@ -126,6 +166,114 @@ void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
     
 
 }
+
+int sovekhadung(chuyenbay &cb){
+	int dem=0;
+//	int index=0;
+	for (int i=1; i<=cb.sove ;i++) {
+		if(strcmp(cb.dsve[i-1].cccd, "")==0){
+			dem++;
+		}
+	}
+	return dem;
+}
+
+
+void chuyenbayquakhu(nodeCB *&first, danhsachmaybay &dsmb) {
+	nodeCB *nodechay;
+	   for( nodechay=first; nodechay != NULL ; nodechay = nodechay->next){
+	   	 if (nodechay->data.trangthai== CON_VE || nodechay->data.trangthai==HET_VE ) {
+	   	 
+		if (TGquakhu(nodechay->data.time)==true) {
+			nodechay->data.trangthai= HOAN_TAT;
+			dsmb.data[timkiem(dsmb,nodechay->data.SHMB)]->soChuyenDaBay++;
+		}
+	}
+	   	    
+	   }
+	
+}
+
+//void chuyenbayquakhu(nodeCB *&first, danhsachmaybay &dsmb) {
+//	nodeCB *nodechay;
+//	   for( nodechay=first; nodechay != NULL ; nodechay = nodechay->next){
+//	   	 if (nodechay->data.trangthai==HUY_CHUYEN || nodechay->data.trangthai==HOAN_TAT ) {
+////		if (TGquakhu(nodechay->data.time)==true) {
+////			cout<<TGquakhu(nodechay->data.time);
+//			nodechay->data.trangthai= CON_VE;
+////			dsmb.data[timkiem(dsmb,nodechay->data.SHMB)]->soChuyenDaBay++;
+////		}
+//	}
+//	   	    
+//	   }
+//	
+//}
+
+
+int swapTime(Time t1, Time t2) {
+
+    if (t1.nam < t2.nam) return -1;
+    if (t1.nam > t2.nam) return 1;
+
+
+    if (t1.thang < t2.thang) return -1;
+    if (t1.thang > t2.thang) return 1;
+
+
+    if (t1.ngay < t2.ngay) return -1;
+    if (t1.ngay > t2.ngay) return 1;
+
+    return 0;
+}
+
+int tinhgio(int gio, int phut) {
+	 int kt = gio*60 + phut;	
+	 return kt;
+}
+
+
+// if (result < 0) {
+//        printf("Ng?y 24/06/2024 x?y ra tru?c ng?y 24/06/2024.\n");
+//    } else if (result > 0) {
+//        printf("Ng?y 24/06/2024 x?y ra sau ng?y 24/06/2024.\n");
+//    } else {
+//        printf("Hai ng?y 24/06/2024 l? gi?ng nhau.\n");
+//    }
+
+bool KTCB12h (nodeCB *first, char *x, chuyenbay cb) {
+	nodeCB *nodechay;
+	for(nodechay = first; nodechay != NULL; nodechay= nodechay->next) {
+		if (strcmp(nodechay->data.SHMB,x) == 0 && nodechay->data.trangthai == CON_VE ) {
+			
+			if (swapTime(nodechay->data.time,cb.time) > 0 ) {
+				return true;
+			} 
+				else if (swapTime(nodechay->data.time,cb.time) == 0 )  {
+					if (strcmp(nodechay->data.MaCB, cb.MaCB) != 0) {
+				cout<<nodechay->data.MaCB<<endl;
+				int time1 = tinhgio(nodechay->data.time.gio,nodechay->data.time.phut);
+				int time2 = tinhgio(cb.time.gio,cb.time.phut);
+				if (time2>time1) {
+					cout<<time2-time1<<"hihi"<<endl;
+					if(time2-time1 <= 12*60) {
+					return false;
+				}
+				} else {
+					cout<<time1-time2<<"hhi"<<endl;
+					if(time1-time2 <= 12*60) {
+					return false;
+				}
+		}
+			
+				}
+					
+			}
+		}
+	}
+	return true;
+}
+	
+
 
 void Save_file_chuyen_bay(nodeCB *first){
 
@@ -159,7 +307,7 @@ void Open_file_chuyen_bay(nodeCB *&first ){
 
 			cb.dsve= new ve [cb.sove+1];
 			for(int i=1 ; i<= cb.sove ; i++){
-		  	 strcpy(cb.dsve[i].vitri, "");
+		  	strcpy(cb.dsve[i].vitri, "");
             strcpy(cb.dsve[i].cccd, ""); // Kh?i t?o CCCD r?ng
 		  
 	       }
@@ -170,7 +318,7 @@ void Open_file_chuyen_bay(nodeCB *&first ){
 			 }
  	   
  	   
-			InsertLast(first,cb);
+			InsertTheoMaCB(first,cb);
 	}	
  fclose(PTR1);
 }
@@ -218,6 +366,7 @@ void Open_file_chuyen_bay(nodeCB *&first ){
 //
 //    fclose(f);
 //}
+
 
 
 

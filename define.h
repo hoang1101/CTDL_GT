@@ -63,11 +63,17 @@
 #define FIND 2121
 #define NEXTPAGECB 2000
 #define BACKPAGECB 2001
+#define CBLOCNGAY 2002	
+#define CBLOCTHANG 2003
+#define CBLOCNAM 2004
+#define CBMACB 2005
+#define CBDIEMDEN 2006
+#define CBLOC 2007
 
 
 //#define 
 #define DATVE 3300
-
+#define DS_KH 3301
 
 
 #define MAX_CUSTOMERS 1000 
@@ -93,7 +99,7 @@
 #define BLUE3 3
 #define RED 4
 #define PINK 5
-#define YELLOW 6
+#define YELLOW 14
 #define GRAY 7
 #define GRAY1 8
 #define BLUE1 9
