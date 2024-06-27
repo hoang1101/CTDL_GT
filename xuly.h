@@ -162,6 +162,7 @@ void taoEditText(int id, int x1, int y1, int x2, int y2, int mauChu, int mauVien
 		
 	setcolor(mauChu);
 	setbkcolor(mauBG);
+//	outtextxy(x1+(x2-x1-textwidth(text))/2,y1+(y2-y1-textheight(text))/2, text);
 	setID(id,x1,y1,x2,y2,mapID);
 }
 
@@ -179,6 +180,11 @@ void vemenu(unsigned short int ** mapID){
 	taoButton(ID_VE,0,400,249,475,BLACK,BLACK,GRAY,"DAT VE",mapID);
 	taoButton(ID_THONGKE,0,525,249,600,BLACK,BLACK,GRAY,"THONG KE",mapID);
 	taoButton(ID_THOAT,0,650,249,725,BLACK,BLACK,GRAY,"THOAT",mapID);
+// 	taoButton(ID_MAYBAY, 0, 150, 249, 225, BLACK, BLACK, GRAY, "MAY BAY", mapID);
+//    taoButton(ID_CHUYENBAY, 0, 275, 249, 350, BLACK, BLACK, GRAY, "CHUYEN BAY", mapID);
+//    taoButton(ID_VE, 0, 400, 249, 475, BLACK, BLACK, GRAY, "DAT VE", mapID);
+//    taoButton(ID_THONGKE, 0, 525, 249, 600, BLACK, BLACK, GRAY, "THONG KE", mapID);
+//    taoButton(ID_THOAT, 0, 650, 249, 725, BLACK, BLACK, GRAY, "THOAT", mapID);
 }
 
 
@@ -270,6 +276,7 @@ void Nhapso(int x, int y ,int &luu_id,unsigned short int ** mapID, char s[],int 
 		{
 			luu_id=id;
 			s[l]='\0';
+//			l--;
 			return;
 		}
 		else
@@ -306,7 +313,8 @@ void Nhapso(int x, int y ,int &luu_id,unsigned short int ** mapID, char s[],int 
 			delay(100);
 			outtextxy(x,y,s);
 			s[l]=' ';
-			delay(100);			 
+			delay(100);
+//			Chuan_Hoa(s); 			 
 			outtextxy(x,y,s);		 
 		}	
 	 } 	
@@ -317,6 +325,7 @@ void NhapLieuInHoa(int x, int y, int &id,unsigned short int ** mapID ,char s[], 
 	char c;
 	int xx,yy;
 	int l=strlen(s) ;
+//	
     s[l+1]='\0';
     s[l]='|'; 
 	setbkcolor(WHITE);
@@ -429,6 +438,48 @@ void NhapLieuHoaThuong(int x, int y, int &id, unsigned short int **mapID, char s
 }
 
 
+//
+//char *Chuan_Hoa(char *a)// chuan hoa nhap vao, chuyen thanh dang Anh Em Oi  
+//{
+//
+//
+//    strlen(a);
+//	int start=0;
+//	char *res='\0';
+//	while(start< strlen(a) && a[start]==' ') start++;
+//	if(start== strlen(a)) return res;
+//	if(a[start]>='a'&&a[start<='z']) a[start]+='A'-'a';
+//	res+=a[start];
+//	for(int i=start+1;i< strlen(a);i++)
+//	{
+//		if(a[i-1]!=' '&&a[i]!=' ')
+//		{
+//			if(a[i]>='A'&&a[i]<='Z') 
+//			a[i]+='a'-'A';
+//			res+=a[i];
+//		}
+//		else if(a[i-1]==' '&&a[i]!=' ') {
+//			if(a[i]>='a'&&a[i]<='z') a[i]+='A'-'a';
+//			res+=a[i];
+//		}
+//	}
+//	int i,j;
+//	int n=strlen(a);
+//		for(i=0;i<n;i++)
+//		{
+//		if((a[i]==' ')&&(a[i+1]==' '))
+//		{
+//			for(j=i;j<n;j++)
+//			{
+//				a[j]=a[j+1];
+//			}
+//			n--;
+//			i--; 
+//		}
+//	}
+//		
+//	return res;
+//}
 
 
 ////////////////////////////// MAU BAY //////////////////////////////////
@@ -1064,8 +1115,8 @@ void findmb(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
 			case 1000:case 1001:case  1002 :case 1003: case 1004 :case 1005: case 1006 :case 1007: case 1008: case 1009:
 	        	
 				unclickmbfind(mb,vitri,mapID);
-				vitri = idmb-1000+1 + (tranghientai-1)*10;
-				mb=*dsmb.data[idmb-1000+ (tranghientai-1)*10];
+				vitri = idmb-1000+1;
+				mb=*dsmb.data[idmb-1000];
 				movembfindmb(mb,vitri,mapID);
 				idmb=0;
 				break;
@@ -1083,7 +1134,9 @@ void findmb(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
         switch (idmb) {
         	case NEXT_PAGE:
 				tranghientai++;
-				if ( tranghientai < trangcuoi)
+				if (tranghientai = trangcuoi){
+					taoButton(0,1175,450,1350,480,BLACK,BLACK,WHITE,"NEXT PAGE",mapID);
+				} else if ( tranghientai < trangcuoi)
 					taoButton(NEXT_PAGE,1175,450,1350,480,BLACK,BLACK,GRAY,"NEXT PAGE",mapID);
 				else{
 					if(dsmb.soluong % 10 != 0)
@@ -1131,11 +1184,10 @@ void findmb(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb){
         	
             case 1000: case 1001: case 1002: case 1003: case 1004: case 1005: case 1006: case 1007: case 1008: case 1009:
                 unclickmbfind(mb,vitri,mapID);
-				vitri = idmb-1000+1 + (tranghientai-1)*10;
-				
+				vitri = idmb-1000+1;
 				luu_id=vitri-1;	
 				return;
-				mb=*dsmb.data[idmb-1000+ (tranghientai-1)*10];
+				mb=*dsmb.data[idmb-1000];
 				movembfindmb(mb,vitri,mapID);
 				idmb=0;
 				break;
@@ -3463,6 +3515,7 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
 
 			
 			case DS_KH:
+				resetMapID(mapID);
 				xulykhachhang(mapID, luu_id, root,cb);
 				idcbkd=0;			
 				
@@ -3540,6 +3593,7 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
 						         			"    Ban co muon thoat khong ??? "
 											,"THONG BAO",MB_ICONWARNING|MB_OKCANCEL) == IDOK){
 	        				
+	        			
 	        				luu_id=idcbkd;
 							return;
 						  } else {
