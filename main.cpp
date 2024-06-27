@@ -90,35 +90,22 @@ main(int argc, char *argv[])
 	                break;
 					
 				}
+	           
+	        case ID_KHACHHANG:
+	            resetMapID(mapID);
+	            resetMH(mapID);
+	            vemenu(mapID);
+	            taoButton(ID_KHACHHANG, 0, 525, 249, 600, BLACK, BLACK, WHITE, "KHACH HANG", mapID);
+	            xulykhachhang(mapID, id, root);
+	            settextstyle(8, 0, 2);
+	            break;
 	        case ID_THONGKE:
 	            resetMapID(mapID);
 	            resetMH(mapID);
 	            vemenu(mapID);
-	            taoButton(ID_THONGKE,0,525,249,600,BLACK,BLACK,WHITE,"THONG KE",mapID);
-	            	        	if (Empty(dsmb)) {
-						MessageBox(NULL, "\n                     ERROR!	\n  Hien Chua Co may Nao Trong Danh Sach !", "THONG BAO", MB_ICONERROR | MB_OK);
-							id=ID_MAYBAY;
-							break;
-					
-				}else if (dsCBEmpty(first)) {
-					MessageBox(NULL, "\n                     ERROR!	\n  Hien Chua Co Chuyen bay Nao Trong Danh Sach !", "THONG BAO", MB_ICONERROR | MB_OK);
-					id=ID_CHUYENBAY;
-					break;
-				}else{
-					kiemtra_thoigian_khoihanh_all(first, dsmb);
-					Save_file_chuyen_bay(first);
-					Save_file_MB(dsmb);
-					resetMapID(mapID);
-	                resetMH(mapID);
-	                vemenu(mapID);
-	            	sapXepMayBayBubbleSort(dsmb);
-
-
-//    				hienThiDanhSachMayBay(dsmb, mapID);
-	                settextstyle(8, 0, 2);
-	                break;
-					
-				}
+	            taoButton(ID_THONGKE, 0, 650, 249, 725, BLACK, BLACK, WHITE, "THONG KE", mapID);
+	            xulythongke(mapID, id);
+	            settextstyle(8, 0, 2);
 	            break;
 	        case ID_THOAT:
 	            resetMapID(mapID);

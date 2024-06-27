@@ -23,8 +23,9 @@
 #define ID_MAYBAY 1
 #define ID_CHUYENBAY 2
 #define ID_VE 3
-#define ID_THONGKE 4
-#define ID_THOAT 5
+#define ID_KHACHHANG 4
+#define ID_THONGKE 5
+#define ID_THOAT 6
 
 // MAY BAY //
 #define MB_THEM 11

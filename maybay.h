@@ -54,19 +54,6 @@ void edit_mb(danhsachmaybay &dsmb, int vitri , maybay &mb){
 	*dsmb.data[vitri] = mb;
 }
 
-void sapXepMayBayBubbleSort(danhsachmaybay &dsmb) {
-    for (int i = 0; i < dsmb.soluong - 1; ++i) {
-        for (int j = 0; j < dsmb.soluong - i - 1; ++j) {
-            if (dsmb.data[j]->soChuyenDaBay < dsmb.data[j + 1]->soChuyenDaBay) {
-                // Hoán d?i hai ph?n t?
-                maybay* temp = dsmb.data[j];
-                dsmb.data[j] = dsmb.data[j + 1];
-                dsmb.data[j + 1] = temp;
-            }
-        }
-    }
-}
-
 ///// FILE
 
 void Open_file_MB (danhsachmaybay &dsmb) {
