@@ -293,7 +293,7 @@ void Save_file_chuyen_bay(nodeCB *first){
 		 	temp= temp->next;
 		 }
 		 fclose(PTR1);
-		}
+}
 
 void Open_file_chuyen_bay(nodeCB *&first ){
 	 FILE * PTR1;
@@ -306,19 +306,19 @@ void Open_file_chuyen_bay(nodeCB *&first ){
 	 while(fread (&cb, sizeof (chuyenbay), 1, PTR1) != 0) {
 
 			cb.dsve= new ve [cb.sove+1];
-			for(int i=0 ; i< cb.sove ; i++){
-		  	strcpy(cb.dsve[i].vitri, "");
+			for(int i=1 ; i<= cb.sove ; i++){
+		  	 strcpy(cb.dsve[i].vitri, "");
             strcpy(cb.dsve[i].cccd, ""); // Kh?i t?o CCCD r?ng
 		  
 	       }
 
-		 	for(int i=0 ;i < cb.sove ; i++){
+		 	for(int i=1 ;i <= cb.sove ; i++){
 		 		fread(&cb.dsve[i], sizeof(ve), 1, PTR1);
 //		 		fread(&(*cb.dsve[i]), sizeof(char[MAXLENGHT_CMND+1]), 1, PTR1);
 			 }
  	   
  	   
-			InsertTheoMaCB(first,cb);
+			InsertLast(first,cb);
 	}	
  fclose(PTR1);
 }

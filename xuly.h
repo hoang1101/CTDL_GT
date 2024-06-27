@@ -2408,16 +2408,15 @@ void vekhungve(unsigned short int ** mapID) {
 	
 
 }
-
 void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangChon, ve &veMoi, khachhang &kh, danhsachmaybay &dsmb, Node *root) {
     int soDay, soDong;
-    int marginX = 300; // L? trái
-    int marginY = 100; // L? trên
+    int marginX = 300; // L? tr?i
+    int marginY = 100; // L? tr?n
     int infoX = 300;
     int infoY = 570;
-    int boxWidth = 50; // Chi?u r?ng c?a m?i ô
-    int boxHeight = 30; // Chi?u cao c?a m?i ô
-    int gap = 5; // Kho?ng cách gi?a các ô
+    int boxWidth = 50; // Chi?u r?ng c?a m?i ?
+    int boxHeight = 30; // Chi?u cao c?a m?i ?
+    int gap = 5; // Kho?ng c?ch gi?a c?c ?
     settextstyle(8, 0, 2);
     taoButton(ID_VE, 300, 65, 400, 96, BLACK, BLACK, WHITE, "BACK", mapID);
     soDay = dsmb.data[timkiem(dsmb, cb.SHMB)]->soday;
@@ -2426,7 +2425,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
     for (char day = 'A'; day < 'A' + soDay; day++) {
         for (int dong = 1; dong <= soDong; dong++) {
             if (index >= cb.sove) break;
-			cout<<cb.dsve[index].cccd<<"DS VE"<<endl;
+			
             int x = marginX + (dong - 1) * (boxWidth + gap);
             int y = marginY + (day - 'A') * (boxHeight + gap);
 
@@ -2435,7 +2434,8 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
 
             if (index == veDangChon) {
                 setfillstyle(SOLID_FILL, YELLOW);
-            } else if (strcmp(cb.dsve[index].cccd, "") > 0) {
+            } else if (strcmp(cb.dsve[index].cccd, "") != 0 &&(strlen(cb.dsve[index].cccd)==9||strlen(cb.dsve[index].cccd)==12)) {
+            	cout<<cb.dsve[index].cccd;
                 setfillstyle(SOLID_FILL, RED);
             } else {
                 setfillstyle(SOLID_FILL, WHITE);
@@ -2444,7 +2444,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
             bar(x, y, x + boxWidth, y + boxHeight);
             rectangle(x, y, x + boxWidth, y + boxHeight);
 
-            setbkcolor(index == veDangChon ? YELLOW : (cb.dsve[index].cccd[0] != '\0' ? RED : WHITE));
+            setbkcolor(index == veDangChon ? YELLOW : ((strcmp(cb.dsve[index].cccd, "") != 0 &&(strlen(cb.dsve[index].cccd)==9||strlen(cb.dsve[index].cccd)==12)) ? RED : WHITE));
             setcolor(BLACK);
             outtextxy(x + (boxWidth - textwidth(soVe)) / 2, y + (boxHeight - textheight(soVe)) / 2, soVe);
 
@@ -2453,7 +2453,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         }
     }
 
-    // V? chú thích
+    // V? ch? th?ch
     setbkcolor(WHITE);
     outtextxy(CUASO_NGANG - 200, CUASO_DOC - 100, "Chua Dat");
     setfillstyle(SOLID_FILL, WHITE);
@@ -2472,7 +2472,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
     bar(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
     rectangle(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
 
-    // V? thông tin vé dang ch?n và nút "Ð?t Vé" và "H?y"
+    // V? th?ng tin v? dang ch?n v? n?t "??t V?" v? "H?y"
     if (veDangChon != -1) {
         setbkcolor(WHITE);
         setcolor(BLACK);
@@ -2512,9 +2512,9 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         setID(3605, infoX + 202, infoY + 120, infoX + 300, infoY + 150, mapID);
         outtextxy(infoX + 100, infoY + 160, cb.dsve[veDangChon].vitri);
 
-        // Hi?n th? thông tin khách hàng n?u vé dã có thông tin
+        // Hi?n th? th?ng tin kh?ch h?ng n?u v? d? c? th?ng tin
         if (strcmp(cb.dsve[veDangChon].cccd, "") != 0) {
-            Node *khach = search(root, cb.dsve[veDangChon].cccd); // Hàm này tìm ki?m khách hàng theo CCCD
+            Node *khach = search(root, cb.dsve[veDangChon].cccd); // H?m n?y t?m ki?m kh?ch h?ng theo CCCD
             if (khach != NULL) {
                 strcpy(kh.phai, khach->data.phai);
                 setbkcolor(WHITE);
@@ -2584,7 +2584,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         outtextxy(infoX + 270, infoY + 215, "Huy");
     }
 
-    // Hi?n th? thông tin chuy?n bay
+    // Hi?n th? th?ng tin chuy?n bay
     setfillstyle(SOLID_FILL, WHITE);
     setbkcolor(WHITE);
     char thongTinChuyenBay[256];
@@ -2788,7 +2788,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                 selectedTextbox=-1;
                 break;
             case 3611:
-            	if(strcmp(cb.dsve[veDangChon].cccd,"")!=0){
+            	if(strcmp(cb.dsve[veDangChon].cccd, "") != 0 &&(strlen(cb.dsve[veDangChon].cccd)==9||strlen(cb.dsve[veDangChon].cccd)==12)){
             		MessageBox(NULL, "\t \t VE DA DUOC CHON! \n DAT VE KHONG THANH CONG. VUI LONG CHON VE KHAC !", "THONG BAO", MB_ICONERROR | MB_OK);
             		idve=0;
             		selectedTextbox =-1;
@@ -2797,7 +2797,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                     hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb, root);
             		break;
 				}
-                if(strlen(kh.cmnd)!=9 && strlen(kh.cmnd)!=12 ){
+                if(strlen(kh.cmnd)!=9   ){
                     MessageBox(NULL, "\t \t ERROR! \n DO DAI CMND KHONG HOP LE. VUI LONG NHAP LAI !", "THONG BAO", MB_ICONERROR | MB_OK);
                     selectedTextbox=3601;
                     outtextxy(420,575 ,"");
@@ -3042,7 +3042,7 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id, Node* root, chuyenba
     
     int customerCount = 0;
     for (int i = 0; i < cb.sove; ++i) {
-        if (strcmp(cb.dsve[i].cccd, "") != 0) { 
+        if (strcmp(cb.dsve[i].cccd, "") != 0 &&(strlen(cb.dsve[i].cccd)==9||strlen(cb.dsve[i].cccd)==12)) { 
             customerCount++;
         }
     }
@@ -3053,7 +3053,7 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id, Node* root, chuyenba
     if (customerCount == 0) {
         setbkcolor(WHITE);
         setcolor(BLACK);
-        outtextxy(600, 150, "Hi?n không có khách hàng!");
+        outtextxy(600, 250, "HIEN KHONG CO KHACH HANG!");
         return;
     }
 
@@ -3310,11 +3310,16 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
 			}
 		}
 //			for (nodechay = )
-			
-			xuatdanhsachchuyenbaykhadung(mapID,inMH,tranghientai);
+			    if (dsCBEmpty(inMH)||slcb==0) {
+  					outtextxy(800 - strlen("! KHONG CO CHUYEN BAY KHA DUNG !") * 4, 145, "! KHONG CO CHUYEN BAY KHA DUNG !");	
+			    } else {
+			    		xuatdanhsachchuyenbaykhadung(mapID,inMH,tranghientai);
 //			inMH=xuatdanhsachchuyenbaykhadungver2(mapID,first,tranghientai,cb, locmacb,  locdiemden,  locngay,  locthang,  locnam);
-			cb=inMH->data;
-			clickcbkhadung(1,cb,mapID);
+						cb=inMH->data;
+						clickcbkhadung(1,cb,mapID);
+				}
+    
+
 	if (slcb>10) {
 		taoButton(NEXTPAGECB,1175,460,1350,490,BLACK,BLACK,GRAY,"NEXT PAGE",mapID);
 	} else{
@@ -3580,7 +3585,7 @@ void xulychuyenbayconkhadung(unsigned short int ** mapID, int &luu_id, nodeCB *&
                 xulyve(mapID, idcbkd, cb,dsmb, root, first);  // G?i hàm x? lý vé và truy?n chuy?n bay du?c ch?n vào
                 idcbkd = 0;
                 break;
-			case 1: case 2:  case 4: case 5:
+			case 1: case 2:  case 4: case 5: case 3:
 	
 			if (nhap) {
 				if( MessageBox(NULL," Du Lieu Vua Nhap Chua Duoc Luu \n"
