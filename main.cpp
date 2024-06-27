@@ -114,7 +114,7 @@ main(int argc, char *argv[])
 	            	sapXepMayBayBubbleSort(dsmb);
 
 
-    				xulythongke( mapID,id,dsmb);
+//    				hienThiDanhSachMayBay(dsmb, mapID);
 	                settextstyle(8, 0, 2);
 	                break;
 					

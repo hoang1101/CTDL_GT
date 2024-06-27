@@ -79,7 +79,11 @@
 //#define
 #define MAX_CUSTOMERS 1000
 #define CUSTOMERS_PER_PAGE 10 
-
+//#define
+//#define
+//#define
+//#define
+//#define
 #define  MAXLENGHT_CMND 15
 //#define
 #define NEXTPAGECB 2000
@@ -87,16 +91,6 @@
 //#define
 //#define
 //#define
-
-//THONG KE
-#define NEXT_PAGETK 4141
-#define BACK_PAGETK 4242
-//#define
-//#define
-//#define
-
-
-
 // MAU
 #define BLACK 0
 #define BLUE 1
