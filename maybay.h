@@ -67,6 +67,13 @@ void sapXepMayBayBubbleSort(danhsachmaybay &dsmb) {
     }
 }
 
+void xoaAllMayBay(danhsachmaybay &dsmb) {
+	 for (int i = 0; i < dsmb.soluong; i++) {
+       delete dsmb.data[i];
+    }
+    dsmb.soluong = 0;
+}
+
 ///// FILE
 
 void Open_file_MB (danhsachmaybay &dsmb) {

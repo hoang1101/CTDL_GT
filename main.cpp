@@ -95,7 +95,7 @@ main(int argc, char *argv[])
 	            resetMH(mapID);
 	            vemenu(mapID);
 	            taoButton(ID_THONGKE,0,525,249,600,BLACK,BLACK,WHITE,"THONG KE",mapID);
-	            	        	if (Empty(dsmb)) {
+	            if (Empty(dsmb)) {
 						MessageBox(NULL, "\n                     ERROR!	\n  Hien Chua Co may Nao Trong Danh Sach !", "THONG BAO", MB_ICONERROR | MB_OK);
 							id=ID_MAYBAY;
 							break;
@@ -111,6 +111,7 @@ main(int argc, char *argv[])
 					resetMapID(mapID);
 	                resetMH(mapID);
 	                vemenu(mapID);
+	                taoButton(ID_THONGKE,0,525,249,600,BLACK,BLACK,WHITE,"THONG KE",mapID);
 	            	sapXepMayBayBubbleSort(dsmb);
 
 
@@ -124,13 +125,18 @@ main(int argc, char *argv[])
 	            resetMapID(mapID);
 	            resetMH(mapID);
 	            vemenu(mapID);
-	            taoButton(ID_THOAT, 0, 775, 249, 850, BLACK, BLACK, RED, "THOAT", mapID);
+	            taoButton(ID_THOAT, 0,650,249,725, BLACK, BLACK, RED, "THOAT", mapID);
 	            if (MessageBox(NULL, "\n   [ Xac Nhan Thoat Chuong Trinh]   \n", "THONG BAO", MB_ICONWARNING | MB_OKCANCEL) == IDCANCEL) {
 	                resetMapID(mapID);
 	                resetMH(mapID);
 	                vemenu(mapID);
+	                taoButton(ID_THOAT,0,650,249,725,BLACK,BLACK,GRAY,"THOAT",mapID);
+
 	                id = 0;
+	                break;
 	            } else {
+	            	xoaAllMayBay(dsmb);
+	                xoaAllCB(first);
 	                exit(0);
 	                return 0;
 	            }

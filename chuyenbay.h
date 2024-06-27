@@ -272,7 +272,26 @@ bool KTCB12h (nodeCB *first, char *x, chuyenbay cb) {
 	}
 	return true;
 }
-	
+
+
+void xoaAllCB(nodeCB *&first){
+	nodeCB *nodechay = first;
+    while (nodechay != NULL) {
+
+        for (int i = 1; i < nodechay->data.sove; i++) {
+            delete[] nodechay->data.dsve[i].cccd;
+            delete[] nodechay->data.dsve[i].vitri;
+        }
+        delete[] nodechay->data.dsve;
+        nodeCB *next = nodechay->next;
+
+        delete nodechay;
+
+        nodechay = next;
+    }
+
+    first = NULL;
+}
 
 
 void Save_file_chuyen_bay(nodeCB *first){
