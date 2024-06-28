@@ -131,7 +131,7 @@ main(int argc, char *argv[])
 	                resetMH(mapID);
 	                vemenu(mapID);
 	                taoButton(ID_THOAT,0,650,249,725,BLACK,BLACK,GRAY,"THOAT",mapID);
-
+	                xoaAllMayBay(dsmb);
 	                id = 0;
 	                break;
 	            } else {

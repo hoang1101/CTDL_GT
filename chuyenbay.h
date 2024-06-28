@@ -19,7 +19,7 @@ struct ve {
 struct chuyenbay {
 	char MaCB[MAX_MACB+1];
 	char SanBayDen[MAX_SBDEN+1];
-	char SHMB[MAXSHMB];
+	char SHMB[MAXSHMB+1];
 	TrangThai trangthai;
 	Time time;
 	ve *dsve = NULL;

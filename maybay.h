@@ -4,8 +4,8 @@
 using namespace std;
 
 struct maybay {
-	char sohieumaybay[15];
-	char loaimaybay[50];
+	char sohieumaybay[MAXSHMB+1];
+	char loaimaybay[MAXLOAIMB+1];
 	int soday,sodong;
 	int soChuyenDaBay = 0;
 };
@@ -68,8 +68,8 @@ void sapXepMayBayBubbleSort(danhsachmaybay &dsmb) {
 }
 
 void xoaAllMayBay(danhsachmaybay &dsmb) {
-	 for (int i = 0; i < dsmb.soluong; i++) {
-       delete dsmb.data[i];
+	for (int i = 0; i < dsmb.soluong; i++) {
+       delete [] dsmb.data[i];
     }
     dsmb.soluong = 0;
 }

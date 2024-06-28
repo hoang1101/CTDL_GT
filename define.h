@@ -8,7 +8,7 @@
 
 /// CHUYEN BAY
 #define MAX_MACB 15
-#define MAX_SBDEN 30
+#define MAX_SBDEN 20
 
 //#define
 //#define
