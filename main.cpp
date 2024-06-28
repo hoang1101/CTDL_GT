@@ -137,6 +137,7 @@ main(int argc, char *argv[])
 	            } else {
 	            	xoaAllMayBay(dsmb);
 	                xoaAllCB(first);
+	                deleteTree(root);
 	                exit(0);
 	                return 0;
 	            }

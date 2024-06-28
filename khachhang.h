@@ -1,5 +1,5 @@
 #define file_hanh_khach "datakhachhang"
-// Ð?nh nghia c?u trúc khách hàng
+
 struct khachhang {
     char cmnd[12];
     char ho[25];
@@ -7,7 +7,7 @@ struct khachhang {
     char phai[10];
 };
 
-// Ð?nh nghia c?u trúc Node cho cây AVL
+
 struct Node {
     khachhang data;
     Node* left;
@@ -15,54 +15,53 @@ struct Node {
     int height;
 };
 
-// Hàm d? tính chi?u cao c?a cây
+
 int height(Node* N) {
     if (N == NULL)
         return 0;
     return N->height;
 }
 
-// Hàm d? t?o m?t nút m?i
+
 Node* newNode(khachhang kh) {
     Node* node = new Node();
     node->data = kh;
     node->left = NULL;
     node->right = NULL;
-    node->height = 1;  // new node is initially added at leaf
+    node->height = 1; 
     return(node);
 }
 
-// Hàm d? quay ph?i cây con
+
 Node* rightRotate(Node* y) {
     Node* x = y->left;
     Node* T2 = x->right;
 
-    // Th?c hi?n quay
+
     x->right = y;
     y->left = T2;
 
-    // C?p nh?t chi?u cao
+ 
     y->height = max(height(y->left), height(y->right)) + 1;
     x->height = max(height(x->left), height(x->right)) + 1;
 
-    // Tr? v? g?c m?i
+
     return x;
 }
 
-// Hàm d? quay trái cây con
+
 Node* leftRotate(Node* x) {
     Node* y = x->right;
     Node* T2 = y->left;
 
-    // Th?c hi?n quay
+
     y->left = x;
     x->right = T2;
 
-    // C?p nh?t chi?u cao
+
     x->height = max(height(x->left), height(x->right)) + 1;
     y->height = max(height(y->left), height(y->right)) + 1;
 
-    // Tr? v? g?c m?i
     return y;
 }
 
@@ -73,7 +72,7 @@ int getBalance(Node* N) {
     return height(N->left) - height(N->right);
 }
 
-// Hàm d? chèn m?t nút m?i vào cây AVL
+
 Node* insert(Node* node, khachhang kh) {
 
     if (node == NULL)
@@ -133,7 +132,7 @@ Node* search(Node* root, const char* cmnd) {
     return search(root->left, cmnd);
 }
 
-void deleteTree(Node* root) {
+void deleteTree(Node *&root) {
     if (root == NULL) return;
     
     deleteTree(root->left);

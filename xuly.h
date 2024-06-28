@@ -2410,13 +2410,13 @@ void vekhungve(unsigned short int ** mapID) {
 }
 void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangChon, ve &veMoi, khachhang &kh, danhsachmaybay &dsmb, Node *root) {
     int soDay, soDong;
-    int marginX = 300; // L? tr?i
-    int marginY = 100; // L? tr?n
+    int marginX = 300; 
+    int marginY = 100;
     int infoX = 300;
     int infoY = 570;
-    int boxWidth = 50; // Chi?u r?ng c?a m?i ?
-    int boxHeight = 30; // Chi?u cao c?a m?i ?
-    int gap = 5; // Kho?ng c?ch gi?a c?c ?
+    int boxWidth = 50; 
+    int boxHeight = 30;
+    int gap = 5;
     settextstyle(8, 0, 2);
     taoButton(ID_VE, 300, 65, 400, 96, BLACK, BLACK, WHITE, "BACK", mapID);
     soDay = dsmb.data[timkiem(dsmb, cb.SHMB)]->soday;
@@ -2453,7 +2453,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         }
     }
 
-    // V? ch? th?ch
+  
     setbkcolor(WHITE);
     outtextxy(CUASO_NGANG - 200, CUASO_DOC - 100, "Chua Dat");
     setfillstyle(SOLID_FILL, WHITE);
@@ -2472,7 +2472,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
     bar(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
     rectangle(CUASO_NGANG - 250, CUASO_DOC - 40, CUASO_NGANG - 220, CUASO_DOC - 20);
 
-    // V? th?ng tin v? dang ch?n v? n?t "??t V?" v? "H?y"
+   
     if (veDangChon != -1) {
         setbkcolor(WHITE);
         setcolor(BLACK);
@@ -2512,9 +2512,9 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         setID(3605, infoX + 202, infoY + 120, infoX + 300, infoY + 150, mapID);
         outtextxy(infoX + 100, infoY + 160, cb.dsve[veDangChon].vitri);
 
-        // Hi?n th? th?ng tin kh?ch h?ng n?u v? d? c? th?ng tin
+        
         if (strcmp(cb.dsve[veDangChon].cccd, "") != 0) {
-            Node *khach = search(root, cb.dsve[veDangChon].cccd); // H?m n?y t?m ki?m kh?ch h?ng theo CCCD
+            Node *khach = search(root, cb.dsve[veDangChon].cccd);
             if (khach != NULL) {
                 strcpy(kh.phai, khach->data.phai);
                 setbkcolor(WHITE);
@@ -2584,7 +2584,7 @@ void hienThiDanhSachVe(unsigned short int **mapID, chuyenbay &cb, int &veDangCho
         outtextxy(infoX + 270, infoY + 215, "Huy");
     }
 
-    // Hi?n th? th?ng tin chuy?n bay
+
     setfillstyle(SOLID_FILL, WHITE);
     setbkcolor(WHITE);
     char thongTinChuyenBay[256];
@@ -2610,13 +2610,13 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 
     int infoX = 300;
     int infoY = 570;
-    int marginX = 300; // L? tr�i
-    int marginY = 100; // L? tr�n
-    int boxWidth = 50; // Chi?u r?ng c?a m?i �
-    int boxHeight = 30; // Chi?u cao c?a m?i �
-    int gap = 5; // Kho?ng c�ch gi?a c�c �
-    int veDangChon = -1; // Kh?i t?o gi� tr? c?a v� dang ch?n l� -1 (chua ch?n v� n�o)
-    khachhang kh; // Kh?i t?o kh�ch h�ng m?i tr?ng
+    int marginX = 300; 
+    int marginY = 100; 
+    int boxWidth = 50; 
+    int boxHeight = 30;
+    int gap = 5; 
+    int veDangChon = -1; 
+    khachhang kh; 
     ve veMoi;
     strcpy(kh.cmnd, "");
     strcpy(kh.ho, "");
@@ -2958,32 +2958,7 @@ void vekhungkhachhang(unsigned short int **mapID, const char* maCB, const char* 
 //    outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + vitri * 30, kh.phai);
 //}
 
-void inorderDisplay(Node* root, int &index, int start, int end, unsigned short int **mapID) {
-    if (root == NULL) return;
 
-    if (index >= start && index < end) {
-        inorderDisplay(root->left, index, start, end, mapID);
-        
-        khachhang kh = root->data;
-        setbkcolor(WHITE);
-        char stt[15];
-        sprintf(stt, "%d", index + 1);
-        outtextxy(300 + 2 * 16 - textwidth(stt) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, stt);
-        outtextxy(300 + 9 * 16 - textwidth(kh.cmnd) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.cmnd);
-        outtextxy(300 + 25 * 16 - textwidth(kh.ho) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.ho);
-        outtextxy(300 + 45 * 16 - textwidth(kh.ten) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.ten);
-        outtextxy(300 + 60 * 16 - textwidth(kh.phai) / 2, 150 + (index % CUSTOMERS_PER_PAGE) * 30, kh.phai);
-        setID(1000 + (index % CUSTOMERS_PER_PAGE), 300, 150 + (index % CUSTOMERS_PER_PAGE) * 30, 1350, 150 + ((index % CUSTOMERS_PER_PAGE) + 1) * 30 - 1, mapID);
-
-        index++;
-        
-        inorderDisplay(root->right, index, start, end, mapID);
-    } else if (index < start) {
-        inorderDisplay(root->left, index, start, end, mapID);
-        index++;
-        inorderDisplay(root->right, index, start, end, mapID);
-    }
-}
 
 void displayCustomers(Node* root, chuyenbay &cb, int customerCount, int page, unsigned short int** mapID) {
     int startIndex = page * CUSTOMERS_PER_PAGE;
@@ -3015,13 +2990,7 @@ void displayCustomers(Node* root, chuyenbay &cb, int customerCount, int page, un
         }
     }
 }
-void inorderCount(Node* node, int &count) {
-    if (node != NULL) {
-        inorderCount(node->left, count);
-        count++;
-        inorderCount(node->right, count);
-    }
-}
+
 
 void xulykhachhang(unsigned short int **mapID, int &luu_id, Node* root, chuyenbay &cb) {
     char maCB[10];
@@ -3036,7 +3005,7 @@ void xulykhachhang(unsigned short int **mapID, int &luu_id, Node* root, chuyenba
     if (cb.sove == 0) {
         setbkcolor(WHITE);
         setcolor(BLACK);
-        outtextxy(600, 150, "Hi?n kh�ng c� kh�ch h�ng!");
+        outtextxy(600, 150, "HIEN KHONG CO KHACH HANG!!");
         return;
     }
     
