@@ -132,6 +132,25 @@ Node* search(Node* root, const char* cmnd) {
     return search(root->left, cmnd);
 }
 
+const char* removeNullChars(char *input) {
+    int length = 0;
+
+    for (int i = 0; input[i] != '\0'; i++) {
+        if (input[i] != '\0') {
+            input[length++] = input[i];
+        }
+    }
+    input[length] = '\0'; 
+}
+
+
+int myStrlen(const char* str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+}
 void deleteTree(Node *&root) {
     if (root == NULL) return;
     
