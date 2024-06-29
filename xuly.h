@@ -286,7 +286,7 @@ void Nhapso(int x, int y ,int &luu_id,unsigned short int ** mapID, char s[],int 
 		}
      	if(kbhit()){
 	     	char c= getch();
-	     	if(strlen(s)<=chieudai && '0'<=c&&c<='9')
+	     	if(l<chieudai && '0'<=c&&c<='9')
 			{
 		     	s[l]=c;
 				l++;
@@ -718,7 +718,8 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb, n
 			case LUU_MB: 
 				if(strlen(mb.loaimaybay) == 0)  {
 					MessageBox(NULL,"Khong the de trong loai may bay!","THONG BAO",MB_ICONWARNING|MB_OK);
-				} 
+					idmb=0;
+				}  else 
 				
 				if (strlen(mb.sohieumaybay) == 0) {
 					MessageBox(NULL,"Khong the de trong so hieu may bay!","THONG BAO",MB_ICONWARNING|MB_OK);
@@ -855,8 +856,9 @@ void xulymaybay(unsigned short int ** mapID, int &luu_id,danhsachmaybay &dsmb, n
 			
 				if(strlen(mb.loaimaybay) == 0)  {
 					MessageBox(NULL,"Khong the de trong loai may bay!","THONG BAO",MB_ICONWARNING|MB_OK);
+					idmb=0;
 				} 
-				
+				else 
 				if (strlen(mb.sohieumaybay) == 0) {
 					MessageBox(NULL,"Khong the de trong so hieu may bay!","THONG BAO",MB_ICONWARNING|MB_OK);
 					idmb=0;
@@ -2144,26 +2146,30 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 			break;
 			
 			case ED_LUUCB:
-					if ( TGNew(cb.time) == false){
-						MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu!","THONG BAO",MB_ICONINFORMATION);
-						idcb=0;
-						break;
-					} 
-					if (KTCB12h(first,cb.SHMB,cb) == false)
+//				if (strlen(cb.SHMB) ==0 ) {
+//					MessageBox(NULL,"Khong the de trong So hieu may bay!.","THONG BAO",MB_ICONWARNING|MB_OK);
+//						idcb=0;
+//						break;
+//					}
+//					if (strlen(cb.SanBayDen) ==0 ) {
+//					MessageBox(NULL,"Khong the de trong San bay den!.","THONG BAO",MB_ICONWARNING|MB_OK);
+//						idcb=0;
+//						break;
+//					} else 
+//					if ( TGNew(cb.time) == false){
+//						MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu!","THONG BAO",MB_ICONINFORMATION);
+//						idcb=0;
+//						break;
+//					} 
+//					else if (KTCB12h(first,cb.SHMB,cb) == false)
+//					{
+//					MessageBox(NULL,"Khong the thuc hien chuyen bay vao thoi gian nay! \n Chuyen bay duoc tao phai sau 12h.","THONG BAO",MB_ICONINFORMATION);
+//						idcb=0;
+//						break;
+//					}
+//					else 
 					{
-					MessageBox(NULL,"Khong the thuc hien chuyen bay vao thoi gian nay! \n Chuyen bay duoc tao phai sau 12h.","THONG BAO",MB_ICONINFORMATION);
-						idcb=0;
-					}
-					else 
-					{
-							if (strlen(cb.SHMB) ==0 ) {
-					MessageBox(NULL,"Khong the de trong So hieu may bay!.","THONG BAO",MB_ICONWARNING|MB_OK);
-						idcb=0;
-				}
-				if (strlen(cb.SanBayDen) ==0 ) {
-					MessageBox(NULL,"Khong the de trong San bay den!.","THONG BAO",MB_ICONWARNING|MB_OK);
-						idcb=0;
-				}
+					
 				nhap=0;
 				taoButton(0,1201,565,1340,615,WHITE,WHITE,WHITE,"",mapID);
 				nodechay = timkiemMACB(first,cb.MaCB);
@@ -2232,25 +2238,29 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 				break;
 			
 			case CB_LUU:
-			
+				if (strlen(cb.SHMB) ==0 ) {
+					MessageBox(NULL,"Khong the de trong So hieu may bay!.","THONG BAO",MB_ICONWARNING|MB_OK);
+						idcb=0;
+						break;
+				} else
+				if (strlen(cb.SanBayDen) ==0 ) {
+					MessageBox(NULL,"Khong the de trong San bay den!.","THONG BAO",MB_ICONWARNING|MB_OK);
+						idcb=0;
+							break;
+				} else
 				if ( TGNew(cb.time) == false ){
 					MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu!","THONG BAO",MB_ICONWARNING|MB_OK);
 					idcb=0;
-				} 
+						break;
+				} else
 				if (KTCB12h(first,cb.SHMB,cb) == false)
 				{
 					MessageBox(NULL,"Khong the thuc hien chuyen bay vao thoi gian nay! \n Chuyen bay duoc tao phai sau 12h.","THONG BAO",MB_ICONWARNING|MB_OK);
 					idcb=0;
+						break;
 				}
 				else { 
-				if (strlen(cb.SHMB) ==0 ) {
-					MessageBox(NULL,"Khong the de trong So hieu may bay!.","THONG BAO",MB_ICONWARNING|MB_OK);
-						idcb=0;
-				}
-				if (strlen(cb.SanBayDen) ==0 ) {
-					MessageBox(NULL,"Khong the de trong San bay den!.","THONG BAO",MB_ICONWARNING|MB_OK);
-						idcb=0;
-				}
+				
 				nhap=0;
 				
 				slcb=demslcb(first);
