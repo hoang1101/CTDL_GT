@@ -23,7 +23,11 @@ main(int argc, char *argv[])
 	Open_file_chuyen_bay(first);
 	Openfilekhachhang(root);
 	
+	chuyenbayquakhu(first,dsmb);
+	
 	Save_file_chuyen_bay(first);
+	Save_file_MB(dsmb);
+	Save_file_hanh_khach(root);
 
 	
 	
@@ -131,7 +135,6 @@ main(int argc, char *argv[])
 	                resetMH(mapID);
 	                vemenu(mapID);
 	                taoButton(ID_THOAT,0,650,249,725,BLACK,BLACK,GRAY,"THOAT",mapID);
-	                xoaAllMayBay(dsmb);
 	                id = 0;
 	                break;
 	            } else {

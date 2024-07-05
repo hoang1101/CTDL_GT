@@ -68,9 +68,14 @@ void sapXepMayBayBubbleSort(danhsachmaybay &dsmb) {
 }
 
 void xoaAllMayBay(danhsachmaybay &dsmb) {
-	for (int i = 0; i < dsmb.soluong; i++) {
-       delete [] dsmb.data[i];
+for (int i = 0; i < dsmb.soluong; ++i) {
+	if (dsmb.data[i] == NULL) {
+		return;
+	}
+        delete dsmb.data[i]; // Gi?i phóng c?u trúc maybay mà con tr? dang tr? t?i
     }
+
+    // Ð?t l?i s? lu?ng ph?n t? v? 0
     dsmb.soluong = 0;
 }
 

@@ -93,47 +93,6 @@ bool ThoiGianTuongLai(Time tl) {
     }
 }
 
-unsigned long int ChuyenNgay(Time Tg) {
-    unsigned long int so_ngay_trong_nam = 365 * (Tg.nam - 1) + (Tg.nam - 1) / 4 - (Tg.nam - 1) / 100 + (Tg.nam - 1) / 400;
-    unsigned long int so_ngay_trong_thang = 0;
-    for (int i = 0; i < Tg.thang; i++) {
-        so_ngay_trong_thang += ngay_thang[i];
-    }
-    if (NamNhuan(Tg.nam) && Tg.thang > 2) {
-        so_ngay_trong_thang += 1;
-    }
-    return so_ngay_trong_nam + so_ngay_trong_thang + Tg.ngay - 1;
-}
-
-bool TrongVongBaGio(Time Time1, Time Time2) {
-    unsigned long int SoPhut_T1 = ChuyenNgay(Time1) * 24 * 60 + Time1.gio * 60 + Time1.phut;
-    unsigned long int SoPhut_T2 = ChuyenNgay(Time2) * 24 * 60 + Time2.gio * 60 + Time2.phut;
-
-    if (abs(SoPhut_T1 - SoPhut_T2) <= 180)
-        return true;
-
-    return false;
-}
-
-bool ThoiGian30PhutTruocBay(Time TimeDuKien) {
-    Time hien_tai = LayThoiGianHienTai();
-    unsigned long int SoPhut_T1 = ChuyenNgay(TimeDuKien) * 24 * 60 + TimeDuKien.gio * 60 + TimeDuKien.phut;
-    unsigned long int SoPhut_now = ChuyenNgay(hien_tai) * 24 * 60 + hien_tai.gio * 60 + hien_tai.phut;
-    if ((SoPhut_T1 > SoPhut_now) && (SoPhut_T1 - SoPhut_now) < 30)
-        return true;
-
-    return false;
-}
-
-bool ThoiGianCamThemChuyenBay(Time TimeDuKien) {
-    Time hien_tai = LayThoiGianHienTai();
-    unsigned long int SoPhut_T1 = ChuyenNgay(TimeDuKien) * 24 * 60 + TimeDuKien.gio * 60 + TimeDuKien.phut;
-    unsigned long int SoPhut_now = ChuyenNgay(hien_tai) * 24 * 60 + hien_tai.gio * 60 + hien_tai.phut;
-    if ((SoPhut_T1 > SoPhut_now) && (SoPhut_T1 - SoPhut_now) < 300)
-        return true;
-
-    return false;
-}
 void kiemtra_thoigian_khoihanh(nodeCB *temp, danhsachmaybay &dsmb) {
     if (temp->data.trangthai == CON_VE || temp->data.trangthai == HET_VE) {
         if (ThoiGianQuaKhu(temp->data.time)) {  

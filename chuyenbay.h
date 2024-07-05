@@ -169,12 +169,17 @@ void khoiTaoDanhSachVe(chuyenbay &cb, danhsachmaybay &dsmb) {
 
 int sovekhadung(chuyenbay &cb){
 	int dem=0;
-//	int index=0;
+	int index=0;
 	for (int i=1; i<=cb.sove ;i++) {
 		if(strcmp(cb.dsve[i-1].cccd, "")==0){
+//			cout<<cb.dsve[i-1].cccd<<endl;
 			dem++;
+		}else{
+			cout<<cb.dsve[i-1].cccd<<"hihih"<<endl;
 		}
+		index++;
 	}
+	cout<<index;
 	return dem;
 }
 

@@ -1,7 +1,7 @@
 #define file_hanh_khach "datakhachhang"
 
 struct khachhang {
-    char cmnd[12];
+    char cmnd[13];
     char ho[25];
     char ten[25];
     char phai[10];

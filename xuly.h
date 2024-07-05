@@ -2146,28 +2146,28 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 			break;
 			
 			case ED_LUUCB:
-//				if (strlen(cb.SHMB) ==0 ) {
-//					MessageBox(NULL,"Khong the de trong So hieu may bay!.","THONG BAO",MB_ICONWARNING|MB_OK);
-//						idcb=0;
-//						break;
-//					}
-//					if (strlen(cb.SanBayDen) ==0 ) {
-//					MessageBox(NULL,"Khong the de trong San bay den!.","THONG BAO",MB_ICONWARNING|MB_OK);
-//						idcb=0;
-//						break;
-//					} else 
-//					if ( TGNew(cb.time) == false){
-//						MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu!","THONG BAO",MB_ICONINFORMATION);
-//						idcb=0;
-//						break;
-//					} 
-//					else if (KTCB12h(first,cb.SHMB,cb) == false)
-//					{
-//					MessageBox(NULL,"Khong the thuc hien chuyen bay vao thoi gian nay! \n Chuyen bay duoc tao phai sau 12h.","THONG BAO",MB_ICONINFORMATION);
-//						idcb=0;
-//						break;
-//					}
-//					else 
+				if (strlen(cb.SHMB) ==0 ) {
+					MessageBox(NULL,"Khong the de trong So hieu may bay!.","THONG BAO",MB_ICONWARNING|MB_OK);
+						idcb=0;
+						break;
+					}
+					if (strlen(cb.SanBayDen) ==0 ) {
+					MessageBox(NULL,"Khong the de trong San bay den!.","THONG BAO",MB_ICONWARNING|MB_OK);
+						idcb=0;
+						break;
+					} else 
+					if ( TGNew(cb.time) == false){
+						MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu! \n Hoac ban nhap thoi gian khong dung!","THONG BAO",MB_ICONINFORMATION);
+						idcb=0;
+						break;
+					} 
+					else if (KTCB12h(first,cb.SHMB,cb) == false)
+					{
+					MessageBox(NULL,"Khong the thuc hien chuyen bay vao thoi gian nay! \n Chuyen bay duoc tao phai sau 12h.","THONG BAO",MB_ICONINFORMATION);
+						idcb=0;
+						break;
+					}
+					else 
 					{
 					
 				nhap=0;
@@ -2249,7 +2249,7 @@ void xulychuyenbay(unsigned short int ** mapID, int &luu_id, nodeCB *&first, dan
 							break;
 				} else
 				if ( TGNew(cb.time) == false ){
-					MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu!","THONG BAO",MB_ICONWARNING|MB_OK);
+					MessageBox(NULL,"Khong duoc chon thoi gian trong qua khu! \n Hoac ban nhap thoi gian khong dung!","THONG BAO",MB_ICONWARNING|MB_OK);
 					idcb=0;
 						break;
 				} else
@@ -2851,6 +2851,10 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
             clearmouseclick(WM_LBUTTONDOWN);
 
             if (idve >= 3000 && idve < 3000 + cb.sove) {
+            	strcpy(kh.cmnd, "");
+		        strcpy(kh.ho, "");
+		    	strcpy(kh.ten, "");
+		        strcpy(kh.phai, "NAM");
                 int veIndex = idve - 3000;
                 veDangChon = veIndex;
                 sprintf(veMoi.vitri, "%c%02d", 'A' + veDangChon / soDong, veDangChon % soDong + 1);
@@ -2871,6 +2875,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
 		                    strcpy(cb.dsve[veDangChon].cccd, "");
 		                    veDangChon = -1;
 		                    MessageBox(NULL," \nHUY VE  Thanh Cong !!!  \n","THONG BAO",MB_ICONINFORMATION); 
+//		                    sovekhadung()
 		                    Save_file_chuyen_bay(first);
 		                    hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb,root);
 					}
@@ -2882,7 +2887,7 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
         int marginX = 300; 
         switch(selectedTextbox) {
             case 3601:
-                Nhapso(420,575,selectedTextbox,mapID,kh.cmnd,20);
+                Nhapso(420,575,selectedTextbox,mapID,kh.cmnd,14);
                 searchKH = search(root, kh.cmnd);
                 if (searchKH != NULL) {
                     strcpy(kh.ho, searchKH->data.ho);
@@ -2940,10 +2945,15 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                     strcpy(kh.ten, "");
                     strcpy(kh.phai, "NAM");
                 }
+                kh.cmnd[myStrlen(kh.cmnd)] = '\0';
+                cout<<kh.cmnd<<endl;
                 idve  =0 ;
                 break;
             case 3602:
-                NhapLieu(420,615,selectedTextbox,mapID,kh.ho);
+            	char s[14];
+            	s[0]='\0';
+                NhapLieu(420,615,selectedTextbox,mapID,s);
+                strcpy(kh.ho, s);
                 break;
             case 3603:
                 NhapLieu(420,655,selectedTextbox,mapID,kh.ten);
@@ -3004,7 +3014,8 @@ void xulyve(unsigned short int **mapID, int &luu_id, chuyenbay &cb, danhsachmayb
                     hienThiDanhSachVe(mapID, cb, veDangChon, veMoi, kh, dsmb, root);
             		break;
 				}
-                if( myStrlen(kh.cmnd)!=9 ){
+                if( myStrlen(kh.cmnd)!=9 && myStrlen(kh.cmnd)!=12 ){
+                	cout<<myStrlen(kh.cmnd)<<"Chieu dai";
                     MessageBox(NULL, "\t \t ERROR! \n DO DAI CMND KHONG HOP LE. VUI LONG NHAP LAI !", "THONG BAO", MB_ICONERROR | MB_OK);
                     selectedTextbox=3601;
                     outtextxy(420,575 ,"");
